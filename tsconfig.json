@@ -1,0 +1,19 @@
+{   
+    "extends": "@sapphire/ts-config",
+    "compilerOptions": {
+        "target": "ESNEXT",
+        "module": "ESNext",
+        "rootDir": "src",
+        "outDir": "dist",
+        "baseUrl": ".",
+        "lib": ["ESNEXT"],
+        "esModuleInterop": true,
+        "tsBuildInfoFile": "dist/.tsbuildinfo",
+
+        "paths": {
+			"#root/*": ["src/*"],
+            "#structures/*": ["src/structures/*"]
+		}
+    },
+    "include": ["src"]
+}
