@@ -5,14 +5,16 @@
         "module": "ESNext",
         "rootDir": "src",
         "outDir": "dist",
-        "baseUrl": ".",
+        "baseUrl": "./src",
         "lib": ["ESNEXT"],
         "esModuleInterop": true,
         "tsBuildInfoFile": "dist/.tsbuildinfo",
 
         "paths": {
-			"#root/*": ["src/*"],
-            "#structures/*": ["src/structures/*"]
+            "#structures/*": ["./lib/structures/*"],
+            "#lib/*": ["./lib/*"],
+            "#util/*": ["./util/*"],
+			"#root/*": ["./*"]
 		}
     },
     "include": ["src"]

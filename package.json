@@ -6,24 +6,25 @@
   "type": "module",
   "author": "JcbSm",
   "license": "ISC",
-
   "imports": {
     "#root/*": "./dist/*.js",
-    "#structures/*": "./dist/structures/*.js"
+    "#lib/*": "./dist/lib/*.js",
+    "#structures/*": "./dist/lib/structures/*.js",
+    "#util/*": "./dist/util/*.js"
   },
-
   "dependencies": {
     "@sapphire/framework": "^1.0.2",
     "discord.js": "^13.0.0-dev.d6c43a5.1625832172",
+    "dotenv": "^10.0.0",
+    "fs": "^0.0.1-security",
     "pg": "^8.6.0"
   },
-
   "devDependencies": {
     "@sapphire/ts-config": "^2.3.1",
     "@types/pg": "^8.6.1",
+    "nodemon": "^2.0.12",
     "typescript": "^4.3.5"
   },
-
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",

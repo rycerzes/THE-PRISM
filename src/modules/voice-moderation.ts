@@ -1,0 +1,13 @@
+import type { Client } from '#lib/Client';
+import { BaseModule } from '#structures/BaseModule';
+
+export class Module extends BaseModule {
+
+    constructor(client: Client) {
+        super('voice-moderation', client)
+    };
+
+    public id = 7;
+    public default = true;
+    
+};
