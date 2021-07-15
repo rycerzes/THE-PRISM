@@ -3,6 +3,25 @@
 # THE PRISM
 
 **A multi-purpose Discord Bot**
-<iframe src="https://discord.com/widget?id=447504770719154192&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
 
 </div>
+
+---
+
+## Description
+
+THE PRISM is an amazing (yes, amazing.) Discord Bot, developed by the lovely JcbSm.
+
+## Features
+
+- General utility commands
+- Moderation
+- Stats
+- A (superior) xp system, including XP for voice calls.
+- Games
+- Giveaways
+- Role Reactions
+- Custom embeds
+- Custom pins
+
+... Many more i cba to write.
