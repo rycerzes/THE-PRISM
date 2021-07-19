@@ -1,8 +1,9 @@
-import type { Snowflake } from 'discord.js'
+import type { GuildMember, Snowflake } from 'discord.js'
 import type {  } from '@sapphire/framework';
 import type { BaseModule } from '#structures/BaseModule';
 import type { DBClient } from '#lib/DBClient';
 import type { GuildModuleManager } from '#structures/GuildModuleManager';
+import type { ClientUtil } from '#util/ClientUtil';
 
 declare module 'discord.js' {
     interface Client {
@@ -10,7 +11,7 @@ declare module 'discord.js' {
         // Properties
         ownerID: string | undefined;
         modules: Map<string, BaseModule>;
-        util: Util;
+        util: ClientUtil;
         loggedIn: Boolean;
         guildModules: Map<Snowflake, GuildModuleManager>
         db: DBClient;

@@ -13,7 +13,10 @@ export default class extends Command {
     public module = this.client.modules.get('base') || null;
 
     public async run(message: Message, args: Args) {
-        const arg = await args.pick('string').catch(() => 'bar');
-        message.author.send(arg);
+
+        const member = await args.pick('member').catch(() => message.member);
+
+        member;
+
     };
 };

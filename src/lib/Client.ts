@@ -1,6 +1,6 @@
 import { SapphireClient } from '@sapphire/framework';
 import { DBClient } from '#lib/DBClient';
-import { Util } from '#util/ClientUtil';
+import { ClientUtil } from '#util/ClientUtil'
 import { promises as fsp } from 'fs';
 import { colors } from '#util/config';
 import type { BaseModule } from './structures/BaseModule';
@@ -18,7 +18,7 @@ export class Client extends SapphireClient {
         this.loggedIn = false;
         this.stores.registerUserDirectories('../');
         this.db = new DBClient();
-        this.util = new Util(this);
+        this.util = new ClientUtil(this);
         this.guildModules = new Map();
         this.colors = colors;
         this.fetchPrefix = () => {

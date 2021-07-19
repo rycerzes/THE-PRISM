@@ -1,3 +1,4 @@
+console.clear()
 import { Client } from '#lib/Client';
 import { LogLevel } from '@sapphire/framework';
 (await import ('dotenv')).config();	
@@ -12,8 +13,9 @@ let client: Client = new Client('227848397447626752', {
 		'GUILD_MEMBERS',
 		'GUILD_VOICE_STATES',
 		'GUILD_MESSAGE_REACTIONS',
+		'GUILD_PRESENCES',
 		'DIRECT_MESSAGES',
-		'DIRECT_MESSAGE_REACTIONS'
+		'DIRECT_MESSAGE_REACTIONS',
 	],
 	partials: ['MESSAGE', 'REACTION'],
 

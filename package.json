@@ -10,17 +10,22 @@
     "#root/*": "./dist/*.js",
     "#lib/*": "./dist/lib/*.js",
     "#structures/*": "./dist/lib/structures/*.js",
-    "#util/*": "./dist/util/*.js"
+    "#util/*": "./dist/lib/util/*.js",
+    "#assets/*": "./dist/assets/*.js"
   },
   "dependencies": {
     "@sapphire/framework": "^1.0.2",
+    "canvas": "^2.8.0",
+    "color": "^3.1.3",
     "discord.js": "^13.0.0-dev.d6c43a5.1625832172",
     "dotenv": "^10.0.0",
     "fs": "^0.0.1-security",
-    "pg": "^8.6.0"
+    "pg": "^8.6.0",
+    "stackblur-canvas": "^2.5.0"
   },
   "devDependencies": {
     "@sapphire/ts-config": "^2.3.1",
+    "@types/color": "^3.0.2",
     "@types/pg": "^8.6.1",
     "nodemon": "^2.0.12",
     "typescript": "^4.3.5"

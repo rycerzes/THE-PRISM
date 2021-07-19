@@ -1,10 +1,10 @@
 import { Command } from '#structures/Command';
 import type { PieceContext } from '@sapphire/framework';
-import type { Message } from 'discord.js';
+import { Message, MessageAttachment } from 'discord.js'
 
 export default class extends Command {
 
-    public module = this.client.modules.get('levels') || null;
+    public module = this.client.modules.get('xp') || null;
 
     constructor(context: PieceContext) {
         super(context, {
@@ -14,7 +14,9 @@ export default class extends Command {
         });
     };
 
-    public run(message: Message) {
-        return message.reply("Rank")
+    public async run(message: Message) {
+        message.channel.startTyping()
+        message.channel.send({ files: [new MessageAttachment(await this.client.util.getRankCard(message.member!))]});
+        return message.channel.stopTyping()
     }
 };
