@@ -1,10 +1,12 @@
 /node_modules/
 
+# Debug
+/src/commands/owner/debug.ts
+
 # Ignore package lock
 package-lock.json
 
 # Secret credentials
 .env
-credentials.ts
 
 dist/
