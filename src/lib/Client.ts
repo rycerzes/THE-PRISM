@@ -2,7 +2,7 @@ import { SapphireClient } from '@sapphire/framework';
 import { DBClient } from '#lib/DBClient';
 import { ClientUtil } from '#util/ClientUtil'
 import { promises as fsp } from 'fs';
-import { colors } from '#util/config';
+import { colors, defaults } from '#util/config';
 import type { BaseModule } from './structures/BaseModule';
 import type { ClientOptions } from 'discord.js';
 
@@ -21,6 +21,7 @@ export class Client extends SapphireClient {
         this.util = new ClientUtil(this);
         this.guildModules = new Map();
         this.colors = colors;
+        this.defaults = defaults;
         this.fetchPrefix = () => {
             return PREFIX;
         };

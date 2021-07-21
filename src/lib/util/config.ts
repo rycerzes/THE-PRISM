@@ -5,3 +5,7 @@ export const colors = {
     green: '#5CB85C' as ColorResolvable,
     amber: '#F0AD4E' as ColorResolvable
 };
+
+export const defaults = {
+    
+}

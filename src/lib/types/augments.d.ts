@@ -15,7 +15,12 @@ declare module 'discord.js' {
         loggedIn: Boolean;
         guildModules: Map<Snowflake, GuildModuleManager>
         db: DBClient;
-        colors: any;
+        colors: {
+            red: ColorResolvable,
+            amber: ColorResolvable,
+            green: ColorResolvable
+        };
+        defaults: unknown;
 
         // Methods
         connectDB(): Promise<void>;

@@ -19,29 +19,29 @@ export function groupDigits(n: number): string {
     return arr.reverse().join("");
 };
 
-// export function pad(number: number, digits: number): string {
+export function pad(number: number, digits: number): string {
 
-//     if(number < 0) return number.toString();
-//     let n = number;
-//     if(n === 0) {
-//         ++n;
-//     }
-//     let count = 0;
-//     if(n >= 1) ++count;
-//     while (n/10 >= 1) {
-//         n /= 10;
-//         ++count;
-//     }
-//     let diff;
-//     diff = digits - count;
-//     if (diff < 0 ) return number;
-//     let numArray = number.toString().split("");
-//     for (i = 0; i < diff; i++) {
+    if(number < 0) return number.toString();
+    let n = number;
+    if(n === 0) {
+        ++n;
+    }
+    let count = 0;
+    if(n >= 1) ++count;
+    while (n/10 >= 1) {
+        n /= 10;
+        ++count;
+    }
+    let diff;
+    diff = digits - count;
+    if (diff < 0 ) return number.toString();
+    let numArray = number.toString().split("");
+    for (let i = 0; i < diff; i++) {
 
-//         numArray.unshift('0');
-//     }
-//     return numArray.join('')
-// };
+        numArray.unshift('0');
+    }
+    return numArray.join('')
+};
 
 // export function groupDigits(n) {
 //     const arr = n.toString().split("").reverse();

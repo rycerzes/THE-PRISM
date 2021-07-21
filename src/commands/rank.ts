@@ -1,5 +1,5 @@
 import { Command } from '#structures/Command';
-import type { PieceContext } from '@sapphire/framework';
+import type { Args, PieceContext } from '@sapphire/framework';
 import { Message, MessageAttachment } from 'discord.js'
 
 export default class extends Command {
@@ -10,13 +10,15 @@ export default class extends Command {
         super(context, {
             name: 'rank',
             description: 'Check a member\'s rank.',
-            aliases: ['level']
+            aliases: ['level'],
+            preconditions: ['guild']
         });
     };
 
-    public async run(message: Message) {
+    public async run(message: Message, args: Args) {
         message.channel.startTyping()
-        message.channel.send({ files: [new MessageAttachment(await this.client.util.getRankCard(message.member!))]});
+        const member = await args.pick('member').catch(() => message.member!)
+        message.channel.send({ files: [new MessageAttachment(await this.client.util.getRankCard(member))]});
         return message.channel.stopTyping()
     }
 };
