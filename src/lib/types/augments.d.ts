@@ -1,5 +1,5 @@
-import type { GuildMember, Snowflake } from 'discord.js'
-import type {  } from '@sapphire/framework';
+import type { ApplicationCommandOptionData, GuildMember, Message, Snowflake } from 'discord.js'
+import type { Args } from '@sapphire/framework';
 import type { BaseModule } from '#structures/BaseModule';
 import type { DBClient } from '#lib/DBClient';
 import type { GuildModuleManager } from '#structures/GuildModuleManager';
@@ -26,6 +26,7 @@ declare module 'discord.js' {
         connectDB(): Promise<void>;
         loadModules(path: string): Promise<Map<string, BaseModule>>;
         removeSuffix(fileName: string): string;
+        setSlash(): void;
 
     }
 }
@@ -33,6 +34,12 @@ declare module 'discord.js' {
 declare module '@sapphire/framework' {
     interface Command {
         module: BaseModule | null;
+        slash: {
+            name: string
+            description: string,
+            options: ApplicationCommandOptionData[] | undefined,
+            defaultPermission: boolean
+        }
     }
 
     interface Event {
@@ -41,5 +48,15 @@ declare module '@sapphire/framework' {
 
     interface Precondition {
         module: BaseModule | null;
+    }
+
+    interface ArgType {
+        module: BaseModule;
+        rankpage: number;
+    }
+
+    interface ArgumentContext {
+        map: Map<any, any>;
+        array: any[];
     }
 }

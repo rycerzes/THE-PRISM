@@ -25,7 +25,7 @@ export class RankingMessage {
         channel: TextChannel,
         author: User,
         array: unknown[],
-        page: number,
+        page?: number,
         perPage?: number,
         title?: string,
         color?: ColorResolvable,
@@ -49,19 +49,19 @@ export class RankingMessage {
             sort
 
         } = options;
+
+        this.display = display;
+        this.sort = sort;
         
         this.client = client;
         this.channel = channel;
         this.author = author;
-        this.array = array
-        this.page = page;
+        this.array = array.sort(this.sort)
+        this.page = page || 1;
         this.perPage = perPage;
         this.title = title;
         this.color = color;
         this.buttons = buttons;
-
-        this.display = display;
-        this.sort = sort;
 
     };
 
@@ -104,7 +104,7 @@ export class RankingMessage {
     public async embed(page: number = this.page): Promise<MessageEmbedOptions> {
 
         let start = this.perPage * (page - 1); let i = start;
-        let elements = [...this.array].sort(this.sort).splice(start, this.perPage);
+        let elements = [...this.array].splice(start, this.perPage);
 
         let arr = [];
 

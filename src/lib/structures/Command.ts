@@ -1,5 +1,6 @@
 import Sapphire, { PieceContext, PreconditionEntryResolvable } from '@sapphire/framework';
 import type { BaseModule } from '#structures/BaseModule'
+import type { ApplicationCommandOptionData } from 'discord.js';
 
 export abstract class Command extends Sapphire.Command {
 
@@ -10,9 +11,20 @@ export abstract class Command extends Sapphire.Command {
         super(context, { preconditions, ...options });
     };
 
-    public abstract module: BaseModule | null;
+    public abstract module: BaseModule | null = this.client.modules.get('base')!;
+
+    public slash: {
+        name: string,
+        description: string,
+        options: ApplicationCommandOptionData[] | undefined,
+        defaultPermission: boolean
+    } = {name: this.name, description: this.description, options: undefined, defaultPermission: this.isDefault};
 
     get client() {
         return this.context.client;
+    };
+
+    get isDefault(): boolean {
+        return this.module?.default ?? true
     };
 };

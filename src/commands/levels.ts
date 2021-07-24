@@ -8,6 +8,7 @@ export default class extends Command {
     constructor(context: PieceContext) {
         super(context, {
             name: 'levels',
+            description: 'View level leaerboard.',
             aliases: ['ranks'],
             preconditions: ['guild']
         });
@@ -16,11 +17,9 @@ export default class extends Command {
     public module = this.client.modules.get('levels') || null;
 
     public async run(message: Message, args: Args) {
-
-        const page = await args.pick('integer').catch(() => 1)
         
         let lb = new RankingMessage(this.client, {
-            channel: message.channel as TextChannel, title: `${message.guild!.name} Leaderboard`, page: page, author: message.author,
+            channel: message.channel as TextChannel, title: `${message.guild!.name} Leaderboard`, author: message.author,
 
             array: [...(await this.client.db.query(`SELECT user_id, xp FROM members WHERE guild_id = ${message.guild!.id}`)).rows],
             
@@ -49,6 +48,9 @@ export default class extends Command {
                 return b.xp - a.xp
             }
         });
+
+        
+        lb.page = await args.pick('rankpage', { array: lb.array}).catch(() => 1);
 
         await lb.send();
 

@@ -116,4 +116,8 @@ export class GuildModuleManager {
         return save ? this.save() : {};
     };
 
+    public setCommands() {
+        
+    };
+
 };

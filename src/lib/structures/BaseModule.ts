@@ -16,7 +16,7 @@ export interface BaseModule {
 export abstract class BaseModule {
 
     public abstract id: number;
-    public abstract default: Boolean;
+    public abstract default: boolean;
 
     constructor(name: string, client: Client) {
 
@@ -28,7 +28,7 @@ export abstract class BaseModule {
 
     };
 
-    public initiate() {
+    public init() {
         if (!this.client.loggedIn) throw new Error('Client is not ready.');
         this.getCommands();
         this.getListeners();

@@ -15,7 +15,6 @@ export default class extends Command {
     public module = this.client.modules.get('base') || null;
 
     public run(message: Message) {
-        console.log(this)
         return message.channel.send(message.content);
     };
 };
