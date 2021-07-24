@@ -9,6 +9,7 @@ export default class extends Command {
     constructor(context: PieceContext) {
         super(context, {
             name: 'eval',
+            description: 'Evaluates a line of code',
             preconditions: ['owner']
         });
     };
@@ -19,7 +20,9 @@ export default class extends Command {
 
         const code = arg.split('```')[1]
         
-        eval(code);
+        message.reply(eval(code));
+
+        
 
     }
 };

@@ -11,11 +11,11 @@ export default class extends Command {
         });
     }
 
-    public module = this.client.modules.get('base') || null;
+    public module = this.client.modules.get('base')!;
 
     public async run(message: Message) {
         const sent = await message.reply('Pinging...');
         const ping = sent.createdTimestamp - message.createdTimestamp;
-        return sent.edit(`Pong! \`${ping} ms\``)
+        return sent.edit(`Pong! \`${ping} ms\``);
     };
 };

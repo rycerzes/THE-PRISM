@@ -11,7 +11,7 @@ export abstract class Command extends Sapphire.Command {
         super(context, { preconditions, ...options });
     };
 
-    public abstract module: BaseModule | null = this.client.modules.get('base')!;
+    public module: BaseModule = this.client.modules.get('base')!;
 
     public slash: {
         name: string,

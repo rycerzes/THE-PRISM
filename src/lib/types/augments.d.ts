@@ -4,6 +4,7 @@ import type { BaseModule } from '#structures/BaseModule';
 import type { DBClient } from '#lib/DBClient';
 import type { GuildModuleManager } from '#structures/GuildModuleManager';
 import type { ClientUtil } from '#util/ClientUtil';
+import type { RankingMessage } from '#structures/RankingMessage';
 
 declare module 'discord.js' {
     interface Client {
@@ -53,10 +54,13 @@ declare module '@sapphire/framework' {
     interface ArgType {
         module: BaseModule;
         rankpage: number;
+        lbcategory: string;
     }
 
     interface ArgumentContext {
         map: Map<any, any>;
-        array: any[];
+        rankingMessage: RankingMessage;
+
+        resolve({}: any): any;
     }
 }

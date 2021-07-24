@@ -4,7 +4,7 @@ import { Message, MessageAttachment } from 'discord.js'
 
 export default class extends Command {
 
-    public module = this.client.modules.get('xp') || null;
+    public module = this.client.modules.get('xp')!;
 
     constructor(context: PieceContext) {
         super(context, {
@@ -16,9 +16,9 @@ export default class extends Command {
     };
 
     public async run(message: Message, args: Args) {
-        message.channel.startTyping()
-        const member = await args.pick('member').catch(() => message.member!)
+        message.channel.startTyping();
+        const member = await args.pick('member').catch(() => message.member!);
         message.channel.send({ files: [new MessageAttachment(await this.client.util.getRankCard(member))]});
-        return message.channel.stopTyping()
+        return message.channel.stopTyping();
     }
 };

@@ -6,13 +6,27 @@ export default class extends Argument<number> {
         super(context, {name: 'rankpage'});
     };
 
-    public async run(parameter: string, { map }: ArgumentContext): AsyncArgumentResult<number> {
+    public async run(parameter: string, { rankingMessage, resolve }: ArgumentContext): AsyncArgumentResult<number> {
         
         // Try number
-        let num = Number(parameter);
+        let num: number | undefined = Number(parameter);
         
-        console.log(num, map?.size);
+        // Try resolve
+        if (isNaN(num)) {
 
-        return num ? this.ok(num) : this.error({ parameter, identifier: 'InvlidPageError', message: 'Unabled to resolve page from string' });
+            let element = resolve({parameter, array: rankingMessage.array});
+
+            if (element) {
+
+                let index = rankingMessage.array.indexOf(element);
+                num = Math.ceil((index+1)/rankingMessage.perPage)
+
+            } else {
+                this.error({ parameter, identifier: 'InvlidPageError', message: 'Unabled to resolve page from string' })
+            }
+
+        }
+
+        return num > 0 ? this.ok(Math.floor(num)) : this.error({ parameter, identifier: 'InvlidPageError', message: 'Unabled to resolve page from string' });
     }
 }

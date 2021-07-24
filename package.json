@@ -11,7 +11,8 @@
     "#lib/*": "./dist/lib/*.js",
     "#structures/*": "./dist/lib/structures/*.js",
     "#util/*": "./dist/lib/util/*.js",
-    "#assets/*": "./dist/assets/*.js"
+    "#assets/*": "./dist/assets/*.js",
+    "#types/*": "./dist/lib/types/*.js"
   },
   "dependencies": {
     "@sapphire/framework": "^1.0.2",

@@ -13,6 +13,7 @@
 
         "paths": {
             "#structures/*": ["./lib/structures/*"],
+            "#types/*": ["./lib/tpyes/*"],
             "#util/*": ["./lib/util/*"],
             "#assets/*": ["./assets/*"],
             "#lib/*": ["./lib/*"],

@@ -7,6 +7,7 @@ import { promises as fsp } from 'fs';
 
 import Canvas from 'canvas';
 import Color from 'color';
+import type { Member } from "#lib/types/db.js";
 const { createCanvas, loadImage, registerFont } = Canvas;
 
 export interface ClientUtil {
@@ -64,7 +65,6 @@ export class ClientUtil {
      * @returns {GuildMember}
      */
     public resolveMember(str: string, members: Map<Snowflake, GuildMember>) {
-        console.log([...members.values()].map(m => m.user.tag))
         return members.get(str as Snowflake) || [...members.values()].find(member => this.checkMember(str, member));
     };
 
@@ -90,6 +90,26 @@ export class ClientUtil {
         return username.includes(str) || displayName.includes(str) || ((username.includes(str.split('#')[0]) || displayName.includes(str.split('#')[0])) && discrim.includes(str.split('#')[1]));
 
     };
+
+    public async mention(member: Member, guild: Guild): Promise<string> {
+
+        let mention;
+        try {
+
+            mention = `<@${(await guild.members.fetch(member.user_id!)).id}>`;
+
+        } catch {
+
+            try{
+                mention = (await this.client.users.fetch(member.user_id!)).tag;
+            } catch {
+                mention = '`Deleted User`';
+            };
+
+        };
+
+        return mention
+    }
 
     /**
      * Gets a guilds "main_color".

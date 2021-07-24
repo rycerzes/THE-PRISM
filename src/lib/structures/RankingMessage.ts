@@ -24,15 +24,16 @@ export class RankingMessage {
     constructor(client: Client, {perPage = 10, ...options }: {
         channel: TextChannel,
         author: User,
-        array: unknown[],
         page?: number,
         perPage?: number,
         title?: string,
         color?: ColorResolvable,
-        buttons?: Boolean
+        buttons?: Boolean,
+        array: unknown[],
 
         display(element: any): string | Promise<string>,
         sort(a: any, b: any): number,
+        
     }) {
 
         const {
@@ -40,7 +41,7 @@ export class RankingMessage {
             channel,
             author,
             array,
-            page,
+            page = 1,
             title,
             color,
             buttons,
@@ -57,7 +58,7 @@ export class RankingMessage {
         this.channel = channel;
         this.author = author;
         this.array = array.sort(this.sort)
-        this.page = page || 1;
+        this.page = page;
         this.perPage = perPage;
         this.title = title;
         this.color = color;

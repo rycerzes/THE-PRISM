@@ -1,3 +1,4 @@
+import type { Member } from "#lib/types/db";
 import { Command } from "#structures/Command";
 import { RankingMessage } from "#structures/RankingMessage";
 import { groupDigits, levelCalc, pad } from "#util/functions";
@@ -14,7 +15,7 @@ export default class extends Command {
         });
     };
 
-    public module = this.client.modules.get('levels') || null;
+    public module = this.client.modules.get('xp')!;
 
     public async run(message: Message, args: Args) {
         
@@ -27,21 +28,7 @@ export default class extends Command {
              
 
             display: async (member) => {
-                let mention;
-
-                try {
-                    mention = await message.guild?.members.fetch(member.user_id);
-                } catch {
-
-                    try{
-                        mention = (await this.client.users.fetch(member.user_id)).tag;
-                    } catch {
-                        mention = '`Deleted User`';
-                    };
-
-                };
-
-                return `\`Lvl [${pad(levelCalc(member.xp), 2)}]\` • ${mention} • \`${groupDigits(member.xp)}\` xp`
+                return `\`Lvl [${pad(levelCalc(member.xp), 2)}]\` • ${await this.client.util.mention(member, message.guild!)} • \`${groupDigits(member.xp)}\` xp`
             },
 
             sort: (a, b) => {
@@ -49,8 +36,12 @@ export default class extends Command {
             }
         });
 
-        
-        lb.page = await args.pick('rankpage', { array: lb.array}).catch(() => 1);
+        lb.page = await args.pick('rankpage', { rankingMessage: lb, resolve: ({ parameter, array }: { parameter: string, array: Member[] }): Member | undefined => {
+
+            const member = this.client.util.resolveMember(parameter, message.guild!.members.cache);
+            return member ? array.find(m => m.user_id === member.id) : undefined;
+            
+        } }).catch(() => 1);
 
         await lb.send();
 

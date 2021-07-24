@@ -12,7 +12,7 @@ export default class extends Command {
         });
     };
 
-    public module = this.client.modules.get('base') || null;
+    public module = this.client.modules.get('base')!;
 
     public run(message: Message) {
         return message.channel.send(message.content);
