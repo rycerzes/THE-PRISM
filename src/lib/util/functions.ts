@@ -53,16 +53,6 @@ export function pad(number: number, digits: number): string {
 //     return arr.reverse().join("")
 // };
 
-
-// //     resolveMessage: async function resolveMessage(url) {
-// //         try {
-// //         let arr = url.match(/\d[\d\/]+/)[0].split('/');
-// //             return await (await client.channels.fetch(arr[1])).messages.fetch(arr[2])
-// //         } catch {
-// //             return undefined
-// //         }
-// //     },
-
 // //     UCT: function UCT(date = Date.now(), milliseconds = false) {
 // //         let arr = []
 // //         date = new Date(date)

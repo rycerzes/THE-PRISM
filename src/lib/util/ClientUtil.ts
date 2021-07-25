@@ -1,5 +1,5 @@
 import type { Client } from "#lib/Client";
-import type { ColorResolvable, Guild, GuildMember, Snowflake, User } from 'discord.js';
+import type { ColorResolvable, Guild, GuildMember, Snowflake, TextChannel, User } from 'discord.js';
 import { RegEx } from '#util/constants';
 import { levelCalc, xpCalc, groupDigits } from './functions.js'
 import { canvasRGBA } from "stackblur-canvas";
@@ -89,6 +89,15 @@ export class ClientUtil {
         str = str.toLowerCase();
         return username.includes(str) || displayName.includes(str) || ((username.includes(str.split('#')[0]) || displayName.includes(str.split('#')[0])) && discrim.includes(str.split('#')[1]));
 
+    };
+
+    public async resolveMessage(url: string) {
+        try {
+            let arr = url.match(/\d[\d\/]+/)![0].split('/');
+            return await (await this.client.channels.fetch(arr[1] as Snowflake) as TextChannel)?.messages.fetch(arr[2] as Snowflake)
+        } catch {
+            return undefined
+        }
     };
 
     public async mention(member: Member, guild: Guild): Promise<string> {

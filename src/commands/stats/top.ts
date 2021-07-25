@@ -4,7 +4,6 @@ import { RankingMessage } from "#structures/RankingMessage";
 import { groupDigits } from "#util/functions";
 import type { Args, CommandContext, PieceContext } from "@sapphire/framework";
 import type { Message, TextChannel } from "discord.js";
-import { defaults } from "pg";
 
 export default class extends Command {
     constructor(context: PieceContext) {

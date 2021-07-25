@@ -24,6 +24,10 @@ export abstract class Command extends Sapphire.Command {
         return this.context.client;
     };
 
+    get db() {
+        return this.context.client.db;
+    }
+
     get isDefault(): boolean {
         return this.module?.default ?? true
     };

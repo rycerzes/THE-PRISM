@@ -4,7 +4,7 @@ import type { Message } from 'discord.js'
 
 export default class extends Command {
 
-    public module = this.client.modules.get('xp') || null;
+    public module = this.client.modules.get('xp')!;
 
     constructor(context: PieceContext) {
         super(context, {
