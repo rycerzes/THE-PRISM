@@ -27,13 +27,13 @@ export default class extends Command {
                 description: `${member} has counted \`${counting_counts}\` times.`,
                 fields: [
                     {
-                        name: 'LAST COUNT',
-                        value: `[\`${(await this.client.util.resolveMessage(counting_last_message_url!))?.content ?? 'null'}\`](${counting_last_message_url})`,
+                        name: '% OF COUNTS',
+                        value: `\`${Math.round(counting_counts!*100/guild.counting_count!)/100}%\``,
                         inline: true
                     },
                     {
-                        name: '% OF COUNTS',
-                        value: `\`${Math.round(counting_counts!*100/guild.counting_count!)/100}%\``,
+                        name: 'LAST COUNT',
+                        value: `[\`${(await this.client.util.resolveMessage(counting_last_message_url!))?.content ?? 'null'}\`](${counting_last_message_url})`,
                         inline: true
                     },
                     // {
