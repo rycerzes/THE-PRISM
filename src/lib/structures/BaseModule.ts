@@ -17,6 +17,7 @@ export abstract class BaseModule {
 
     public abstract id: number;
     public abstract default: boolean;
+    public abstract description: string;
 
     constructor(name: string, client: Client) {
 

@@ -8,5 +8,6 @@ export class Module extends BaseModule {
 
     public id = 5;
     public default = false;
+    public description = 'Implements a counting game.'
     
 };

@@ -8,4 +8,5 @@ export class Module extends BaseModule {
 
     public id = 14;
     public default = false;
+    public description = 'Games to play in text channels'
 };

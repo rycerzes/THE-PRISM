@@ -8,4 +8,5 @@ export class Module extends BaseModule {
 
     public id = 10;
     public default = false;
+    public description = 'Just some fun commands :)'
 };

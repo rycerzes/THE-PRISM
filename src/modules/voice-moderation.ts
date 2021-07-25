@@ -9,5 +9,6 @@ export class Module extends BaseModule {
 
     public id = 7;
     public default = true;
+    public description = 'Voice channel moderation'
     
 };

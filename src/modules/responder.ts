@@ -8,4 +8,5 @@ export class Module extends BaseModule {
 
     public id = 13;
     public default = false;
+    public description = 'Textchannel autoresponder'
 };

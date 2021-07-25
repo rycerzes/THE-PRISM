@@ -8,4 +8,5 @@ export class Module extends BaseModule {
 
     public id = 3;
     public default = true;
+    public description = 'Message and Voice statistics'
 };

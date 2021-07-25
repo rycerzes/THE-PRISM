@@ -8,5 +8,6 @@ export class Module extends BaseModule {
 
     public id = 16;
     public default = false;
+    public description = 'Integrate custom user-calls.'
     
 };

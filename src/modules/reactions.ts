@@ -8,4 +8,5 @@ export class Module extends BaseModule {
 
     public id = 15;
     public default = false;
+    public description = 'Role Reactions.'
 };

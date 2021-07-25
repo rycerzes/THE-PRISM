@@ -8,5 +8,5 @@ export class Module extends BaseModule {
 
     public id = 2;
     public default = false;
-    
+    public description = 'Action logs.'
 };

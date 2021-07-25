@@ -9,5 +9,6 @@ export class Module extends BaseModule {
 
     public id = 1;
     public default = true;
+    public description = 'Base module'
     
 };

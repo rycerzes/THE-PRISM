@@ -8,5 +8,6 @@ export class Module extends BaseModule {
 
     public id = 9;
     public default = true;
+    public description = 'Member/User/Server info commands.'
     
 };

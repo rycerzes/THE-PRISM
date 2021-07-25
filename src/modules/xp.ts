@@ -9,5 +9,6 @@ export class Module extends BaseModule {
 
     public id = 8;
     public default = true;
+    public description = 'Text & Voice Exp Levelling system.'
     
 };

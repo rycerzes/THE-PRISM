@@ -8,4 +8,5 @@ export class Module extends BaseModule {
 
     public id = 11;
     public default = true;
+    public description = 'Create giveaways for your servers.'
 };

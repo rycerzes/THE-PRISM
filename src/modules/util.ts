@@ -8,5 +8,6 @@ export class Module extends BaseModule {
 
     public id = 4;
     public default = true;
+    public description = 'Utility commands.'
     
 };
