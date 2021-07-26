@@ -4,7 +4,7 @@ import { BaseModule } from '#structures/BaseModule';
 export class Module extends BaseModule {
 
     constructor(client: Client) {
-        super('text-moderation', client)
+        super('text-mod', client)
     };
 
     public id = 6;

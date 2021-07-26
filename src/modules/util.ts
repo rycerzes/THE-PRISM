@@ -6,7 +6,7 @@ export class Module extends BaseModule {
         super('util', client)
     };
 
-    public id = 4;
+    public id = 2;
     public default = true;
     public description = 'Utility commands.'
     

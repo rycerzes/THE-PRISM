@@ -7,7 +7,7 @@ export class Module extends BaseModule {
         super('xp', client)
     };
 
-    public id = 8;
+    public id = 5;
     public default = true;
     public description = 'Text & Voice Exp Levelling system.'
     

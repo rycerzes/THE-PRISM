@@ -6,7 +6,7 @@ export class Module extends BaseModule {
         super('info', client)
     };
 
-    public id = 9;
+    public id = 8;
     public default = true;
     public description = 'Member/User/Server info commands.'
     

@@ -6,7 +6,7 @@ export class Module extends BaseModule {
         super('logs', client)
     };
 
-    public id = 2;
+    public id = 4;
     public default = false;
     public description = 'Action logs.'
 };
