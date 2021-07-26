@@ -4,7 +4,8 @@ import { ClientUtil } from '#util/ClientUtil'
 import { promises as fsp } from 'fs';
 import { colors, defaults } from '#util/config';
 import type { BaseModule } from './structures/BaseModule';
-import type { ApplicationCommandData, ClientOptions } from 'discord.js';
+import type { ApplicationCommandData, ClientOptions, Guild } from 'discord.js';
+import { GuildModuleManager } from '#structures/GuildModuleManager';
 
 const PREFIX = '-';
 
@@ -80,5 +81,11 @@ export class Client extends SapphireClient {
             } as ApplicationCommandData
         }))
     };
+
+    public async newModuleManager(guild: Guild): Promise<GuildModuleManager> {
+
+        return await this.guildModules.set(guild.id, new GuildModuleManager(guild, this)).get(guild.id)!.init();
+
+    }
 
 };

@@ -9,6 +9,7 @@ export abstract class Command extends Sapphire.Command {
         (preconditions as PreconditionEntryResolvable[]).push('module');
 
         super(context, { preconditions, ...options });
+        
     };
 
     public module: BaseModule = this.client.modules.get('base')!;

@@ -28,6 +28,7 @@ declare module 'discord.js' {
         loadModules(path: string): Promise<Map<string, BaseModule>>;
         removeSuffix(fileName: string): string;
         setSlash(): void;
+        newModuleManager(guild: Guild): Promise<GuildModuleManager>;
 
     }
 }
@@ -55,6 +56,7 @@ declare module '@sapphire/framework' {
         module: BaseModule;
         rankpage: number;
         lbcategory: string;
+        moduleoption: string;
     }
 
     interface ArgumentContext {

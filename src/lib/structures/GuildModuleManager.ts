@@ -2,6 +2,8 @@ import type { Guild } from "discord.js";
 import type { Client } from '#lib/Client'
 import type { BaseModule } from "#structures/BaseModule";
 
+export type ModuleResolvable = string | number | BaseModule
+
 export interface GuildModuleManager {
     guild: Guild;
     client: Client;
@@ -44,11 +46,13 @@ export class GuildModuleManager {
      * @param resolveable - Name or ID.
      * @returns Module Key
      */
-    private resolveModule(resolveable: string | number) {
+    private resolveModule(resolveable: ModuleResolvable) {
         if (typeof resolveable === 'string') {
             return this.client.modules.get(resolveable)
-        } else {
+        } else if (typeof resolveable === 'number') {
             return [...this.client.modules.values()].find(m => m.id === resolveable)
+        } else {
+            return resolveable;
         };
     };
 
@@ -60,22 +64,23 @@ export class GuildModuleManager {
         return new Map([...this.client.modules.entries()].filter(m => m[1].default));
     };
 
-    public async init() {
+    public async init(): Promise<GuildModuleManager> {
 
         let bitfield = Number((await this.client.db.query(`SELECT enabled_modules FROM guilds WHERE guild_id = ${this.guild.id}`)).rows[0].enabled_modules)
 
         if (!bitfield) {
             this.enabled = this.getDefault();
-            return this.save();
+            await this.save();
         } else {
-            return this.set(bitfield);
+            await this.set(bitfield);
         }
+        return this
     };
 
-    public set(bitfield: number, save: Boolean = true) {
+    public async set(bitfield: number, save: Boolean = true) {
         let map = this.resolveModules(bitfield);
         this.enabled = map;
-        return save ? this.save() : {};
+        return save ? await this.save() : true;
     };
 
     /**
@@ -83,11 +88,11 @@ export class GuildModuleManager {
      * @param resolveable 
      * @returns Boolean
      */
-    public enable(resolveable: string | number, save: Boolean = true) {
+    public async enable(resolveable: ModuleResolvable, save: Boolean = true): Promise<boolean> {
         let module = this.resolveModule(resolveable);
         if (module) {
             this.enabled.set(module.name, module);
-            return save ? this.save() : {};
+            return save ? await this.save() : true;
         } else throw new Error('Module unresolved');
     };
 
@@ -96,28 +101,32 @@ export class GuildModuleManager {
      * @param resolveable 
      * @returns Boolean
      */
-    public disable(resolveable: string | number, save: Boolean = true) {
+    public async disable(resolveable: ModuleResolvable, save: Boolean = true): Promise<boolean> {
         let module = this.resolveModule(resolveable);
         if (module) {
             this.enabled.delete(module.name);
-            return save ? this.save() : {};
+            return save ? await this.save() : true;
         } else throw new Error('Module unresolved');
     };
 
     /**
      * Saves the current setup to the DB.
      */
-    private save() {
-        return this.client.db.query(`UPDATE guilds SET enabled_modules = ${this.bitfield} WHERE guild_id = ${this.guild.id}`);
+    private async save() {
+        const bf = this.bitfield;
+        const newBf = Number((await this.client.db.query(`UPDATE guilds SET enabled_modules = ${this.bitfield} WHERE guild_id = ${this.guild.id} RETURNING enabled_modules`)).rows[0].enabled_modules);
+        return bf === newBf;
     }
 
-    public revert(save: Boolean = true) {
+    public async revert(save: Boolean = true): Promise<boolean> {
         this.enabled = this.getDefault();
-        return save ? this.save() : {};
+        return save ? await this.save() : true;
     };
 
-    public setCommands() {
-        
+    public isEnabled(resolveable: ModuleResolvable): any {
+        const module = this.resolveModule(resolveable);
+
+        return !!this.enabled.get(module!.name)
     };
 
 };
