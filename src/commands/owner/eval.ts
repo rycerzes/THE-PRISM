@@ -10,6 +10,7 @@ export default class extends Command {
         super(context, {
             name: 'eval',
             description: 'Evaluates a line of code',
+            usage: ['```[code]```'],
             preconditions: ['owner']
         });
     };

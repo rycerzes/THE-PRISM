@@ -1,4 +1,4 @@
-import type { ColorResolvable, Message, MessageComponentOptions, MessageEmbedOptions, TextChannel, User } from "discord.js";
+import type { ColorResolvable, Message, MessageActionRowOptions, MessageEmbedOptions, TextChannel, User } from "discord.js";
 import { pad } from '#util/functions';
 import type { Client } from "#lib/Client";
 
@@ -133,34 +133,37 @@ export class RankingMessage {
         return this.edit();
     }
 
-    get maxPages() {
+    get maxPages(): number {
         return Math.ceil(this.array.length / this.perPage)
     }
 
-    get components() {
+    get components(): MessageActionRowOptions[] {
         return [
-            [
-                {
-                    customId: 'rankUp',
-                    type: 'BUTTON',
-                    emoji: '867081880834146385',
-                    style: 'SECONDARY',
-                    disabled: this.page === 1
-                },
-                {
-                    customId: 'rankDown',
-                    type: 'BUTTON',
-                    emoji: '867081881185943612',
-                    style: 'SECONDARY',
-                    disabled: this.page === this.maxPages
-                },
-                {
-                    customId: 'rankExit',
-                    type: 'BUTTON',
-                    emoji: '✖️',
-                    style: 'DANGER'
-                }
-            ]
-        ] as MessageComponentOptions[][];
+            {
+                type: 'ACTION_ROW',
+                components: [
+                    {
+                        customId: 'rankUp',
+                        type: 'BUTTON',
+                        emoji: '867081880834146385',
+                        style: 'SECONDARY',
+                        disabled: this.page === 1
+                    },
+                    {
+                        customId: 'rankDown',
+                        type: 'BUTTON',
+                        emoji: '867081881185943612',
+                        style: 'SECONDARY',
+                        disabled: this.page === this.maxPages
+                    },
+                    {
+                        customId: 'rankExit',
+                        type: 'BUTTON',
+                        emoji: '✖️',
+                        style: 'DANGER'
+                    }
+                ]
+            }
+        ]
     }
 };

@@ -17,7 +17,7 @@ export default class extends Argument<string> {
 
         const option = options.find(aliases => aliases.includes(parameter.toUpperCase()));
 
-        return option ? this.ok(option[0]) : this.error({ parameter, identifier: 'InvalidModuleOption', message: 'Unable to resolve option.' });
+        return option ? this.ok(option[0]) : this.error({ parameter, identifier: 'ArgumentError', message: 'Unable to resolve option.' });
 
     };
 };

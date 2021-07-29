@@ -8,6 +8,7 @@ export default class extends Command {
         super(context, {
             name: 'modules',
             description: 'View enabled modules',
+            usage: [''],
             preconditions: ['guild', 'admin']
         })
 
@@ -40,14 +41,17 @@ export default class extends Command {
         let sent = await message.reply({ allowedMentions: { repliedUser: false }, embeds: [
             await embed()
         ], components: [
-            [
-                {
-                    customId: 'modulesRevert',
-                    label: 'REVERT TO DEFAULTS',
-                    style: 'SECONDARY',
-                    type: 'BUTTON'
-                }
-            ]
+            {
+                type: 'ACTION_ROW',
+                components: [
+                    {
+                        customId: 'modulesRevert',
+                        label: 'REVERT TO DEFAULTS',
+                        style: 'SECONDARY',
+                        type: 'BUTTON'
+                    }
+                ]
+            }
         ]})
 
         const collector = sent.createMessageComponentCollector({ filter: interaction => interaction.user.id === message.author.id, time: 60000 });

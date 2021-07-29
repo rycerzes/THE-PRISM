@@ -43,7 +43,7 @@ export abstract class BaseModule {
     };
 
     private getListeners() {
-        this.client.stores.get('events').forEach(l => {
+        this.client.stores.get('listeners').forEach(l => {
             if (l.module?.name === this.name) return this.listeners.set(l.name, l);
         });
     };

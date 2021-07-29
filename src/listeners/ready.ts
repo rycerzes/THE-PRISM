@@ -10,8 +10,6 @@ export default class extends Listener {
         })
     };
 
-    public module = this.client.modules.get('base') || null;
-
     public run() {
 
     }

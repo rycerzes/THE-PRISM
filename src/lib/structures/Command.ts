@@ -6,7 +6,7 @@ export abstract class Command extends Sapphire.Command {
 
     constructor(context: PieceContext, { preconditions = [], ...options }: Sapphire.CommandOptions) {
 
-        (preconditions as PreconditionEntryResolvable[]).push('module');
+        (preconditions as PreconditionEntryResolvable[]).push('module')
 
         super(context, { preconditions, ...options });
         
@@ -22,11 +22,11 @@ export abstract class Command extends Sapphire.Command {
     } = {name: this.name, description: this.description, options: undefined, defaultPermission: this.isDefault};
 
     get client() {
-        return this.context.client;
+        return this.container.client;
     };
 
     get db() {
-        return this.context.client.db;
+        return this.container.client.db;
     }
 
     get isDefault(): boolean {

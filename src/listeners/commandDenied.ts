@@ -9,8 +9,6 @@ export default class extends Listener {
         });
     };
 
-    public module = null;
-
     public run({ message: content }: UserError, { message, command }: CommandDeniedPayload) {
         message.channel.send({ embeds: [
             {

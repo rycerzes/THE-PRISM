@@ -17,7 +17,7 @@ export class Client extends SapphireClient {
         this.ownerID = ownerID
 
         this.loggedIn = false;
-        this.stores.registerUserDirectories('../');
+        this.stores.registerPath('../');
         this.db = new DBClient();
         this.util = new ClientUtil(this);
         this.guildModules = new Map();

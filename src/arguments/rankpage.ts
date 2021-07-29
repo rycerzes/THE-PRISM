@@ -27,6 +27,6 @@ export default class extends Argument<number> {
 
         }
 
-        return num > 0 ? this.ok(Math.floor(num)) : this.error({ parameter, identifier: 'InvlidPageError', message: 'Unabled to resolve page from string' });
+        return num > 0 ? this.ok(Math.floor(num)) : this.error({ parameter, identifier: 'ArgumentError', message: 'Unabled to resolve page from string' });
     }
 }

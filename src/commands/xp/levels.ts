@@ -10,6 +10,7 @@ export default class extends Command {
         super(context, {
             name: 'levels',
             description: 'View level leaerboard.',
+            usage: ['(page|member)'],
             aliases: ['ranks'],
             preconditions: ['guild']
         });

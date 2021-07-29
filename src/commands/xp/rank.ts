@@ -10,15 +10,16 @@ export default class extends Command {
         super(context, {
             name: 'rank',
             description: 'Check a member\'s rank.',
+            usage: ['(member)'],
             aliases: ['level'],
             preconditions: ['guild']
         });
     };
 
     public async run(message: Message, args: Args) {
-        message.channel.startTyping();
+
         const member = await args.pick('member').catch(() => message.member!);
         message.channel.send({ files: [new MessageAttachment(await this.client.util.getRankCard(member))]});
-        return message.channel.stopTyping();
+
     }
 };

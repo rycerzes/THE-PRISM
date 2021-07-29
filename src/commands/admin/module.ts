@@ -9,6 +9,7 @@ export default class extends Command {
         super(context, {
             name: 'module',
             description: 'Configure modules.',
+            usage: ['[module]', '[module] (enable|disable)'],
             preconditions: ['guild', 'admin'],
         })
 
@@ -47,22 +48,25 @@ export default class extends Command {
                                 color: await this.client.util.guildColor(message.guild!)
                             }
                         ], components: buttons ? [
-                            [
-                                {
-                                    customId: 'moduleEnable',
-                                    type: 'BUTTON',
-                                    label: 'ENABLE',
-                                    style: 'SUCCESS',
-                                    disabled: manager.isEnabled(module.id)
-                                },
-                                {
-                                    customId: 'moduleDisable',
-                                    type: 'BUTTON',
-                                    label: 'DISABLE',
-                                    style: 'DANGER',
-                                    disabled: !manager.isEnabled(module.id)
-                                }
-                            ]
+                            {
+                                type: 'ACTION_ROW',
+                                components: [
+                                    {
+                                        customId: 'moduleEnable',
+                                        type: 'BUTTON',
+                                        label: 'ENABLE',
+                                        style: 'SUCCESS',
+                                        disabled: manager.isEnabled(module.id)
+                                    },
+                                    {
+                                        customId: 'moduleDisable',
+                                        type: 'BUTTON',
+                                        label: 'DISABLE',
+                                        style: 'DANGER',
+                                        disabled: !manager.isEnabled(module.id)
+                                    }
+                                ]
+                            }
                         ] : []}
                     }
 

@@ -10,6 +10,7 @@ export default class extends Command {
         super(context, {
             name: 'top',
             description: 'View the statistic leaderboards',
+            usage: ['[category] (page|member)'],
             aliases: ['leaderboard', 'lb'],
             preconditions: ['guild']
         });

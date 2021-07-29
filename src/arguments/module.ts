@@ -12,6 +12,6 @@ export default class extends Argument<BaseModule> {
 
         const module = this.client.modules.get(parameter) || [...this.client.modules.values()].find(m => m.name.includes(parameter));
 
-        return module ? this.ok(module) : this.error({ parameter, identifier: 'InvalidModuleError', message: 'Unable to resolve module' });
+        return module ? this.ok(module) : this.error({ parameter, identifier: 'ArgumentError', message: 'Unable to resolve module' });
     };
 };

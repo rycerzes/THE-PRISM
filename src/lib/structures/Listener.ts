@@ -1,11 +1,11 @@
 import Sapphire from '@sapphire/framework';
 import type { BaseModule } from '#structures/BaseModule';
 
-export abstract class Listener extends Sapphire.Event {
+export abstract class Listener extends Sapphire.Listener {
 
-    public abstract module: BaseModule | null;
+    public module: BaseModule = this.client.modules.get('base')!;
 
     get client() {
-        return this.context.client;
+        return this.container.client;
     }
 };

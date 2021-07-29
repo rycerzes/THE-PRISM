@@ -1,4 +1,4 @@
-import type { Snowflake } from "discord.js";
+import type { ColorResolvable, Snowflake } from "discord.js";
 
 export type Member = {
     user_id?: Snowflake,
@@ -34,6 +34,7 @@ export type Guild = {
     mute_role_id?: Snowflake | null,
     counting_count?: number,
     main_color?: string,
+    color?: ColorResolvable;
     leaderboard_display?: number,
     pins_reaction?: number,
     enabled_modules?: number

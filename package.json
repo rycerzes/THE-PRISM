@@ -15,10 +15,10 @@
     "#types/*": "./dist/lib/types/*.js"
   },
   "dependencies": {
-    "@sapphire/framework": "^1.0.2",
+    "@sapphire/framework": "^2.0.0-next.9790c48d.0",
     "canvas": "^2.8.0",
-    "color": "^3.1.3",
-    "discord.js": "^13.0.0-dev.d6c43a5.1625832172",
+    "color": "^3.2.1",
+    "discord.js": "^13.0.0-dev.4886ae2.1627300977",
     "dotenv": "^10.0.0",
     "fs": "^0.0.1-security",
     "pg": "^8.6.0",

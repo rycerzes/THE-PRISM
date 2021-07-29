@@ -8,6 +8,7 @@ export default class extends Command {
         super(context, {
             name: 'counting',
             description: 'View counting stats',
+            usage: ['(member)'],
             preconditions: ['guild']
         });
     };

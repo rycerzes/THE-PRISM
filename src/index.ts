@@ -20,7 +20,7 @@ let client: Client = new Client('227848397447626752', {
 	partials: ['MESSAGE', 'REACTION'],
 
 	logger: {
-		level: LogLevel.Trace
+		level: LogLevel.Info
 	}
 });
 

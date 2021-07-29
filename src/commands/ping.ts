@@ -7,6 +7,7 @@ export default class extends Command {
     constructor(context: PieceContext) {
         super(context, { 
             name: 'ping',
+            usage: [''],
             description: 'Returns the ping'
         });
     }

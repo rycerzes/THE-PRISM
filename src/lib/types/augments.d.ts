@@ -1,4 +1,4 @@
-import type { ApplicationCommandOptionData, GuildMember, Message, Snowflake } from 'discord.js'
+import type { ApplicationCommandOptionData, ColorResolvable, GuildMember, Message, Snowflake } from 'discord.js'
 import type { Args } from '@sapphire/framework';
 import type { BaseModule } from '#structures/BaseModule';
 import type { DBClient } from '#lib/DBClient';
@@ -34,6 +34,7 @@ declare module 'discord.js' {
 }
 
 declare module '@sapphire/framework' {
+
     interface Command {
         module: BaseModule | null;
         slash: {
@@ -44,7 +45,11 @@ declare module '@sapphire/framework' {
         }
     }
 
-    interface Event {
+    interface CommandOptions {
+        usage: string[];
+    }
+
+    interface Listener {
         module: BaseModule | null;
     }
 
@@ -52,11 +57,19 @@ declare module '@sapphire/framework' {
         module: BaseModule | null;
     }
 
+    interface Preconditions {
+        module: never;
+        guild: never;
+        admin: never;
+        owner: never;
+    }
+
     interface ArgType {
         module: BaseModule;
         rankpage: number;
         lbcategory: string;
         moduleoption: string;
+        color: ColorResolvable;
     }
 
     interface ArgumentContext {
