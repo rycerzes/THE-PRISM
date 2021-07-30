@@ -17,7 +17,7 @@ export default class extends Command {
 
     public async run(message: Message) {
 
-        let manager: GuildModuleManager = this.client.guildModules.get(message.guild!.id) ?? await this.client.newModuleManager(message.guild!);
+        let manager: GuildModuleManager = this.client.guildModuleManagers.get(message.guild!.id) ?? await this.client.newModuleManager(message.guild!);
 
         // Find longest length
         const max = [...this.client.modules.values()].sort((a, b) => b.name.length - a.name.length)[0].name.length;
