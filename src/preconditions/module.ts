@@ -20,7 +20,7 @@ export default class extends Precondition {
         if (!message.guild) return this.ok();
 
         // Get manager
-        let manager = this.client.guildModules.get(message.guild.id) ?? await this.client.newModuleManager(message.guild);
+        let manager = this.client.guildModuleManagers.get(message.guild.id) ?? await this.client.newModuleManager(message.guild);
 
         return manager.enabled.has(command.module.name) ? this.ok() : this.error({
             message: `Module \`${command.module.name}\` disabled.`
