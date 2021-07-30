@@ -5,6 +5,7 @@ import type { DBClient } from '#lib/DBClient';
 import type { GuildModuleManager } from '#structures/GuildModuleManager';
 import type { ClientUtil } from '#util/ClientUtil';
 import type { RankingMessage } from '#structures/RankingMessage';
+import { Client as BotClient} from '#lib/Client';
 
 declare module 'discord.js' {
     interface Client {
@@ -14,7 +15,7 @@ declare module 'discord.js' {
         modules: Map<string, BaseModule>;
         util: ClientUtil;
         loggedIn: Boolean;
-        guildModules: Map<Snowflake, GuildModuleManager>
+        guildModuleManagers: Map<Snowflake, GuildModuleManager>
         db: DBClient;
         colors: {
             red: ColorResolvable,
@@ -29,6 +30,8 @@ declare module 'discord.js' {
         removeSuffix(fileName: string): string;
         setSlash(): void;
         newModuleManager(guild: Guild): Promise<GuildModuleManager>;
+        getModuleManager(guild: Guild): Promise<GuildModuleManager>;
+        checkModule(module: string | number | BaseModule, guild: Guild): Promise<boolean>
 
     }
 }
@@ -78,4 +81,12 @@ declare module '@sapphire/framework' {
 
         resolve({}: any): any;
     }
+}
+
+declare module 'pg' {
+
+    interface Client {
+        client: BotClient
+    }
+
 }

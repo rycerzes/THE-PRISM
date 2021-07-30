@@ -8,6 +8,7 @@ import { promises as fsp } from 'fs';
 import Canvas from 'canvas';
 import Color from 'color';
 import type { Member } from "#lib/types/db.js";
+import type { DBClient } from "#lib/DBClient.js";
 const { createCanvas, loadImage, registerFont } = Canvas;
 
 export interface ClientUtil {
@@ -118,7 +119,19 @@ export class ClientUtil {
         };
 
         return mention
-    }
+    };
+
+    public async parseText(text: string, { member, level, xp }: { member: GuildMember, level?: number, xp?: number }) {
+
+        if (!xp) ({ xp } = await this.db.fetchMember(member))
+
+        return text
+            .replace(/{member}/g, `<@${member.user.id}>`)
+            .replace(/{tag}/g, member.user.tag)
+            .replace(/{guild}/g, member.guild.name)
+            .replace(/{level}/g, String(level || levelCalc(xp)))
+            .replace(/{xp}/g, String(xp));
+    };
 
     /**
      * Gets a guilds "main_color".
@@ -335,5 +348,9 @@ export class ClientUtil {
         return BGs;
 
     };
+
+    get db(): DBClient {
+        return this.client.db;
+    }
 
 };

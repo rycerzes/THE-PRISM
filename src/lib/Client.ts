@@ -18,9 +18,9 @@ export class Client extends SapphireClient {
 
         this.loggedIn = false;
         this.stores.registerPath('../');
-        this.db = new DBClient();
+        this.db = new DBClient(this);
         this.util = new ClientUtil(this);
-        this.guildModules = new Map();
+        this.guildModuleManagers = new Map();
         this.colors = colors;
         this.defaults = defaults;
         this.fetchPrefix = () => {
@@ -84,8 +84,24 @@ export class Client extends SapphireClient {
 
     public async newModuleManager(guild: Guild): Promise<GuildModuleManager> {
 
-        return await this.guildModules.set(guild.id, new GuildModuleManager(guild, this)).get(guild.id)!.init();
+        return await this.guildModuleManagers.set(guild.id, new GuildModuleManager(guild, this)).get(guild.id)!.init();
 
+    };
+
+    public async getModuleManager(guild: Guild): Promise<GuildModuleManager> {
+        return this.guildModuleManagers.get(guild.id) || await this.newModuleManager(guild);
+    }
+
+    public async checkModule(module: string | number | BaseModule, guild: Guild): Promise<boolean> {
+
+        const manager = await this.getModuleManager(guild);
+
+        return manager.isEnabled(module)
+
+    };
+
+    get invite() {
+        return `https://discord.com/oauth2/authorize?client_id=${this.user!.id}&permissions=8&scope=bot`
     }
 
 };

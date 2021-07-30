@@ -123,7 +123,7 @@ export class GuildModuleManager {
         return save ? await this.save() : true;
     };
 
-    public isEnabled(resolveable: ModuleResolvable): any {
+    public isEnabled(resolveable: ModuleResolvable): boolean {
         const module = this.resolveModule(resolveable);
 
         return !!this.enabled.get(module!.name)

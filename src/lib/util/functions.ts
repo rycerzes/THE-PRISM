@@ -43,15 +43,9 @@ export function pad(number: number, digits: number): string {
     return numArray.join('')
 };
 
-// export function groupDigits(n) {
-//     const arr = n.toString().split("").reverse();
-//     for(let i = 0; i < arr.length; i++) {
-//         if(Number.isInteger((i+1)/4)) {
-//             arr.splice(i, 0, ",")
-//         }
-//     }
-//     return arr.reverse().join("")
-// };
+export function rng(min: number = 0, max: number = 1): number {
+    return Math.floor(Math.random() * ((1+max)-min)) + min;
+};
 
 // //     UCT: function UCT(date = Date.now(), milliseconds = false) {
 // //         let arr = []
@@ -96,21 +90,8 @@ export function pad(number: number, digits: number): string {
 // //             return undefined
 // //         }
 // //     },
-
-// //     parseText: async function parseText(text, member) {
-// //         const { xp } = (await client.db.query(`SELECT * FROM members WHERE user_id = ${member.id} AND guild_id = ${member.guild.id}`)).rows[0];
-// //         let level;
-// //         if(text.includes('{level}')) {
-// //             level = client.functions.levelCalc(xp)
-// //         }
         
-// //         return text
-// //             .replace(/{member}/g, member)
-// //             .replace(/{tag}/g, member.user.tag)
-// //             .replace(/{guild}/g, member.guild.name)
-// //             .replace(/{level}/g, level)
-// //             .replace(/{xp}/g, xp);
-// //     },
+
     
 // //     since: function since(timestamp, max = 6) {
 
