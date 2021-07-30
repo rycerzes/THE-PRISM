@@ -26,7 +26,7 @@ export default class extends Command {
 
             const option = await args.pick('moduleoption').catch(() => 'INFO');
 
-            let manager: GuildModuleManager = this.client.guildModules.get(message.guild!.id) ?? await this.client.newModuleManager(message.guild!);
+            let manager: GuildModuleManager = this.client.guildModuleManagers.get(message.guild!.id) ?? await this.client.newModuleManager(message.guild!);
 
             switch (option) {
 

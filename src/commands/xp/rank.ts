@@ -14,11 +14,14 @@ export default class extends Command {
             aliases: ['level'],
             preconditions: ['guild']
         });
+
+        this.module = this.client.modules.get('xp')!
     };
 
     public async run(message: Message, args: Args) {
 
         const member = await args.pick('member').catch(() => message.member!);
+        
         message.channel.send({ files: [new MessageAttachment(await this.client.util.getRankCard(member))]});
 
     }
