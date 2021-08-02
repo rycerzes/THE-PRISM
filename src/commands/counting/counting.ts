@@ -36,12 +36,7 @@ export default class extends Command {
                         name: 'LAST COUNT',
                         value: `[\`${(await this.client.util.resolveMessage(counting_last_message_url!))?.content ?? 'null'}\`](${counting_last_message_url})`,
                         inline: true
-                    },
-                    // {
-                    //     name: 'RANK',
-                    //     value: `\`1\``,
-                    //     inline: true
-                    // }
+                    }
                 ],
                 thumbnail: {
                     url: member.user.displayAvatarURL()
