@@ -1,7 +1,7 @@
-import type { Guild as Guild, GuildMember, Snowflake, User } from 'discord.js';
+import type { Guild as Guild, GuildMember, User } from 'discord.js';
 import pg from 'pg';
 import type { Client } from './Client';
-import type { Member, Guild as DbGuild, User as DbUser, Config, ConfigOptions } from './types/db';
+import type { Member, Guild as DbGuild, User as DbUser, Config } from './types/db';
 
 export interface DBClient {
 
@@ -58,21 +58,6 @@ export class DBClient extends pg.Client {
         await this.fetchConfig(guild);
         return (await this.query(`UPDATE config ${query} WHERE guild_id = ${guild.id} RETURNING *`)).rows[0]!
     }
-
-    // async setConfig(guild: Guild, config: ConfigOptions): Promise<Config> {
-
-    //     let query: string[] = [];
-
-    //     for (const [key, value] of Object.entries(config)) {
-    //         console.log(typeof value)
-    //         query.push(`${key} = ${value}`)
-    //     }
-
-    //     console.log(query.join(', '));
-
-    //     return this.fetchConfig(guild);
-
-    // }
 
     async trackVoice(member: GuildMember): Promise<void> {
 
