@@ -1,4 +1,4 @@
-import type { ApplicationCommandOptionData, ColorResolvable, GuildMember, Message, Snowflake } from 'discord.js'
+import type { ApplicationCommandOptionData, ColorResolvable, GuildMember, Message, Snowflake, TextChannel } from 'discord.js'
 import type { Args } from '@sapphire/framework';
 import type { BaseModule } from '#structures/BaseModule';
 import type { DBClient } from '#lib/DBClient';
@@ -31,7 +31,10 @@ declare module 'discord.js' {
         setSlash(): void;
         newModuleManager(guild: Guild): Promise<GuildModuleManager>;
         getModuleManager(guild: Guild): Promise<GuildModuleManager>;
-        checkModule(module: string | number | BaseModule, guild: Guild): Promise<boolean>
+        checkModule(module: string | number | BaseModule, guild: Guild): Promise<boolean>;
+
+        // Getters
+        invite: string;
 
     }
 }
@@ -73,6 +76,8 @@ declare module '@sapphire/framework' {
         lbcategory: string;
         moduleoption: string;
         color: ColorResolvable;
+        configChannel: string;
+        null: boolean;
     }
 
     interface ArgumentContext {

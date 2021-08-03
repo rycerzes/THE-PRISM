@@ -15,7 +15,7 @@ export default class extends Listener {
         if (!newState.member || !oldState.member) return;
 
         let member = newState.member;
-        const data = await this.db.getMember(member);
+        const data = await this.db.fetchMember(member);
 
         if (member.user.bot) return;
 

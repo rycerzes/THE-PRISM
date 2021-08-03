@@ -56,6 +56,17 @@ export type Config = {
     levels_message_embed: boolean;
 };
 
+export type ConfigOptions = {
+    logs_channel_id?: Snowflake | null;
+    levels_channel_id?: Snowflake | null;
+    calls_channel_id?: Snowflake | null;
+    pins_channel_id?: Snowflake | null;
+    counting_channel_id?: Snowflake | null;
+
+    level_up_text?: string | null;
+    levels_message_embed?: boolean;
+}
+
 export type LevelRole = {
     guild_id: Snowflake;
     level: number;

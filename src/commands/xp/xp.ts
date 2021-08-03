@@ -19,7 +19,7 @@ export default class extends Command {
     public async run(message: Message, args: Args) {
 
         const member = await args.pick('member').catch(() => message.member!);
-        const { xp, xp_messages: messages, xp_minutes: minutes, xp_last_message_timestamp } = await this.db.getMember(member)
+        const { xp, xp_messages: messages, xp_minutes: minutes, xp_last_message_timestamp } = await this.db.fetchMember(member)
 
         message.reply({ allowedMentions: { repliedUser: false }, files: [new MessageAttachment(await this.client.util.getRankCard(member), 'rank.png')], embeds: [
             {
