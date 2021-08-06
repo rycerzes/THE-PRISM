@@ -1,7 +1,6 @@
-import type { ConfigOptions } from "#lib/types/db";
 import { Command } from "#structures/Command";
 import type { Args, PieceContext } from "@sapphire/framework";
-import type { CategoryChannel, Message, Snowflake, TextChannel } from "discord.js";
+import type { CategoryChannel, Message, TextChannel } from "discord.js";
 
 export default class extends Command {
 
