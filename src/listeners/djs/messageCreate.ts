@@ -15,6 +15,7 @@ export default class extends Listener {
         if (message.partial) await message.fetch();
         if (message.author.bot) return;
 
+        // If Guild
         if (message.member) {
 
             const member = message.member;
