@@ -8,8 +8,6 @@ export default class extends Precondition {
         super(context, options);
     };
 
-    public module = this.client.modules.get('base') || null;
-
     public run(message: Message) {
         return message.author.id === this.client.ownerID ? this.ok() : this.error({ message: 'Command is owner only.' })
     };

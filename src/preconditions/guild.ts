@@ -11,8 +11,6 @@ export default class extends Precondition {
         });
     };
 
-    public module = this.client.modules.get('base') || null;
-
     public run(message: Message) {
         return message.guild === null ? this.error({ message: 'Command is guild only.' }) : this.ok();
     };

@@ -9,8 +9,6 @@ export default class extends Precondition {
         super(context, { name: 'module', ...options });
     };
 
-    public module = this.client.modules.get('base') || null;
-
     public async run(message: Message, command: Command) {
 
         // No module, ok by default.
