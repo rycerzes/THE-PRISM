@@ -1,7 +1,9 @@
+import { durationToMilli } from '#util/functions';
 import type { Guild as Guild, GuildMember, User } from 'discord.js';
 import pg from 'pg';
 import type { Client } from './Client';
-import type { Member, Guild as DbGuild, User as DbUser, Config } from './types/db';
+import type { Member, Guild as DbGuild, User as DbUser, Config, Mute } from './types/db';
+import type { duration } from './types/util';
 
 export interface DBClient {
 
@@ -37,11 +39,15 @@ export class DBClient extends pg.Client {
     async updateUser(user: User, query: string): Promise<DbUser> {
         await this.fetchUser(user);
         return (await this.query(`UPDATE users ${query} WHERE user_id = ${user.id} RETURNING *`)).rows[0]!;
-    }
+    };
 
     async fetchMember(member: GuildMember): Promise<Member> {
         await this.fetchUser(member.user); await this.fetchGuild(member.guild);
         return (await this.query(`SELECT * FROM members WHERE user_id = ${member.user.id} AND guild_id = ${member.guild.id}`)).rows[0] || (await this.query(`INSERT INTO members (user_id, guild_id) VALUES (${member.id}, ${member.guild.id}) RETURNING *`)).rows[0];
+    };
+
+    async getMember(id: number): Promise<Member | undefined> {
+        return (await this.query(`SELECT * FROM members WHERE member_id = ${id}`)).rows[0]
     };
 
     async updateMember(member: GuildMember, query: string): Promise<Member> {
@@ -89,6 +95,64 @@ export class DBClient extends pg.Client {
             }
 
         }, 60*1000);
+
+    };
+
+    async mute(member: GuildMember, reason: string, duartion: duration) {
+
+        const { member_id } = await this.fetchMember(member);
+
+        const milli = durationToMilli(duartion);
+
+        try {
+
+            const mute = (await this.query(`INSERT INTO mutes (member_id, reason, ends, started) VALUES (${member_id}, ${reason ? `'${reason}'` : null}, ${milli ? Date.now() + milli : null}, ${Date.now()}) RETURNING *`)).rows[0] as Mute;
+
+            this.trackMute(mute);
+
+            return true;
+
+        } catch(e) {
+
+            return false;
+
+        }
+
+    };
+
+    async getMute(id: number): Promise<Mute | undefined> {
+        return (await this.query(`SELECT * FROM mutes WHERE mute_id = ${id}`)).rows[0];
+    };
+
+    async trackMute({ mute_id, member_id }: Mute) {
+        
+        const { user_id, guild_id } = (await this.getMember(member_id))!;
+
+        const guild = await this.client.guilds.fetch(guild_id);
+        const member = await guild.members.fetch(user_id);
+        const role = await guild.roles.fetch((await this.fetchGuild(guild)).mute_role_id!);
+
+        const mute = await this.getMute(mute_id);
+
+        if (mute && role) {
+    
+            console.log(`Tracking mute for ${member.user.tag} in ${member.guild.name}`);
+
+            let interval = setInterval(() => {
+
+                if (Date.now() > mute.ends) {
+                    member.roles.remove(role)
+                    clearInterval(interval);
+                } else {
+                    member.roles.add(role)
+                }
+
+
+            }, 20*1000)
+
+
+        } else return;
+
 
     };
 };

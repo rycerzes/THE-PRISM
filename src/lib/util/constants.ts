@@ -3,7 +3,9 @@ export const RegEx = {
         user: /^(?:<@!?)?(\d{17,19})>?$/,
         role: /^(?:<@&)?(\d{17,19})>?$/,
         channel: /^(?:<#)?(\d{17,19})>?$/
-    }
+    },
+
+    times: /([1-9][0-9]*(d|h|m))\s*/gi
 };
 
 export const blankField = {
@@ -19,4 +21,4 @@ export const blankFieldInline = {
 
 export const messages = {
     levelup: `{member} advanced to level {level}!`
-}
+};

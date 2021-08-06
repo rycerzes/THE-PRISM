@@ -1,6 +1,7 @@
 import type { ColorResolvable, Snowflake } from "discord.js";
 
 export type Member = {
+    member_id: number;
     user_id: Snowflake,
     guild_id: Snowflake,
     messages: number,
@@ -23,21 +24,22 @@ export type Member = {
 };
 
 export type Guild = {
-    guild_id?: Snowflake,
-    prefix?: string,
-    counting_channel_id?: Snowflake | null,
-    wording_channel_id?: Snowflake | null,
-    logs_channel_id?: Snowflake | null,
-    calls_channel_id?: Snowflake | null,
-    levels_chanel_id?: Snowflake | null,
-    pins_channel_id?: Snowflake | null,
-    mute_role_id?: Snowflake | null,
-    counting_count?: number,
-    main_color?: string,
-    color?: ColorResolvable;
-    leaderboard_display?: number,
-    pins_reaction?: number,
-    enabled_modules?: number
+    guild_id: Snowflake,
+    prefix: string,
+    counting_channel_id: Snowflake | null,
+    wording_channel_id: Snowflake | null,
+    logs_channel_id: Snowflake | null,
+    calls_channel_id: Snowflake | null,
+    levels_chanel_id: Snowflake | null,
+    pins_channel_id: Snowflake | null,
+    mute_role_id: Snowflake | null,
+    mod_role_id: Snowflake | null,
+    counting_count: number,
+    main_color: string,
+    color: ColorResolvable;
+    leaderboard_display: number,
+    pins_reaction: number,
+    enabled_modules: number
 };
 
 export type User = {
@@ -77,4 +79,12 @@ export type WordFilter = {
     guild_id: Snowflake;
     match_any: boolean;
     text: string;
+};
+
+export type Mute = {
+    mute_id: number;
+    member_id: number;
+    reason: string;
+    ends: number;
+    started: number;
 }

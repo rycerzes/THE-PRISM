@@ -1,3 +1,6 @@
+import type { duration } from "#lib/types/util";
+import type { ColorResolvable, EmbedField, GuildMember, MessageEmbedOptions } from "discord.js";
+
 export function xpCalc(i: number): number {
     return Math.floor(5 * Math.pow(135, 2) * ((Math.pow(10, 3) * Math.exp(-Math.pow(10, -3)* i) + i) - Math.pow(10, 3)));
 };
@@ -46,6 +49,36 @@ export function pad(number: number, digits: number): string {
 export function rng(min: number = 0, max: number = 1): number {
     return Math.floor(Math.random() * ((1+max)-min)) + min;
 };
+
+export function logsEmbed({ member, description = '', title, fields = [], color }: { 
+    member?: GuildMember, 
+    description?: string, 
+    title: string,
+    fields?: EmbedField[],
+    color?: ColorResolvable
+
+}): MessageEmbedOptions {
+    
+    return {
+        title: title,
+        description: `${member || ''} at <t:${Math.floor(Date.now()/1000)}:T>\n\u200b\n${description}`,
+        fields: fields,
+        color: color,
+        author: {
+            icon_url: member?.user.displayAvatarURL(),
+            name: member?.user.tag
+        },
+        timestamp: Date.now()
+    };
+};
+
+export function durationToMilli(duration: duration): number | null {
+    let n = 0;
+    n += duration.d * 24*60*60*1000;
+    n += duration.h * 60*60*1000;
+    n += duration.m * 60*1000;
+    return n || null;
+}
 
 // //     UCT: function UCT(date = Date.now(), milliseconds = false) {
 // //         let arr = []
