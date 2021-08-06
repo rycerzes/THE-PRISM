@@ -68,6 +68,7 @@ declare module '@sapphire/framework' {
         guild: never;
         admin: never;
         owner: never;
+        moderator: never;
     }
 
     interface ArgType {
@@ -78,6 +79,7 @@ declare module '@sapphire/framework' {
         color: ColorResolvable;
         configChannel: string;
         null: boolean;
+        event: string;
     }
 
     interface ArgumentContext {
