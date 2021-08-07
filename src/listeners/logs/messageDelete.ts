@@ -15,7 +15,9 @@ export default class extends Listener {
 
     public async run(message: Message) {
 
-        const member = message.member!
+        const member = message.member;
+
+        if (!member) return;
 
         if (!this.checkModule(member.guild, 'logs')) return;
 
