@@ -32,7 +32,6 @@ try {
 	await client.login(process.env.TOKEN);
 	client.loggedIn = true;
 	client.logger.info('Logged in');
-	client.setSlash();
 } catch (error) {
 	client.logger.fatal(error);
 	client.destroy();
