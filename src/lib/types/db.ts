@@ -76,6 +76,7 @@ export type LevelRole = {
 };
 
 export type WordFilter = {
+    word_filter_id: number;
     guild_id: Snowflake;
     match_any: boolean;
     text: string;

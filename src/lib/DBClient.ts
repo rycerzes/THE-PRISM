@@ -2,7 +2,7 @@ import { durationToMilli } from '#util/functions';
 import type { Guild as Guild, GuildMember, User } from 'discord.js';
 import pg from 'pg';
 import type { Client } from './Client';
-import type { Member, Guild as DbGuild, User as DbUser, Config, Mute } from './types/db';
+import type { Member, Guild as DbGuild, User as DbUser, Config, Mute, WordFilter } from './types/db';
 import type { duration } from './types/util';
 
 export interface DBClient {
@@ -154,5 +154,25 @@ export class DBClient extends pg.Client {
         } else return;
 
 
+    };
+
+    async getWords(guild: Guild): Promise<WordFilter[]> {
+
+        return (await this.query(`SELECT * FROM word_filter WHERE guild_id = ${guild.id}`)).rows;
+
+    };
+
+    async addWord(guild: Guild, text: string, any: boolean) {
+
+        await this.query(`INSERT INTO word_filter (guild_id, text, match_any) VALUES (${guild.id}, '${text}', ${any})`);
+
+        return await this.getWords(guild);
+
+    };
+
+    async removeWord(id: number, guild: Guild) {
+        await this.query(`DELETE FROM word_filter WHERE word_filter_id = ${id} AND guild_id = ${guild.id}`)
+
+        return await this.getWords(guild);
     };
 };
