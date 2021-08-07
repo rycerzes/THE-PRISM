@@ -15,6 +15,8 @@ export default class extends Command {
             usage: ['[member]', '[member] (duration) (reason)'],
             preconditions: ['moderator', 'guild']
         });
+
+        this.module = this.client.modules.get('text-mod')!;
     };
 
     public async run(message: Message, args: Args) {
