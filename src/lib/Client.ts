@@ -69,19 +69,6 @@ export class Client extends SapphireClient {
         return this.modules = new Map([...map.entries()].sort((a: [string, BaseModule], b: [string, BaseModule]) => a[1].id - b[1].id));
     };
 
-    public setSlash() {
-        
-        this.application?.commands.set(this.stores.get('commands')?.map(c => {
-            const { name, description, options, defaultPermission = true } = c.slash;
-            return {
-                name,
-                description,
-                options,
-                defaultPermission
-            } as ApplicationCommandData
-        }))
-    };
-
     public async newModuleManager(guild: Guild): Promise<GuildModuleManager> {
 
         return await this.guildModuleManagers.set(guild.id, new GuildModuleManager(guild, this)).get(guild.id)!.init();
