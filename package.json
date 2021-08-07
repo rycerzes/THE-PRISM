@@ -15,7 +15,7 @@
     "#types/*": "./dist/lib/types/*.js"
   },
   "dependencies": {
-    "@sapphire/framework": "^2.0.0-next.9790c48d.0",
+    "@sapphire/framework": "^2.0.0-next.eebecfb6.0",
     "canvas": "^2.8.0",
     "color": "^3.2.1",
     "discord.js": "^13.0.0",
