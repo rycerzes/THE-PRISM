@@ -62,6 +62,7 @@ export default class extends Command {
                         timestamp: Date.now()
                     }
                 ]});
+                
             } else {
 
                 return message.reply({ allowedMentions: { repliedUser: false }, content: 'Unable to resolve role.'});
