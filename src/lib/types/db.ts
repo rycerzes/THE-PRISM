@@ -25,7 +25,7 @@ export type Member = {
 
 export type Guild = {
     guild_id: Snowflake,
-    prefix: string,
+    prefix: string | null,
     counting_channel_id: Snowflake | null,
     wording_channel_id: Snowflake | null,
     logs_channel_id: Snowflake | null,
@@ -56,20 +56,11 @@ export type Config = {
 
     level_up_text: string | null;
     levels_message_embed: boolean;
+    level_role_stack: boolean;
 };
 
-export type ConfigOptions = {
-    logs_channel_id?: Snowflake | null;
-    levels_channel_id?: Snowflake | null;
-    calls_channel_id?: Snowflake | null;
-    pins_channel_id?: Snowflake | null;
-    counting_channel_id?: Snowflake | null;
-
-    level_up_text?: string | null;
-    levels_message_embed?: boolean;
-}
-
 export type LevelRole = {
+    level_role_id: number;
     guild_id: Snowflake;
     level: number;
     role_id: Snowflake;
@@ -88,4 +79,13 @@ export type Mute = {
     reason: string;
     ends: number;
     started: number;
+};
+
+export type Call = {
+    call_id: number;
+    guild_id: Snowflake;
+    user_id: Snowflake;
+    voice_channel_id: Snowflake;
+    text_channel_id: Snowflake;
+    persistent: boolean;
 }
