@@ -4,10 +4,8 @@ import { ClientUtil } from '#util/ClientUtil'
 import { promises as fsp } from 'fs';
 import { colors, defaults } from '#util/config';
 import type { BaseModule } from './structures/BaseModule';
-import type { ApplicationCommandData, ClientOptions, Guild } from 'discord.js';
+import type { ClientOptions, Guild, Message } from 'discord.js';
 import { GuildModuleManager } from '#structures/GuildModuleManager';
-
-const PREFIX = '-';
 
 export class Client extends SapphireClient {
 
@@ -23,8 +21,9 @@ export class Client extends SapphireClient {
         this.guildModuleManagers = new Map();
         this.colors = colors;
         this.defaults = defaults;
-        this.fetchPrefix = () => {
-            return PREFIX;
+        this.fetchPrefix = async (message: Message) => {
+            if (!message.guild) return defaults.prefix;
+            return (await this.db.query(`SELECT prefix FROM guilds WHERE guild_id = ${message.guild!.id}`)).rows[0].prefix;
         };
 
     };
