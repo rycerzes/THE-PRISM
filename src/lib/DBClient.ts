@@ -1,8 +1,8 @@
 import { durationToMilli } from '#util/functions';
-import type { Guild as Guild, GuildMember, User } from 'discord.js';
+import type { Guild as Guild, GuildMember, Role, Snowflake, TextChannel, User, VoiceChannel } from 'discord.js';
 import pg from 'pg';
 import type { Client } from './Client';
-import type { Member, Guild as DbGuild, User as DbUser, Config, Mute, WordFilter } from './types/db';
+import type { Member, Guild as DbGuild, User as DbUser, Config, Mute, WordFilter, Call, LevelRole } from './types/db';
 import type { duration } from './types/util';
 
 export interface DBClient {
@@ -175,4 +175,41 @@ export class DBClient extends pg.Client {
 
         return await this.getWords(guild);
     };
+
+    async createCall(guild: Guild, user: User, voiceChannel: VoiceChannel, textChannel: TextChannel): Promise<Call> {
+        return (await this.query(`INSERT INTO calls (guild_id, user_id, voice_channel_id, text_channel_id) VALUES (${guild.id}, ${user.id}, ${voiceChannel.id}, ${textChannel.id}) RETURNING *`)).rows[0];
+    };
+
+    async getCall(channelId: Snowflake): Promise<Call | undefined> {
+        return (await this.query(`SELECT * FROM calls WHERE text_channel_id = ${channelId} OR voice_channel_id = ${channelId}`)).rows[0];
+    };
+
+    async deleteCall(id: number) {
+        return this.query(`DELETE FROM calls WHERE call_id = ${id}`)
+    };
+
+    async addLevelRole(level: number, role: Role): Promise<LevelRole> {
+        return (await this.query(`INSERT INTO level_roles (guild_id, level, role_id) VALUES (${role.guild.id}, ${level}, ${role.id}) RETURNING *`)).rows[0];
+    };
+
+    async deleteLevelRole(id: number) {
+        return this.query(`DELETE FROM level_roles WHERE level_role_id = ${id}`)
+    };
+
+    async getLevelRole(id: number): Promise<LevelRole | undefined> {
+        return (await this.query(`SELECT * FROM level_roles WHERE level_role_id = ${id}`)).rows[0];
+    };
+
+    async getLevelRoles(guild: Guild): Promise<LevelRole[]> {
+        return (await this.query(`SELECT * FROM level_roles WHERE guild_id = ${guild.id}`)).rows;
+    };
+
+    async toggleStackLevelRoles(guild: Guild): Promise<boolean> {
+        return (await this.query(`UPDATE config SET level_role_stack = NOT level_role_stack WHERE guild_id = ${guild.id} RETURNING level_role_stack`)).rows[0].level_role_stack;
+    };
+
+    async stackLevelRoles(guild: Guild): Promise<boolean> {
+        const stack = (await this.query(`SELECT level_role_stack FROM config WHERE guild_id = ${guild.id}`)).rows[0].level_role_stack;
+        return stack;
+    }
 };
