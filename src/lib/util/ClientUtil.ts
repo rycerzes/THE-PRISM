@@ -1,5 +1,5 @@
 import type { Client } from "#lib/Client";
-import type { ColorResolvable, Guild, GuildMember, Snowflake, TextChannel, User } from 'discord.js';
+import type { Collection, ColorResolvable, Guild, GuildMember, Role, Snowflake, TextChannel, User } from 'discord.js';
 import { RegEx } from '#util/constants';
 import { levelCalc, xpCalc, groupDigits } from './functions.js'
 import { canvasRGBA } from "stackblur-canvas";
@@ -91,6 +91,30 @@ export class ClientUtil {
         return username.includes(str) || displayName.includes(str) || ((username.includes(str.split('#')[0]) || displayName.includes(str.split('#')[0])) && discrim.includes(str.split('#')[1]));
 
     };
+
+    resolveRole(text: string, roles: Collection<Snowflake, Role>, caseSensitive = false, wholeWord = false) {
+        return roles.get(text) || roles.find(role => this.checkRole(text, role, caseSensitive, wholeWord));
+    }
+
+    checkRole(text: string, role: Role, caseSensitive = false, wholeWord = false) {
+        if (role.id === text) return true;
+
+        const reg = /<@&(\d{17,19})>/;
+        const match = text.match(reg);
+
+        if (match && role.id === match[1]) return true;
+
+        text = caseSensitive ? text : text.toLowerCase();
+        const name = caseSensitive ? role.name : role.name.toLowerCase();
+
+        if (!wholeWord) {
+            return name.includes(text)
+            || name.includes(text.replace(/^@/, ''));
+        }
+
+        return name === text
+        || name === text.replace(/^@/, '');
+    }
 
     public async resolveMessage(url: string) {
         try {

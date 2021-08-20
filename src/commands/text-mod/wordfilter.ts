@@ -10,9 +10,11 @@ export default class extends Command {
             name: 'wordfilter',
             description: 'Modify/View the wordfilter',
             usage: [''],
-            preconditions: ['guild', 'moderator'],
+            preconditions: ['guild', 'admin'],
             aliases: ['wf']
         });
+
+        this.module = this.client.modules.get('text-mod')!;
     };
 
     getComponents(disabled: boolean = false): MessageActionRowOptions[] {
@@ -39,7 +41,7 @@ export default class extends Command {
                 ]
             }
         ]
-    }
+    };
 
     public async run(message: Message) {
 
@@ -53,7 +55,7 @@ export default class extends Command {
         let displayMsg = await message.reply({ allowedMentions: { repliedUser: false } , embeds: [ await this.embed(words, guild) ], components: this.getComponents() });
 
         // Collector
-        const collector = displayMsg.createMessageComponentCollector({ filter: interaction => interaction.componentType === 'BUTTON' && interaction.user.id === message.author.id, max: 10, time: 300 * 1000 });
+        const collector = displayMsg.createMessageComponentCollector({ filter: interaction => interaction.componentType === 'BUTTON' && interaction.user.id === message.author.id, time: 300 * 1000 });
 
         collector.on('collect', async interaction => {
 

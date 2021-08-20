@@ -7,5 +7,5 @@ export const colors = {
 };
 
 export const defaults = {
-    
+    prefix: '-'
 }

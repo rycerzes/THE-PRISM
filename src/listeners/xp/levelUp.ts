@@ -1,3 +1,4 @@
+import type { LevelRole } from "#lib/types/db";
 import { Listener } from "#structures/Listener";
 import { messages } from "#util/constants";
 import type { PieceContext } from "@sapphire/framework";
@@ -11,12 +12,12 @@ export default class extends Listener {
         });
     };
 
-    public async run(member: GuildMember, level: number) {
+    public async run(member: GuildMember, level: number, broadcast: boolean = true) {
 
-        const { levels_channel_id: channelId, level_up_text: text, levels_message_embed: isEmbed } = await this.db.fetchConfig(member.guild);
+        const { levels_channel_id: channelId, level_up_text: text, levels_message_embed: isEmbed, level_role_stack: stack } = await this.db.fetchConfig(member.guild);
 
         // Send Message
-        if (channelId) {
+        if (channelId && broadcast) {
 
             const channel = await member.guild.channels.fetch(channelId) as TextChannel;
 
@@ -46,7 +47,26 @@ export default class extends Listener {
 
         };
 
+        let levelRoles = (await this.db.getLevelRoles(member.guild)).sort((a, b) => b.level - a.level)//.filter(r => r.level <= level);
 
+        let add: LevelRole[] = []; let rem: LevelRole[] = [];
+
+        if (stack) {
+
+            add = levelRoles.filter(r => r.level <= level && !member.roles.cache.has(r.role_id));
+            rem = levelRoles.filter(r => r.level > level);
+
+        } else {
+
+            const max = levelRoles.filter(r => r.level <= level)[0].level;
+
+            add = levelRoles.filter(r => r.level === max && !member.roles.cache.has(r.role_id))
+            rem = levelRoles.filter(r => r.level !== max)
+
+        };
+        
+        await member.roles.remove(rem.map(r => r.role_id))
+        await member.roles.add(add.map(r => r.role_id));
 
     };
 };

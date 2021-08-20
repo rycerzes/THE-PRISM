@@ -9,6 +9,8 @@ export default class extends Command {
             description: 'View user info',
             usage: ['(user)']
         });
+
+        this.module = this.client.modules.get('info')!
     };
 
     public async run(message: Message, args: Args) {

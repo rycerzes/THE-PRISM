@@ -12,6 +12,8 @@ export default class extends Command {
             preconditions: ['moderator', 'guild'],
             aliases: ['bulkdelete']
         });
+
+        this.module = this.client.modules.get('text-mod')!;
     };
 
     public async run(message: Message, args: Args) {

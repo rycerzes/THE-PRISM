@@ -12,6 +12,6 @@ export default class extends Precondition {
     };
 
     public run(message: Message) {
-        return message.guild === null ? this.error({ message: 'Command is guild only.' }) : this.ok();
+        return !message.guild ? this.error({ message: 'Command is guild only.' }) : this.ok();
     };
 }

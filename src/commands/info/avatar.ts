@@ -11,6 +11,8 @@ export default class extends Command {
             aliases: ['av'],
             preconditions: ['guild']
         });
+
+        this.module = this.client.modules.get('info')!
     };
 
     public async run(message: Message, args: Args) {

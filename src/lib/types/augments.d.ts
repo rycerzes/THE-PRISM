@@ -6,6 +6,7 @@ import type { GuildModuleManager } from '#structures/GuildModuleManager';
 import type { ClientUtil } from '#util/ClientUtil';
 import type { RankingMessage } from '#structures/RankingMessage';
 import { Client as BotClient} from '#lib/Client';
+import type { LevelRole } from './db';
 
 declare module 'discord.js' {
     interface Client {
@@ -80,12 +81,15 @@ declare module '@sapphire/framework' {
         configChannel: string;
         null: boolean;
         event: string;
+        members: GuildMember[];
+        addRemoveView: string;
+        levelrole: LevelRole
     }
 
     interface ArgumentContext {
         map: Map<any, any>;
         rankingMessage: RankingMessage;
-
+        
         resolve({}: any): any;
     }
 }

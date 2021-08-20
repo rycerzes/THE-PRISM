@@ -16,6 +16,8 @@ export default class extends Precondition {
         if (!message.guild) return this.ok();
 
         const { mod_role_id } = await this.db.fetchGuild(message.guild);
+
+        console.log(mod_role_id)
         
         return mod_role_id ? message.member!.roles.cache.has(mod_role_id) ? this.ok() : this.error({ message: 'This command is Moderator only.' }) : this.error({ message: 'This command is Moderator only.' });
         

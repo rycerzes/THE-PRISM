@@ -8,13 +8,18 @@ export default class extends Command {
         super(context, { 
             name: 'ping',
             usage: [''],
+            preconditions: ['guild'],
             description: 'Returns the ping'
         });
+
     }
 
     public module = this.client.modules.get('base')!;
 
     public async run(message: Message) {
+
+        console.log(this.preconditions)
+
         const sent = await message.reply('Pinging...');
         const ping = sent.createdTimestamp - message.createdTimestamp;
         return sent.edit(`Pong! \`${ping} ms\``);

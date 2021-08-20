@@ -11,6 +11,8 @@ export default class extends Command {
             usage: ['[text]', '(channel) [text]'],
             aliases: ['echo']
         });
+
+        this.module = this.client.modules.get('util')!;
     };
 
     public module = this.client.modules.get('util')!;
