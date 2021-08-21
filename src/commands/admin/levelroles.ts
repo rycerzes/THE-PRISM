@@ -185,7 +185,7 @@ export default class extends Command {
             fields: [
                 {
                     name: 'TYPE',
-                    value:  await this.getTypeField(guild)
+                    value:  `When a member reaches a new level role:\n${await this.getTypeField(guild)}`
                 }
             ],
             color: await this.client.util.guildColor(guild)
