@@ -88,4 +88,14 @@ export type Call = {
     voice_channel_id: Snowflake;
     text_channel_id: Snowflake;
     persistent: boolean;
+};
+
+export type Responder = {
+    responder_id: number;
+    guild_id: Snowflake;
+    regex: string;
+    text_response: string | null;
+    reaction_response: Snowflake | string | null;
+    match_any: boolean;
+
 }

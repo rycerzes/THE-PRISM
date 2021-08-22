@@ -5,7 +5,9 @@ export const RegEx = {
         channel: /^(?:<#)?(\d{17,19})>?$/
     },
 
-    times: /([1-9][0-9]*(d|h|m))\s*/gi
+    emoji: /<?(a)?:?(\w{2,32}):(\d{17,19})>?/i,
+
+    times: /([1-9][0-9]*(d|h|m))\s*/gi,
 };
 
 export const blankField = {

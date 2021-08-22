@@ -2,7 +2,7 @@ import { durationToMilli } from '#util/functions';
 import type { Guild as Guild, GuildMember, Role, Snowflake, TextChannel, User, VoiceChannel } from 'discord.js';
 import pg from 'pg';
 import type { Client } from './Client';
-import type { Member, Guild as DbGuild, User as DbUser, Config, Mute, WordFilter, Call, LevelRole } from './types/db';
+import type { Member, Guild as DbGuild, User as DbUser, Config, Mute, WordFilter, Call, LevelRole, Responder } from './types/db';
 import type { duration } from './types/util';
 
 export interface DBClient {
@@ -212,4 +212,22 @@ export class DBClient extends pg.Client {
         const stack = (await this.query(`SELECT level_role_stack FROM config WHERE guild_id = ${guild.id}`)).rows[0].level_role_stack;
         return stack;
     }
+
+    async fetchResponders(guild: Guild): Promise<Responder[]> {
+        return (await this.query(`SELECT * FROM responder WHERE guild_id = ${guild.id}`)).rows;
+    };
+
+    async addResponder(guild: Guild, text: string, response: { text: string | null, reaction: string | Snowflake | null, matchAny: boolean }): Promise<Responder> {
+        return (await this.query(`INSERT INTO responder (guild_id, regex, text_response, reaction_response, match_any) VALUES (
+            ${guild.id},
+            '${text}',
+            ${response.text},
+            ${response.reaction},
+            ${response.matchAny}
+        ) RETURNING *`)).rows[0];
+    };
+
+    async deleteResponder(id: number) {
+        return (await this.query(`DELETE FROM responder WHERE responder_id = ${id}`))
+    };
 };
