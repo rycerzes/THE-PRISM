@@ -1,4 +1,4 @@
-import type { ColorResolvable, Message, MessageActionRowOptions, MessageEmbedOptions, TextChannel, User } from "discord.js";
+import type { ColorResolvable, Message, MessageActionRowOptions, MessageEmbedOptions, NewsChannel, TextChannel, ThreadChannel, User } from "discord.js";
 import { pad } from '#util/functions';
 import type { Client } from "#lib/Client";
 
@@ -7,11 +7,12 @@ export interface RankingMessage {
     client: Client;
     message: Message;
     author: User;
-    channel: TextChannel;
+    channel: TextChannel | NewsChannel | ThreadChannel;
     array: unknown[];
     page: number;
     perPage: number;
     title: string | undefined;
+    description: string;
     color: ColorResolvable | undefined;
     buttons: Boolean | undefined;
 
@@ -22,11 +23,13 @@ export interface RankingMessage {
 export class RankingMessage {
 
     constructor(client: Client, {perPage = 10, ...options }: {
-        channel: TextChannel,
+
+        channel: TextChannel | NewsChannel | ThreadChannel,
         author: User,
         page?: number,
         perPage?: number,
         title?: string,
+        description?: string,
         color?: ColorResolvable,
         buttons?: Boolean,
         array: unknown[],
@@ -43,6 +46,7 @@ export class RankingMessage {
             array,
             page = 1,
             title,
+            description = '',
             color,
             buttons,
 
@@ -61,12 +65,15 @@ export class RankingMessage {
         this.page = page;
         this.perPage = perPage;
         this.title = title;
+        this.description = description
         this.color = color;
         this.buttons = buttons;
-
     };
 
     public async send(page?: number): Promise<void> {
+
+        if (this.page > this.maxPages) this.page = this.maxPages;
+        if (this.page < 1) this.page = 1;
 
         this.message = await this.channel.send({ embeds: [ await this.embed(page || this.page)], components: this.buttons ? this.components : [] });
 
@@ -116,7 +123,7 @@ export class RankingMessage {
 
         return {
             title: this.title,
-            description: arr.join('\n'),
+            description: `${this.description}\n${arr.join('\n')}`,
             color: this.color || await this.client.util.guildColor(this.channel.guild),
             footer: {
                 text: `Page: ${page} of ${this.maxPages}`
@@ -147,14 +154,14 @@ export class RankingMessage {
                         type: 'BUTTON',
                         emoji: '867081880834146385',
                         style: 'SECONDARY',
-                        disabled: this.page === 1
+                        disabled: this.page <= 1
                     },
                     {
                         customId: 'rankDown',
                         type: 'BUTTON',
                         emoji: '867081881185943612',
                         style: 'SECONDARY',
-                        disabled: this.page === this.maxPages
+                        disabled: this.page >= this.maxPages
                     },
                     {
                         customId: 'rankExit',

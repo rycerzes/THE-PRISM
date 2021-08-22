@@ -78,7 +78,22 @@ export function durationToMilli(duration: duration): number | null {
     n += duration.h * 60*60*1000;
     n += duration.m * 60*1000;
     return n || null;
-}
+};
+
+export function milliToDuration(milli: number): duration {
+
+    let duration = { d: 0, h: 0, m:0 };
+
+    // Ramaining hours
+    let rHours = milli % (24*60*60*1000);
+    duration.d = Math.floor(milli/(24*60*60*1000));
+    // remaining minutes
+    let rMin = rHours % (60*60*1000);
+    duration.h = Math.floor(rHours/(60*60*1000));
+    duration.m = Math.floor(rMin/(60*1000));
+
+    return duration
+};
 
 // //     UCT: function UCT(date = Date.now(), milliseconds = false) {
 // //         let arr = []

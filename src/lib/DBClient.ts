@@ -124,6 +124,10 @@ export class DBClient extends pg.Client {
         return (await this.query(`SELECT * FROM mutes WHERE mute_id = ${id}`)).rows[0];
     };
 
+    async getMutes(member: GuildMember): Promise<Mute[]> {
+        return (await this.query(`SELECT mute_id, mutes.member_id, reason, ends, started FROM mutes JOIN members ON mutes.member_id = members.member_id WHERE members.user_id = ${member.user.id} AND members.guild_id = ${member.guild.id}`)).rows;
+    };
+
     async trackMute({ mute_id, member_id }: Mute) {
         
         const { user_id, guild_id } = (await this.getMember(member_id))!;
