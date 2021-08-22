@@ -85,7 +85,7 @@ export default class extends Command {
                                 components: [
                                     {
                                         type: 'BUTTON',
-                                        style: 'PRIMARY',
+                                        style: 'SECONDARY',
                                         label: 'ANY',
                                         customId: 'matchAny'
                                     },
