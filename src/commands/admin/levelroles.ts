@@ -67,12 +67,9 @@ export default class extends Command {
 
                 case 'lrRemove':
 
-                    sent = await interaction.channel?.send({ content: 'Select which level roles to remove', components: await this.selectMenu(await message.guild!.roles.fetch())  });
+                    sent = await interaction.channel?.send({ content: 'Select which level roles to remove', components: await this.selectMenu(await message.guild!.roles.fetch()) });
 
-                    const int = await sent?.awaitMessageComponent({ filter: interaction => ['lrRemCancel', 'lrSelectMenu'] && interaction.user.id === message.author.id, time: 60*1000 }).catch(() => {
-                        console.log('not caught');
-                        return undefined;
-                    });
+                    const int = await sent?.awaitMessageComponent({ filter: interaction => ['lrRemCancel', 'lrSelectMenu'] && interaction.user.id === message.author.id, time: 60*1000 }).catch(() => undefined);
 
                     if (!int || !int.isSelectMenu()) break;
 
@@ -147,7 +144,7 @@ export default class extends Command {
                 components: [
                     {
                         type: 'SELECT_MENU',
-                        options: [...this.levelRoles].sort((a, b) => a.level - b.level).map(r => {
+                        options: [...this.levelRoles].sort((a, b) => a.level - b.level).splice(0, 24).map(r => {
 
                             const option = {
                                 label: `ID: ${r.level_role_id} | ${roles.find(role => role.id === r.role_id)?.name}`,
@@ -157,6 +154,7 @@ export default class extends Command {
                             return option;
                         }),
                         customId: 'lrSelectMenu',
+                        placeholder: 'Select Level Roles to remove...',
                         minValues: 1,
                         maxValues: this.levelRoles.length
                     }
