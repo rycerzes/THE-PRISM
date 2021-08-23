@@ -19,9 +19,11 @@ export default class extends Command {
         
         let arg = await args.rest('string');
 
+        let client = this.client
+
         const code = arg.split('```')[1]
         
-        message.reply(eval(code));
+        message.reply(await eval(code));
 
         
 
