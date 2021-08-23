@@ -90,6 +90,9 @@ export default class extends Command {
         
         };
 
+        // Check if member is already muted.
+        if (await this.db.isMuted(member)) return message.reply({ allowedMentions: { repliedUser: false }, content: 'This member is already muted.' })
+
         const rest = await args.rest('string').catch(() => '');
 
         const { duration, reason } = this.parseStr(rest);
@@ -186,7 +189,7 @@ export default class extends Command {
         });
 
         // Reason
-        let reason = str.replace(reg, '')
+        let reason = str.replace(reg, '').trim();
 
         return { duration, reason }
 

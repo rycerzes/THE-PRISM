@@ -38,14 +38,17 @@ export default class extends Command {
             sort: (a: Mute, b: Mute) => a.started - b.started,
 
             display: (mute: Mute) => {
-                let arr = [`Muted on: <t:${Math.floor(mute.started/1000)}:d>`]
+                let arr = []
+
+                if (!mute.ends || mute.ends > Date.now()) arr.push(`**ACTIVE MUTE** <t:${Math.floor(mute.started/1000)}:R>`)
+                else arr.push(`Muted on: <t:${Math.floor(mute.started/1000)}:d>`);
                 
                 if (mute.reason) {
                     arr.push(`Reason: ${mute.reason}`);
                 };
                 if (mute.ends) {
                     let duration = milliToDuration(mute.ends-mute.started);
-                    arr.push(`Duration: ${duration.d ? `${duration.d}d, ` : ''}${duration.h ? `${duration.h}h, ` : ''}${duration.m ? `${duration.m}m`: ''}`);
+                    arr.push(`Duration: ${(duration.d === 0 && duration.h === 0 && duration.m) === 0 ? '< 1m' : `${duration.d ? `${duration.d}d, ` : ''}${duration.h ? `${duration.h}h, ` : ''}${duration.m ? `${duration.m}m`: ''}`}`);
                 };
 
                 if (arr.length > 1) {

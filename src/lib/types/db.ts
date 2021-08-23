@@ -76,8 +76,8 @@ export type WordFilter = {
 export type Mute = {
     mute_id: number;
     member_id: number;
-    reason: string;
-    ends: number;
+    reason: string | null;
+    ends: number | null;
     started: number;
 };
 

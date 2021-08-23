@@ -1,3 +1,4 @@
+import { colors } from '#util/config';
 import { durationToMilli } from '#util/functions';
 import type { Guild as Guild, GuildMember, Role, Snowflake, TextChannel, User, VoiceChannel } from 'discord.js';
 import pg from 'pg';
@@ -120,15 +121,37 @@ export class DBClient extends pg.Client {
 
     };
 
+    async unmute(member: GuildMember): Promise<Mute[]> {
+        const { member_id } =await this.fetchMember(member);
+        return (await this.query(`UPDATE mutes SET ends = ${Date.now()} WHERE member_id = ${member_id} AND (ends > ${Date.now()} OR ends IS NULL) RETURNING *`)).rows;
+    };
+
+    async isMuted(member: GuildMember): Promise<boolean> {
+        const { member_id } = await this.fetchMember(member);
+        const active = (await this.query(`SELECT * FROM mutes WHERE member_id = ${member_id} AND (ends > ${Date.now()} OR ends IS NULL)`)).rows;
+        return active.length > 0
+    };
+
     async getMute(id: number): Promise<Mute | undefined> {
         return (await this.query(`SELECT * FROM mutes WHERE mute_id = ${id}`)).rows[0];
     };
 
     async getMutes(member: GuildMember): Promise<Mute[]> {
-        return (await this.query(`SELECT mute_id, mutes.member_id, reason, ends, started FROM mutes JOIN members ON mutes.member_id = members.member_id WHERE members.user_id = ${member.user.id} AND members.guild_id = ${member.guild.id}`)).rows;
+        const { member_id } = await this.fetchMember(member);
+        return (await this.query(`SELECT * FROM mutes WHERE member_id = ${member_id}`)).rows;
     };
 
-    async trackMute({ mute_id, member_id }: Mute) {
+    async getActiveMutes(member?: GuildMember): Promise<Mute[]> {
+
+        if (member) {
+            const { member_id } = await this.fetchMember(member);
+            return (await this.query(`SELECT * FROM mutes WHERE member_id = ${member_id} AND ends > ${Date.now()}`)).rows;
+        }
+
+        return (await this.query(`SELECT * FROM mutes WHERE ends > ${Date.now()}`)).rows;
+    };
+
+    async trackMute({ mute_id, member_id }: { mute_id: number, member_id: number }) {
         
         const { user_id, guild_id } = (await this.getMember(member_id))!;
 
@@ -136,17 +159,27 @@ export class DBClient extends pg.Client {
         const member = await guild.members.fetch(user_id);
         const role = await guild.roles.fetch((await this.fetchGuild(guild)).mute_role_id!);
 
-        const mute = await this.getMute(mute_id);
-
-        if (mute && role) {
+        if (role) {
     
             console.log(`Tracking mute for ${member.user.tag} in ${member.guild.name}`);
 
-            let interval = setInterval(() => {
+            let interval = setInterval(async () => {
 
-                if (Date.now() > mute.ends) {
-                    member.roles.remove(role)
+                const mute = await this.getMute(mute_id);
+
+                // Mute already ended
+                if (!mute || !mute.ends) {
                     clearInterval(interval);
+                    return;
+                };
+
+                // Mute ends
+                if (Date.now() > mute.ends!) {
+                    member.roles.remove(role)
+                    this.muteEndAlert(mute)
+                    clearInterval(interval);
+
+                // Still active
                 } else {
                     member.roles.add(role)
                 }
@@ -156,7 +189,20 @@ export class DBClient extends pg.Client {
 
 
         } else return;
+    };
 
+    async muteEndAlert(mute: Mute) {
+
+        if (mute.ends! - mute.started < 2*60*1000) return;
+
+        const { user_id, guild_id } = (await this.query(`SELECT user_id FROM members WHERE member_id = ${mute.member_id}`)).rows[0];
+
+        return (await this.client.users.fetch(user_id)).send({ embeds: [
+            {
+                description: `You've been unmuted in ${(await this.client.guilds.fetch(guild_id)).name}`,
+                color: colors.green
+            }
+        ]});
 
     };
 
