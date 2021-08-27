@@ -23,7 +23,7 @@ export default class extends Command {
 
         else {
 
-            const unmuted = await this.db.unmute(member);
+            await this.db.unmute(member);
 
             const { mute_role_id } = await this.db.fetchGuild(message.guild!);
 
