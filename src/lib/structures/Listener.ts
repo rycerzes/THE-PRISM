@@ -5,9 +5,8 @@ import type { BaseModule } from './BaseModule';
 export abstract class Listener extends Sapphire.Listener {
 
     public async checkModule(guild: Guild, moduleResolveable: string | number | BaseModule): Promise<boolean> {
-
-        return (await this.client.getModuleManager(guild)).isEnabled(moduleResolveable)
-
+        const manager = await this.client.getModuleManager(guild);
+        return manager.isEnabled(moduleResolveable);
     };
 
     get client() {

@@ -14,7 +14,7 @@ export default class extends Listener {
 
         const guild = message.guild;
 
-        if (!guild || !this.checkModule(guild, 'text-mod')) return;
+        if (!guild || !await this.checkModule(guild, 'text-mod')) return;
 
         const words = await this.db.getWords(guild);
 

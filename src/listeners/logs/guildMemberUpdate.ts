@@ -14,7 +14,7 @@ export default class extends Listener {
 
     public async run(oldMember: GuildMember, newMember: GuildMember) {
 
-        if (!this.checkModule(newMember.guild, 'logs')) return;
+        if (!await this.checkModule(newMember.guild, 'logs')) return;
 
         const channelID = (await this.db.fetchConfig(newMember.guild)).logs_channel_id;
 

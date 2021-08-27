@@ -17,7 +17,7 @@ export default class extends Listener {
 
         const member = newState.member;
 
-        if (!member || !this.checkModule(member.guild, 'logs')) return;
+        if (!member || !await this.checkModule(member.guild, 'logs')) return;
 
         const channelID = (await this.db.fetchConfig(member.guild)).logs_channel_id;
 

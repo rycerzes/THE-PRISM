@@ -15,7 +15,7 @@ export default class extends Listener {
         if (message.author.bot) return;
         
         const guild = message.guild;
-        if (!guild || !this.checkModule(guild, 'responder')) return;
+        if (!guild || !await this.checkModule(guild, 'responder')) return;
 
         const responders = await this.db.fetchResponders(guild);
 
