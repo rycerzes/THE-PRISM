@@ -37,5 +37,9 @@
     "build": "tsc",
     "watch": "tsc -w",
     "start": "node --experimental-specifier-resolution=node dist/index.js"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">= 7.0.0"
   }
 }
