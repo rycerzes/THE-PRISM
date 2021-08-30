@@ -1,5 +1,5 @@
 import { Command } from "#structures/Command";
-import { colors } from "#util/config";
+import { colors } from "#util/constants";
 import type { Args, PieceContext } from "@sapphire/framework";
 import type { Message } from "discord.js";
 
@@ -11,6 +11,8 @@ export default class extends Command {
             usage: ['[member]'],
             preconditions: ['guild', 'moderator'],
         });
+
+        this.module = this.client.modules.get('text-mod')!
     };
 
     public async run(message: Message, args: Args) {

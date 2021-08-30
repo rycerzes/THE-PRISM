@@ -12,10 +12,8 @@ export default class extends Command {
             aliases: ['echo']
         });
 
-        this.module = this.client.modules.get('util')!;
+        this.module = this.client.modules.get('utilities')!;
     };
-
-    public module = this.client.modules.get('util')!;
 
     public async run(message: Message, args: Args) {
 

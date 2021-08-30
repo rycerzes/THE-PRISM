@@ -5,8 +5,9 @@ import type { DBClient } from '#lib/DBClient';
 import type { GuildModuleManager } from '#structures/GuildModuleManager';
 import type { ClientUtil } from '#util/ClientUtil';
 import type { RankingMessage } from '#structures/RankingMessage';
-import { Client as BotClient} from '#lib/Client';
-import type { LevelRole } from './db';
+import { Client as BotClient, Client} from '#lib/Client';
+import type { Call, LevelRole, ReactionMessage } from './db';
+import type { Command } from '#structures/Command';
 
 declare module 'discord.js' {
     interface Client {
@@ -38,18 +39,26 @@ declare module 'discord.js' {
         invite: string;
 
     }
+
+    interface ClientEvents {
+
+        callEnd: [channel: TextChannel, call: Call];
+        guildMemberAddXp: [member: GuildMember, type: string];
+        guildMemberLevelUp: [member: GuildMember, level: number, broadcast: boolean];
+        help: [message: Message, piece?: { command?: Command, module?: BaseModule }];
+        pinCreate: [message: Message, channel: Channel];
+
+    }
 }
 
 declare module '@sapphire/framework' {
 
     interface Command {
-        module: BaseModule | null;
-        slash: {
-            name: string
-            description: string,
-            options: ApplicationCommandOptionData[] | undefined,
-            defaultPermission: boolean
-        }
+        module: BaseModule;
+        client: Client;
+        db: DBClient;
+        isDefault: boolean;
+        usage: string[];
     }
 
     interface CommandOptions {
@@ -83,7 +92,9 @@ declare module '@sapphire/framework' {
         event: string;
         members: GuildMember[];
         addRemoveView: string;
-        levelrole: LevelRole
+        levelrole: LevelRole;
+        reactionMessage: ReactionMessage;
+        guildMsg: Message
     }
 
     interface ArgumentContext {

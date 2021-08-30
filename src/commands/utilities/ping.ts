@@ -14,7 +14,7 @@ export default class extends Command {
 
     }
 
-    public module = this.client.modules.get('base')!;
+    public module = this.client.modules.get('utilities')!;
 
     public async run(message: Message) {
 

@@ -11,6 +11,8 @@ export default class extends Command {
             preconditions: ['guild', 'moderator'],
         });
 
+        this.module = this.client.modules.get('voice-mod')!
+
     };
 
     public async run(message: Message, args: Args) {

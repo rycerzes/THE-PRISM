@@ -12,7 +12,7 @@ export default class extends Command {
             preconditions: ['guild', 'admin']
         })
 
-        this.module = this.client.modules.get('base')!;
+        this.module = this.client.modules.get('admin')!
     }
 
     public async run(message: Message) {

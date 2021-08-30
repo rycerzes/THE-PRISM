@@ -19,6 +19,8 @@ export default class extends Command {
             preconditions: ['admin', 'guild'],
             aliases: ['autoresponder']
         });
+
+        this.module = this.client.modules.get('responder')!
     };
 
     public responders: Responder[] = []
@@ -263,7 +265,7 @@ export default class extends Command {
                             if (r.reaction_response) {
 
                                 // If Guild Emoji
-                                if (RegEx.emoji.test(r.reaction_response)) {
+                                if (RegEx.mentions.emoji.test(r.reaction_response)) {
 
                                     arr.push(r.reaction_response.split(":")[2].replace('>', ''))
                                 } else {

@@ -57,6 +57,8 @@ export type Config = {
     level_up_text: string | null;
     levels_message_embed: boolean;
     level_role_stack: boolean;
+
+    pins_reaction_count: number;
 };
 
 export type LevelRole = {
@@ -98,4 +100,17 @@ export type Responder = {
     reaction_response: Snowflake | string | null;
     match_any: boolean;
 
+};
+
+export type ReactionMessage = {
+    reaction_message_id: number;
+    guild_id: Snowflake;
+    message_url: string;
+};
+
+export type Reaction = {
+    reaction_id: number;
+    reaction_message_id: number;
+    emoji: string;
+    role_id: Snowflake;
 }

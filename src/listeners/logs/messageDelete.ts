@@ -1,5 +1,5 @@
 import { Listener } from "#structures/Listener";
-import { colors } from "#util/config";
+import { colors } from "#util/constants";
 import { logsEmbed } from "#util/functions";
 import type { PieceContext } from "@sapphire/framework";
 import type { Message, TextChannel } from "discord.js";

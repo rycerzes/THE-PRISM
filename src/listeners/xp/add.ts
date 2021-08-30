@@ -6,8 +6,8 @@ import type { GuildMember } from "discord.js";
 export default class extends Listener {
     constructor(context: PieceContext) {
         super(context, {
-            name: 'xp-add',
-            event: 'xp-add'
+            name: 'xp-guildMemberAddXp',
+            event: 'guildMemberAddXp'
         });
     };
     
@@ -31,7 +31,7 @@ export default class extends Listener {
         let newLevel = levelCalc(xp!)
 
         // Check for Level Up
-        if (newLevel > oldLevel!) this.client.emit('xp-levelUp', member, newLevel);
+        if (newLevel > oldLevel!) this.client.emit('xp-guildMemberLevelUp', member, newLevel);
 
         return;
 

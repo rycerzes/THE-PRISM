@@ -3,11 +3,11 @@ import { BaseModule } from '#structures/BaseModule';
 
 export class Module extends BaseModule {
     constructor(client: Client) {
-        super('util', client)
+        super('role-reactions', client)
     };
 
-    public id = 2;
-    public default = true;
-    public description = 'Utility commands.'
+    public id = 15;
+    public default = false;
+    public description = 'Role Reactions.'
     
 };

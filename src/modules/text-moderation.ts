@@ -7,7 +7,7 @@ export class Module extends BaseModule {
         super('text-mod', client)
     };
 
-    public id = 6;
+    public id = 7;
     public default = true;
     public description = 'Moderation for text channels.'
     

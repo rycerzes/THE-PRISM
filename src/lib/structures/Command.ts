@@ -5,11 +5,13 @@ import type { DBClient } from '#lib/DBClient';
 
 export abstract class Command extends Sapphire.Command {
 
-    constructor(context: PieceContext, { preconditions = [], ...options}: Sapphire.CommandOptions) {
+    constructor(context: PieceContext, { preconditions = [], usage, ...options}: Sapphire.CommandOptions) {
 
         (preconditions as PreconditionEntryResolvable[]).push('module')
 
-        super(context, { preconditions, ...options });
+        super(context, { preconditions, usage, ...options });
+
+        this.usage = usage;
         
     };
 

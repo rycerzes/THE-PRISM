@@ -1,6 +1,6 @@
 import type { duration } from "#lib/types/util";
 import { Command } from "#structures/Command";
-import { colors } from "#util/config";
+import { colors } from "#util/constants";
 import { RegEx } from "#util/constants";
 import { durationToMilli } from "#util/functions";
 import type { Args, PieceContext } from "@sapphire/framework";
@@ -119,10 +119,10 @@ export default class extends Command {
                             }
                         ],
                         color: colors.red,
-                        footer: {
-                            text: 'You\'ll be unmuted'
-                        },
-                        timestamp: Date.now() + milli
+                        // footer: {
+                        //     text: 'You\'ll be unmuted'
+                        // },
+                        // timestamp: Date.now() + milli
                     }
                 ]});
             }
@@ -130,7 +130,7 @@ export default class extends Command {
             return message.channel.send({ embeds: [
                 {
                     title: 'MEMBER MUTED',
-                    description: `${member} has been muted.`,
+                    description: `${member} has been muted$.`,
                     fields: [
                         {
                             name: 'REASON',
@@ -142,10 +142,10 @@ export default class extends Command {
                         }
                     ],
                     color: colors.red,
-                    footer: {
-                        text: milli ? 'Unmuted' : ''
-                    },
-                    timestamp: milli ? Date.now() + milli : Date.now()
+                    // footer: {
+                    //     text: milli ? 'Unmuted' : ''
+                    // },
+                    // timestamp: milli ? Date.now() + milli : Date.now()
                 }
             ]});
 

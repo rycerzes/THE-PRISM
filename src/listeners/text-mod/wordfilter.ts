@@ -5,7 +5,7 @@ import type { Message } from "discord.js";
 export default class extends Listener {
     constructor(context: PieceContext) {
         super(context, {
-            name: 'wordfilter',
+            name: 'text-mod-wordfilter',
             event: 'messageCreate'
         });
     };

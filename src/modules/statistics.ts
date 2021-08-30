@@ -3,10 +3,10 @@ import { BaseModule } from '#structures/BaseModule';
 
 export class Module extends BaseModule {
     constructor(client: Client) {
-        super('reactions', client)
+        super('statistics', client)
     };
 
-    public id = 14;
-    public default = false;
-    public description = 'Role Reactions.'
+    public id = 4;
+    public default = true;
+    public description = 'Message and Voice statistics'
 };

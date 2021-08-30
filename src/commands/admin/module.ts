@@ -1,5 +1,5 @@
 import { Command } from "#structures/Command";
-import { colors } from "#util/config";
+import { colors } from "#util/constants";
 import type { GuildModuleManager } from "#structures/GuildModuleManager";
 import type { Args, PieceContext } from "@sapphire/framework";
 import type { Message, ReplyMessageOptions } from "discord.js";
@@ -13,15 +13,17 @@ export default class extends Command {
             preconditions: ['guild', 'admin'],
         })
 
-        this.module = this.client.modules.get('base')!;
+        this.module = this.client.modules.get('admin')!
     }
 
     public async run(message: Message, args: Args) {
 
         const module = await args.pick('module').catch(() => undefined);
 
-        if (!module || module.id === 1) {
+        if (!module) {
             return message.reply({ content: 'Invalid module.', allowedMentions: { repliedUser: false }});
+        } else if (module.required) {
+            return message.reply({ content: 'You can\'t modify this module.', allowedMentions: { repliedUser: false }});
         } else {
 
             const option = await args.pick('moduleoption').catch(() => 'INFO');

@@ -12,6 +12,8 @@ export default class extends Command {
             preconditions: ['guild'],
             aliases: ['guild', 'serverinfo', 'guildinfo']
         });
+
+        this.module = this.client.modules.get('info')!
     };
 
     public async run(message: Message) {

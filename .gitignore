@@ -2,8 +2,8 @@
 
 # Debug
 /src/commands/owner/debug.ts
-/src/commands/owner/evalu.ts
-/src/commands/owner/event.ts
+/src/commands/owner/eval.ts
+/src/commands/owner/emit.ts
 
 # Ignore package lock
 package-lock.json

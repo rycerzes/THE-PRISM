@@ -1,9 +1,9 @@
-import { colors } from '#util/config';
+import { colors } from '#util/constants';
 import { durationToMilli } from '#util/functions';
 import type { Guild as Guild, GuildMember, Role, Snowflake, TextChannel, User, VoiceChannel } from 'discord.js';
 import pg from 'pg';
 import type { Client } from './Client';
-import type { Member, Guild as DbGuild, User as DbUser, Config, Mute, WordFilter, Call, LevelRole, Responder } from './types/db';
+import type { Member, Guild as DbGuild, User as DbUser, Config, Mute, WordFilter, Call, LevelRole, Responder, ReactionMessage, Reaction } from './types/db';
 import type { duration } from './types/util';
 
 export interface DBClient {
@@ -279,5 +279,43 @@ export class DBClient extends pg.Client {
 
     async deleteResponder(id: number) {
         return (await this.query(`DELETE FROM responder WHERE responder_id = ${id}`))
+    };
+
+    async getReactionMessages(guild: Guild): Promise<ReactionMessage[]> {
+        return (await this.query(`SELECT * FROM reaction_messages WHERE guild_id = ${guild.id}`)).rows;
+    };
+
+    async addReactionMessage(guild: Guild, url: string): Promise<ReactionMessage> {
+        return (await this.query(`INSERT INTO reaction_messages (guild_id, message_url) VALUES (${guild.id}, '${url}') RETURNING *`)).rows[0];
+    };
+
+    async deleteReactionMessage(id: number) {
+        return (await this.query(`DELETE FROM reaction_messages WHERE reaction_message_id = ${id}`));
+    };
+
+    async getReactionMessage({ id, url }: { id?: number, url?: string }): Promise<ReactionMessage | undefined> {
+        if (id) return (await this.query(`SELECT * FROM reaction_messages WHERE reaction_message_id = ${id}`)).rows[0];
+        if (url) return (await this.query(`SELECT * FROM reaction_messages WHERE message_url = '${url}'`)).rows[0];
+        else return;
+    };
+
+    async getReactions( reactionMessageID: number): Promise<Reaction[]> {
+        return (await this.query(`SELECT * FROM reactions WHERE reaction_message_id = ${reactionMessageID}`)).rows;
+    };
+
+    async addReaction(rm: ReactionMessage, role: Role, emoji: string | Snowflake): Promise<Reaction> {
+        const reaction = (await this.query(`INSERT INTO reactions (reaction_message_id, role_id, emoji) VALUES (${rm.reaction_message_id}, ${role.id}, '${emoji}') RETURNING *`)).rows[0];
+        await (await this.client.util.resolveMessage(rm.message_url))?.react(emoji);
+        return reaction;
+    };
+
+    async deleteReaction(id: number) {
+        return await this.query(`DELETE FROM reactions WHERE reaction_id = ${id}`)
+    };
+
+    async getReaction({ emoji, roleID }: { emoji?: string, roleID: Snowflake }): Promise<Reaction | undefined> {
+        if (emoji) return (await this.query(`SELECT * FROM reactions WHERE emoji = ${emoji}`)).rows[0];
+        if (roleID) return (await this.query(`SELECT * FROM reactions WHERE role_id = ${roleID}`)).rows[0];
+        return;
     };
 };

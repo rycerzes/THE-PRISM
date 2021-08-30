@@ -7,7 +7,7 @@ export class Module extends BaseModule {
         super('pins', client)
     };
 
-    public id = 17;
+    public id = 18;
     public default = false;
     public description = 'Let users react to messages to pin them to a channel'
     

@@ -75,23 +75,20 @@ export class RankingMessage {
         if (this.page > this.maxPages) this.page = this.maxPages;
         if (this.page < 1) this.page = 1;
 
-        this.message = await this.channel.send({ embeds: [ await this.embed(page || this.page)], components: this.buttons ? this.components : [] });
+        this.message = await this.channel.send({ embeds: [ await this.embed(page || this.page)], components: this.buttons ? this.components() : [] });
 
-        const collector = this.message.createMessageComponentCollector({ filter: interaction => interaction.user.id === this.author.id, componentType: 'BUTTON', time: 60000 });
+        const collector = this.message.createMessageComponentCollector({ filter: interaction => interaction.user.id === this.author.id, componentType: 'BUTTON', time: 60*1000 });
 
         collector.on('collect', async interaction => {
             if (!interaction.isButton()) return;
             switch (interaction.customId) {
                 case 'rankUp':
                     this.page--;
-                    interaction.update({ embeds: [await this.embed()], components: this.components });
+                    interaction.update({ embeds: [await this.embed()], components: this.components() });
                     break;
                 case 'rankDown':
                     this.page++;
-                    interaction.update({ embeds: [await this.embed()], components: this.components });
-                    break;
-                case 'rankExit':
-                    interaction.update({ components: [] });
+                    interaction.update({ embeds: [await this.embed()], components: this.components() });
                     break;
             };
         });
@@ -131,20 +128,7 @@ export class RankingMessage {
         };
     };
 
-    public async edit(page?: number): Promise<Message> {
-        return this.message.edit({ embeds: [await this.embed(page || this.page)], components: this.buttons ? this.components : [] })
-    }
-
-    public async exit() {
-        this.buttons = false;
-        return this.edit();
-    }
-
-    get maxPages(): number {
-        return Math.ceil(this.array.length / this.perPage)
-    }
-
-    get components(): MessageActionRowOptions[] {
+    public components(disabled = false): MessageActionRowOptions[] {
         return [
             {
                 type: 'ACTION_ROW',
@@ -154,23 +138,30 @@ export class RankingMessage {
                         type: 'BUTTON',
                         emoji: '867081880834146385',
                         style: 'SECONDARY',
-                        disabled: this.page <= 1
+                        disabled: disabled || this.page <= 1
                     },
                     {
                         customId: 'rankDown',
                         type: 'BUTTON',
                         emoji: '867081881185943612',
                         style: 'SECONDARY',
-                        disabled: this.page >= this.maxPages
-                    },
-                    {
-                        customId: 'rankExit',
-                        type: 'BUTTON',
-                        emoji: '✖️',
-                        style: 'DANGER'
+                        disabled: disabled || this.page >= this.maxPages
                     }
                 ]
             }
         ]
     }
+
+    public async edit({ page = this.page, disabled = false }: { page?: number, disabled?: boolean }): Promise<Message> {
+        return this.message.edit({ embeds: [await this.embed(page)], components: this.buttons ? this.components(disabled) : [] })
+    }
+
+    public async exit() {
+        return this.edit({ disabled: true });
+    };
+
+    get maxPages(): number {
+        return Math.ceil(this.array.length / this.perPage)
+    };
+
 };

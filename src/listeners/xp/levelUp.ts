@@ -7,8 +7,8 @@ import type { GuildMember, TextChannel } from "discord.js";
 export default class extends Listener {
     constructor(context: PieceContext) {
         super(context, {
-            name: 'xp-levelUp',
-            event: 'xp-levelUp'
+            name: 'xp-guildMemberLevelUp',
+            event: 'guildMemberLevelUp'
         });
     };
 

@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@sapphire/discord.js-utilities": "^3.0.0-next.15fcf513.0",
-    "@sapphire/framework": "^2.0.0-next.27bbcfb4.0",
+    "@sapphire/framework": "^2.0.0-next.7a1c5c69.0",
     "canvas": "^2.8.0",
     "color": "^3.2.1",
     "discord.js": "^13.2.0-dev.1629461019.d6e6244",

@@ -6,7 +6,7 @@ export class Module extends BaseModule {
         super('calls', client)
     };
 
-    public id = 9;
+    public id = 10;
     public default = false;
     public description = 'Integrate custom user-calls.'
     

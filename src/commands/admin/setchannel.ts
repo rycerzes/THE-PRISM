@@ -12,6 +12,8 @@ export default class extends Command {
             preconditions: ['admin', 'guild'],
             aliases: ['channel']
         });
+
+        this.module = this.client.modules.get('admin')!
     };
 
     public async run(message: Message, args: Args) {

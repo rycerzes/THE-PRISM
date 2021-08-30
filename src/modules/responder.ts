@@ -6,7 +6,7 @@ export class Module extends BaseModule {
         super('responder', client)
     };
 
-    public id = 13;
+    public id = 14;
     public default = false;
     public description = 'Textchannel autoresponder'
 };

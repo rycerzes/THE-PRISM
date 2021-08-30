@@ -6,7 +6,7 @@ export class Module extends BaseModule {
         super('fun', client)
     };
 
-    public id = 10;
+    public id = 11;
     public default = false;
     public description = 'Just some fun commands :)'
 };

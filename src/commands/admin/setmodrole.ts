@@ -1,5 +1,5 @@
 import { Command } from "#structures/Command";
-import { colors } from "#util/config";
+import { colors } from "#util/constants";
 import type { Args, PieceContext } from "@sapphire/framework";
 import type { Message } from "discord.js";
 
@@ -12,6 +12,8 @@ export default class extends Command {
             aliases: ['modrole'],
             preconditions: ['admin', 'guild']
         });
+
+        this.module = this.client.modules.get('admin')!
     };
 
     public async run(message: Message, args: Args) {

@@ -2,7 +2,7 @@ import { SapphireClient } from '@sapphire/framework';
 import { DBClient } from '#lib/DBClient';
 import { ClientUtil } from '#util/ClientUtil'
 import { promises as fsp } from 'fs';
-import { colors, defaults } from '#util/config';
+import { colors, defaults } from '#util/constants';
 import type { BaseModule } from './structures/BaseModule';
 import type { ClientOptions, Guild, Message } from 'discord.js';
 import { GuildModuleManager } from '#structures/GuildModuleManager';

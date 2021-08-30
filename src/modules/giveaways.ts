@@ -6,7 +6,7 @@ export class Module extends BaseModule {
         super('giveaways', client)
     };
 
-    public id = 11;
+    public id = 12;
     public default = true;
     public description = 'Create giveaways for your servers.'
 };

@@ -1,5 +1,5 @@
 import { Command } from "#structures/Command";
-import { colors } from "#util/config";
+import { colors } from "#util/constants";
 import type { Args, PieceContext } from "@sapphire/framework";
 import type { Message, NewsChannel, TextChannel, ThreadChannel } from "discord.js";
 

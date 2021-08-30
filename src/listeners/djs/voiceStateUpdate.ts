@@ -21,7 +21,7 @@ export default class extends Listener {
 
         // Same / No channel
         if (oldState.channelId === newState.channelId) {
-            console.log(1)
+
         }
 
         // Join Channel
@@ -41,7 +41,7 @@ export default class extends Listener {
 
         // Switch Channel
         else if (oldState.channelId !== newState.channelId) {
-            console.log(4)
+
         }
 
     };

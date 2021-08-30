@@ -7,7 +7,7 @@ export class Module extends BaseModule {
         super('voice-mod', client)
     };
 
-    public id = 7;
+    public id = 8;
     public default = true;
     public description = 'Voice channel moderation'
     

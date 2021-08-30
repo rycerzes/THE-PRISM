@@ -13,7 +13,7 @@ export default class extends Command {
             preconditions: ['admin', 'guild']
         })
 
-        this.module = this.client.modules.get('base')!
+        this.module = this.client.modules.get('xp')!
         
     };
 

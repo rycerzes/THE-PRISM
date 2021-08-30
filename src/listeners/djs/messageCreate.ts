@@ -25,7 +25,7 @@ export default class extends Listener {
 
             // XP
             if ((Date.now() - (data.xp_last_message_timestamp || 0)) >= 10000) {
-                this.client.emit('xp-add', member, 'message');
+                this.client.emit('guildMemberAddXp', member, 'message');
             };
 
         };

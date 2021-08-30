@@ -6,7 +6,7 @@ export class Module extends BaseModule {
         super('counting', client)
     };
 
-    public id = 16;
+    public id = 17;
     public default = false;
     public description = 'Implements a counting game.'
     

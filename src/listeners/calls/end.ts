@@ -6,8 +6,8 @@ import type { TextChannel } from "discord.js";
 export default class extends Listener {
     constructor(context: PieceContext) {
         super(context, {
-            name: 'calls-end',
-            event: 'calls-end'
+            name: 'calls-callEnd',
+            event: 'callEnd'
         });
     };
 
@@ -40,7 +40,21 @@ export default class extends Listener {
         const collector = sent.createMessageComponentCollector({ filter: interaction => interaction.componentType === 'BUTTON' && interaction.customId === 'cancelEnd', max: 1, time: 15000 });
 
         collector.on('collect', interaction => {
-            interaction.deferUpdate();
+            interaction.update({ components: [
+                {
+                    type: 'ACTION_ROW',
+                    components: [
+                        {
+                            type: 'BUTTON',
+                            customId: 'cancelEnd',
+                            label: 'CANCELED',
+                            style: 'SECONDARY',
+                            disabled: true
+                        }
+                    ]
+                    
+                }
+            ]});
             clearTimeout(timeout);   
         });
 

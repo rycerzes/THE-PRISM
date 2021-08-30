@@ -6,7 +6,7 @@ export class Module extends BaseModule {
         super('embeds', client)
     };
 
-    public id = 12;
+    public id = 13;
     public default = true;
     public description = 'Create and edit custom embeds to make things look pretty.'
 };

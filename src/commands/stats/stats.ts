@@ -10,9 +10,11 @@ export default class extends Command {
             name: 'stats',
             description: 'View a member\'s stats for the server',
             usage: ['(member)'],
-            aliases: ['statistics'],
+            aliases: ['stat'],
             preconditions: ['guild'],
         });
+
+        this.module = this.client.modules.get('statistics')!;
     };
 
     public async run(message: Message, args: Args) {
