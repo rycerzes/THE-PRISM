@@ -29,7 +29,7 @@ export default class extends Command {
                 fields: [
                     {
                         name: '% OF COUNTS',
-                        value: `\`${Math.round(counting_counts!*100/guild.counting_count!)/100}%\``,
+                        value: `\`${Math.round(counting_counts!*10000/guild.counting_count!)/100}%\``,
                         inline: true
                     },
                     {
