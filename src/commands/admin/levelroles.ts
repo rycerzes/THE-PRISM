@@ -70,7 +70,7 @@ export default class extends Command {
 
                     sent = await interaction.channel?.send({ content: 'Select which level roles to remove', components: await this.selectMenu(await message.guild!.roles.fetch()) });
 
-                    const int = await sent?.awaitMessageComponent({ filter: interaction => ['lrRemCancel', 'lrSelectMenu'] && interaction.user.id === message.author.id, time: 60*1000 }).catch(() => undefined);
+                    const int = await sent?.awaitMessageComponent({ filter: (interaction: MessageComponentInteraction) => (interaction.isButton() || interaction.isSelectMenu()) && interaction.user.id === message.author.id, time: 60*1000 }).catch(() => undefined);
 
                     if (!int || !int.isSelectMenu()) break;
 

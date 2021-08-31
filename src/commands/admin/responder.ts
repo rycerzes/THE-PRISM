@@ -2,7 +2,7 @@ import type { Responder } from "#lib/types/db";
 import { Command } from "#structures/Command";
 import { RegEx } from "#util/constants";
 import type { PieceContext } from "@sapphire/framework";
-import type { ButtonInteraction, Guild, Message, MessageActionRowOptions, MessageComponentInteraction, MessageEmbedOptions, SelectMenuInteraction, Snowflake } from "discord.js";
+import { ButtonInteraction, Guild, Message, MessageActionRow, MessageComponentInteraction, MessageEmbedOptions, SelectMenuInteraction, Snowflake } from "discord.js";
 
 export type response = {
     text: string | null;
@@ -184,10 +184,10 @@ export default class extends Command {
         ];
     };
 
-    private components(disabled: boolean = false): MessageActionRowOptions[] {
+    private components(disabled: boolean = false): MessageActionRow[] {
 
         return [
-            {
+            new MessageActionRow({
                 type: 'ACTION_ROW',
                 components: [
                     {
@@ -196,7 +196,7 @@ export default class extends Command {
                         style: 'SUCCESS',
                         customId: 'rAdd',
                         emoji: '➕',
-                        disabled: disabled
+                        disabled
                     },
                     {
                         type: 'BUTTON',
@@ -204,19 +204,19 @@ export default class extends Command {
                         style: 'DANGER',
                         customId: 'rRemove',
                         emoji: '➖',
-                        disabled: disabled
+                        disabled
                     },
                 ]
-            }
+            })
         ];
     };
 
-    private responseComponents(response: response, disabled: boolean = false): MessageActionRowOptions[] {
+    private responseComponents(response: response, disabled: boolean = false): MessageActionRow[] {
 
         const confirmable = (!response.text && !response.reaction)
 
         return [
-            {
+            new MessageActionRow({
                 type: 'ACTION_ROW',
                 components: [
                     {
@@ -225,7 +225,7 @@ export default class extends Command {
                         emoji: '🔡',
                         label: 'TEXT',
                         style: 'SECONDARY',
-                        disabled: disabled
+                        disabled
                     },
                     {
                         type: 'BUTTON',
@@ -233,7 +233,7 @@ export default class extends Command {
                         emoji: '😁',
                         label: 'REACTION',
                         style: 'SECONDARY',
-                        disabled: disabled
+                        disabled
                     },
                     {
                         type: 'BUTTON',
@@ -244,15 +244,15 @@ export default class extends Command {
                         disabled: confirmable || disabled
                     }
                 ]
-            }
+            })
         ];
 
     };
 
-    private selectmenu(): MessageActionRowOptions[] {
+    private selectmenu(): MessageActionRow[] {
 
         return [
-            {
+            new MessageActionRow({
                 type: 'ACTION_ROW',
                 components: [
                     {
@@ -285,8 +285,8 @@ export default class extends Command {
                         maxValues: this.responders.length
                     }
                 ]
-            },
-            {
+            }),
+            new MessageActionRow({
                 type: 'ACTION_ROW',
                 components: [
                     {
@@ -296,7 +296,7 @@ export default class extends Command {
                         customId: 'rRemoveCancel',
                     }
                 ]
-            }
+            })
         ]
     };
 

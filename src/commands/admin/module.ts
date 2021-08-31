@@ -2,7 +2,7 @@ import { Command } from "#structures/Command";
 import { colors } from "#util/constants";
 import type { GuildModuleManager } from "#structures/GuildModuleManager";
 import type { Args, PieceContext } from "@sapphire/framework";
-import type { Message, ReplyMessageOptions } from "discord.js";
+import type { Message, MessageComponentInteraction, ReplyMessageOptions } from "discord.js";
 
 export default class extends Command {
     constructor(context: PieceContext) {
@@ -74,7 +74,7 @@ export default class extends Command {
 
                     let sent = await message.reply(await msg())
 
-                    const collector = sent.createMessageComponentCollector({ filter: interaction => interaction.user.id === message.author.id, time: 60000 });
+                    const collector = sent.createMessageComponentCollector({ filter: (interaction: MessageComponentInteraction) => interaction.user.id === message.author.id, time: 60000 });
 
                     collector.on('collect', async interaction => {
                         if (!interaction.isButton()) return;

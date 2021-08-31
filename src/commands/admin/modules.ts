@@ -1,7 +1,7 @@
 import { Command } from "#structures/Command";
 import type { GuildModuleManager } from "#structures/GuildModuleManager";
 import type { PieceContext } from "@sapphire/framework";
-import type { Message } from "discord.js";
+import type { Message, MessageComponentInteraction } from "discord.js";
 
 export default class extends Command {
     constructor(context: PieceContext) {
@@ -54,7 +54,7 @@ export default class extends Command {
             }
         ]})
 
-        const collector = sent.createMessageComponentCollector({ filter: interaction => interaction.user.id === message.author.id, time: 60000 });
+        const collector = sent.createMessageComponentCollector({ filter: (interaction: MessageComponentInteraction) => interaction.user.id === message.author.id, time: 60000 });
 
         collector.on('collect', async interaction => {
             if (!interaction.isButton()) return;
