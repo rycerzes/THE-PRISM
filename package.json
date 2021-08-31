@@ -23,19 +23,18 @@
     "dotenv": "^10.0.0",
     "fs": "^0.0.1-security",
     "pg": "^8.6.0",
-    "stackblur-canvas": "^2.5.0",
-    "typescript": "^4.4.2"
+    "stackblur-canvas": "^2.5.0"
   },
   "devDependencies": {
     "@sapphire/ts-config": "^2.3.1",
     "@types/color": "^3.0.2",
     "@types/pg": "^8.6.1",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "typescript": "^4.4.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "postinstall": "npm run build",
     "watch": "tsc -w",
     "start": "node --experimental-specifier-resolution=node dist/index.js"
   },
