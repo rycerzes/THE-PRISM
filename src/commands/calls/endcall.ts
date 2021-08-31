@@ -1,6 +1,6 @@
 import { Command } from "#structures/Command";
 import type { PieceContext } from "@sapphire/framework";
-import type { Message } from "discord.js";
+import type { Message, TextChannel } from "discord.js";
 
 export default class extends Command {
     constructor(context: PieceContext) {
@@ -20,7 +20,7 @@ export default class extends Command {
 
         if (!call) return message.reply({ allowedMentions: { repliedUser: false }, content: 'This command must be done in a call\'s text channel' });
 
-        return this.client.emit('calls-end', message.channel, call);
+        return this.client.emit('callEnd', message.channel as TextChannel, call);
 
     };
 };

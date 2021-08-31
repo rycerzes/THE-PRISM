@@ -70,7 +70,10 @@ export default class extends Command {
             
             await this.db.createCall(guild, message.author, vc, tc)
 
-            return tc.send('Help message')
+            let sent = await tc.send(`Call created.`);
+            this.client.emit('help', sent, { module: this.module });
+            return;
+
 
         } catch (e) {
             console.log(e)
