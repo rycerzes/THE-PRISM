@@ -44,7 +44,7 @@ declare module 'discord.js' {
 
         callEnd: [channel: TextChannel, call: Call];
         guildMemberAddXp: [member: GuildMember, type: string];
-        guildMemberLevelUp: [member: GuildMember, level: number, broadcast: boolean];
+        guildMemberLevelUp: [member: GuildMember, level: number, broadcast?: boolean];
         help: [message: Message, piece?: { command?: Command, module?: BaseModule }];
         pinCreate: [message: Message, channel: Channel];
 

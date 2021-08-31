@@ -31,7 +31,7 @@ export default class extends Listener {
         let newLevel = levelCalc(xp!)
 
         // Check for Level Up
-        if (newLevel > oldLevel!) this.client.emit('xp-guildMemberLevelUp', member, newLevel);
+        if (newLevel > oldLevel!) this.client.emit('guildMemberLevelUp', member, newLevel);
 
         return;
 

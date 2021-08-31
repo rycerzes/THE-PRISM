@@ -1,4 +1,5 @@
 import { Listener } from "#structures/Listener";
+import { levelCalc } from "#util/functions";
 import type { PieceContext } from "@sapphire/framework";
 import type { GuildMember } from "discord.js";
 
@@ -12,7 +13,8 @@ export default class extends Listener {
 
     public async run(member: GuildMember) {
 
-        await this.db.fetchMember(member);
+        const data = await this.db.fetchMember(member);
+        this.client.emit('guildMemberLevelUp', member, levelCalc(data.xp));
 
     }
 }
