@@ -1,7 +1,8 @@
 import type { LevelRole } from "#lib/types/db";
 import { Command } from "#structures/Command";
 import type { PieceContext } from "@sapphire/framework";
-import type { Collection, Guild, Message, MessageActionRowOptions, MessageEmbedOptions, Role, Snowflake } from "discord.js";
+import { ButtonInteraction, MessageActionRow, MessageComponentInteraction } from "discord.js";
+import type { Collection, Guild, Message, MessageEmbedOptions, Role, Snowflake } from "discord.js";
 
 export default class extends Command {
     constructor(context: PieceContext) {
@@ -24,14 +25,14 @@ export default class extends Command {
         await this.fetchLevelRoles(message.guild!);
         await message.guild!.roles.fetch();
 
-        const list = await message.reply({ allowedMentions: { repliedUser: false }, embeds: [ await this.listEmbed(message.guild!) ], components: this.components() });
+        const list = await message.reply({ allowedMentions: { repliedUser: false }, embeds: [ await this.listEmbed(message.guild!) ], components: [ this.components() ] });
 
         // Button Collector
-        const collector = list.createMessageComponentCollector({ filter: interaction => interaction.componentType === 'BUTTON' && interaction.user.id === message.author.id, time: 300*1000 });
+        const collector = list.createMessageComponentCollector({ filter: (interaction: MessageComponentInteraction) => interaction.isButton() && interaction.user.id === message.author.id, time: 300*1000 });
 
-        collector.on('collect', async interaction => {
+        collector.on('collect', async (interaction: ButtonInteraction) => {
 
-            interaction.update({ components: this.components(true) })
+            interaction.update({ components: [ this.components(true) ] })
 
             let sent: Message | undefined;
 
@@ -88,11 +89,11 @@ export default class extends Command {
 
             await this.fetchLevelRoles(message.guild!);
             await sent?.delete();
-            await list.edit({ embeds: [ await this.listEmbed(message.guild!) ], components: this.components(false) })
+            await list.edit({ embeds: [ await this.listEmbed(message.guild!) ], components: [ this.components(false) ] })
         });
 
         collector.on('end', async () => {
-            await list.edit({ components: this.components(true) })
+            await list.edit({ components: [ this.components(true) ] })
         });
 
     };
@@ -101,9 +102,9 @@ export default class extends Command {
         return this.levelRoles = await this.db.getLevelRoles(guild);
     }
 
-    private components(disabled: boolean = false): MessageActionRowOptions[] {
+    private components(disabled: boolean = false) {
 
-        return [
+        return new MessageActionRow(
             {
                 type: 'ACTION_ROW',
                 components: [
@@ -131,15 +132,15 @@ export default class extends Command {
                     }
                 ]
             }
-        ]
+        )
     };
 
-    private async selectMenu(roles: Collection<Snowflake, Role>, disabled: boolean = false): Promise<MessageActionRowOptions[]> {
+    private async selectMenu(roles: Collection<Snowflake, Role>, disabled: boolean = false): Promise<MessageActionRow[]> {
 
         if (this.levelRoles.length < 1) return [];
 
         return [
-            {
+            new MessageActionRow({
                 type: 'ACTION_ROW',
                 components: [
                     {
@@ -159,8 +160,8 @@ export default class extends Command {
                         maxValues: this.levelRoles.length
                     }
                 ]
-            },
-            {
+            }),
+            new MessageActionRow({
                 type: 'ACTION_ROW',
                 components: [
                     {
@@ -171,7 +172,7 @@ export default class extends Command {
                         disabled: disabled
                     }
                 ]
-            }
+            })
         ];
     };
 
