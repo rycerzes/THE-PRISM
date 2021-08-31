@@ -21,7 +21,8 @@ export default class extends Listener {
 
         for (const responder of responders) {
 
-            const reg = responder.match_any ? new RegExp(`${responder.regex}`, 'gmi') : new RegExp(`^${responder.regex}$`, 'gi');
+            let regex = responder.regex.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)').replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/\./g, '\\.').replace(/\^/g, '\\^').replace(/\$/g, '\\$').replace(/\:/g, '\\:').replace(/\//g, '\\/');
+            const reg = responder.match_any ? new RegExp(`${regex}`, 'gmi') : new RegExp(`^${regex}$`, 'gi');
 
             if (reg.test(message.content)) {
                 if (responder.reaction_response) message.react(responder.reaction_response);
