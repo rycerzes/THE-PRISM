@@ -1,4 +1,4 @@
-import type { ColorResolvable, Message, MessageActionRowOptions, MessageEmbedOptions, NewsChannel, TextChannel, ThreadChannel, User } from "discord.js";
+import { ButtonInteraction, ColorResolvable, Message, MessageActionRow, MessageComponentInteraction, MessageEmbedOptions, NewsChannel, TextChannel, ThreadChannel, User } from "discord.js";
 import { pad } from '#util/functions';
 import type { Client } from "#lib/Client";
 
@@ -77,10 +77,10 @@ export class RankingMessage {
 
         this.message = await this.channel.send({ embeds: [ await this.embed(page || this.page)], components: this.buttons ? this.components() : [] });
 
-        const collector = this.message.createMessageComponentCollector({ filter: interaction => interaction.user.id === this.author.id, componentType: 'BUTTON', time: 60*1000 });
+        const collector = this.message.createMessageComponentCollector({ filter: (interaction: MessageComponentInteraction) => interaction.user.id === this.author.id && interaction.isButton(), time: 60*1000 });
 
-        collector.on('collect', async interaction => {
-            if (!interaction.isButton()) return;
+        collector.on('collect', async (interaction: ButtonInteraction) => {
+
             switch (interaction.customId) {
                 case 'rankUp':
                     this.page--;
@@ -128,9 +128,9 @@ export class RankingMessage {
         };
     };
 
-    public components(disabled = false): MessageActionRowOptions[] {
+    public components(disabled = false): MessageActionRow[] {
         return [
-            {
+            new MessageActionRow({
                 type: 'ACTION_ROW',
                 components: [
                     {
@@ -148,7 +148,7 @@ export class RankingMessage {
                         disabled: disabled || this.page >= this.maxPages
                     }
                 ]
-            }
+            })
         ]
     }
 

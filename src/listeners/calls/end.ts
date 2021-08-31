@@ -1,7 +1,7 @@
 import type { Call } from "#lib/types/db";
 import { Listener } from "#structures/Listener";
 import type { PieceContext } from "@sapphire/framework";
-import type { TextChannel } from "discord.js";
+import type { ButtonInteraction, MessageComponentInteraction, TextChannel } from "discord.js";
 
 export default class extends Listener {
     constructor(context: PieceContext) {
@@ -37,9 +37,9 @@ export default class extends Listener {
 
         }, 15000);
 
-        const collector = sent.createMessageComponentCollector({ filter: interaction => interaction.componentType === 'BUTTON' && interaction.customId === 'cancelEnd', max: 1, time: 15000 });
+        const collector = sent.createMessageComponentCollector({ filter: (interaction: MessageComponentInteraction) => interaction.isButton() && interaction.customId === 'cancelEnd', max: 1, time: 15000 });
 
-        collector.on('collect', interaction => {
+        collector.on('collect', (interaction: ButtonInteraction) => {
             interaction.update({ components: [
                 {
                     type: 'ACTION_ROW',

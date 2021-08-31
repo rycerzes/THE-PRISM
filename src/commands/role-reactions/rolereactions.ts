@@ -2,7 +2,7 @@ import type { Reaction, ReactionMessage } from "#lib/types/db";
 import { Command } from "#structures/Command";
 import { RegEx } from "#util/constants";
 import type { Args, PieceContext } from "@sapphire/framework";
-import type { ButtonInteraction, Guild, GuildEmoji, Message, MessageActionRowOptions, MessageEmbedOptions, Role, SelectMenuInteraction } from "discord.js";
+import { ButtonInteraction, Guild, GuildEmoji, Message, MessageActionRow, MessageComponentInteraction, MessageEmbedOptions, Role, SelectMenuInteraction } from "discord.js";
 
 export default class extends Command {
     constructor(context: PieceContext) {
@@ -32,7 +32,7 @@ export default class extends Command {
 
         const list = await message.channel.send({ embeds: await this.embeds(guild), components: this.components() });
 
-        const collector = list.createMessageComponentCollector({ time: 300*1000, filter: interaction => interaction.user.id === message.author.id && interaction.isButton() });
+        const collector = list.createMessageComponentCollector({ time: 300*1000, filter: (interaction: MessageComponentInteraction) => interaction.user.id === message.author.id && interaction.isButton() });
 
         let sent: Message | undefined; let res: Message | undefined; let int: SelectMenuInteraction | undefined;
 
@@ -96,7 +96,7 @@ export default class extends Command {
                 case 'rrRemove':
 
                     sent = await interaction.channel?.send({ content: 'Select which reactions to remove:', components: await this.selectMenu(guild) });
-                    int = await sent?.awaitMessageComponent({ filter: interaction => interaction.user.id === message.author.id && interaction.customId === 'rrSelectMenu' && interaction.isSelectMenu(), time: 60*1000 }).catch(() => undefined) as SelectMenuInteraction;
+                    int = await sent?.awaitMessageComponent({ filter: (interaction: MessageComponentInteraction) => interaction.user.id === message.author.id && interaction.customId === 'rrSelectMenu' && interaction.isSelectMenu(), time: 60*1000 }).catch(() => undefined) as SelectMenuInteraction;
 
                     if (!int) break;
 
@@ -147,9 +147,9 @@ export default class extends Command {
         ]
     };
 
-    private components(disabled = false): MessageActionRowOptions[] {
+    private components(disabled = false): MessageActionRow[] {
         return [
-            {
+            new MessageActionRow({
                 type: 'ACTION_ROW',
                 components: [
                     {
@@ -169,14 +169,14 @@ export default class extends Command {
                         disabled: disabled,
                     }
                 ]
-            }
+            })
         ];
     };
 
-    private async selectMenu(guild: Guild): Promise<MessageActionRowOptions[]> {
+    private async selectMenu(guild: Guild): Promise<MessageActionRow[]> {
 
         return [
-            {
+            new MessageActionRow({
                 type: 'ACTION_ROW',
                 components: [
                     {
@@ -196,7 +196,7 @@ export default class extends Command {
                         maxValues: this.reactions.length
                     }
                 ]
-            }
+            })
         ]
     };
 

@@ -1,6 +1,6 @@
 import { Listener } from "#structures/Listener";
 import type { PieceContext } from "@sapphire/framework";
-import type { TextChannel, VoiceState } from "discord.js";
+import type { MessageComponentInteraction, TextChannel, VoiceState } from "discord.js";
 
 export default class extends Listener {
     constructor(context: PieceContext) {
@@ -77,7 +77,7 @@ export default class extends Listener {
         
                 }, 1000);
         
-                const collector = sent.createMessageComponentCollector({ filter: interaction => interaction.componentType === 'BUTTON' && interaction.customId === 'cancelEnd', max: 1, time: 15000 });
+                const collector = sent.createMessageComponentCollector({ filter: (interaction: MessageComponentInteraction) => interaction.componentType === 'BUTTON' && interaction.customId === 'cancelEnd', max: 1, time: 15000 });
         
                 collector.on('collect', interaction => {
                     interaction.update({ components: [

@@ -1,7 +1,7 @@
 import type { ReactionMessage } from "#lib/types/db";
 import { Command } from "#structures/Command";
 import type { PieceContext } from "@sapphire/framework";
-import type { ButtonInteraction,  Guild, Message, MessageActionRowOptions, MessageEmbedOptions, NewsChannel, SelectMenuInteraction, TextChannel, ThreadChannel } from "discord.js";
+import { ButtonInteraction,  Guild, Message, MessageActionRow, MessageComponentInteraction, MessageEmbedOptions, NewsChannel, SelectMenuInteraction, TextChannel, ThreadChannel } from "discord.js";
 
 export default class extends Command {
     constructor(context: PieceContext) {
@@ -26,7 +26,7 @@ export default class extends Command {
 
         let list = await channel.send({ embeds: await this.embeds(guild), components: this.components() });
 
-        const collector = list.createMessageComponentCollector({ time: 300*1000, filter: interaction => interaction.user.id === message.author.id && interaction.isButton() });
+        const collector = list.createMessageComponentCollector({ time: 300*1000, filter: (interaction: MessageComponentInteraction) => interaction.user.id === message.author.id && interaction.isButton() });
 
         collector.on('collect', async (interaction: ButtonInteraction) => {
 
@@ -58,7 +58,7 @@ export default class extends Command {
                 case 'rmRemove':
 
                     sent = await channel.send({ content: 'Select which reaction messages to remove', components: await this.selectMenu() });
-                    int = await sent.awaitMessageComponent({ filter: i => i.user.id === interaction.user.id, time: 30*1000 }).catch(() => undefined) as SelectMenuInteraction;
+                    int = await sent.awaitMessageComponent({ filter: (i: MessageComponentInteraction) => i.user.id === interaction.user.id, time: 30*1000 }).catch(() => undefined) as SelectMenuInteraction;
 
                     for (const value of int.values) {
                         await this.db.deleteReactionMessage(Number(value));
@@ -96,10 +96,10 @@ export default class extends Command {
 
     };
 
-    private components(disabled: boolean = false): MessageActionRowOptions[] {
+    private components(disabled: boolean = false): MessageActionRow[] {
       
         return [
-            {
+            new MessageActionRow({
                 type: 'ACTION_ROW',
                 components: [
                     {
@@ -119,15 +119,15 @@ export default class extends Command {
                         disabled: disabled
                     }
                 ]
-            }
+            })
         ];
 
     };
 
-    private async selectMenu(): Promise<MessageActionRowOptions[]> {
+    private async selectMenu(): Promise<MessageActionRow[]> {
 
         return [
-            {
+            new MessageActionRow({
                 type: 'ACTION_ROW',
                 components: [
                     {
@@ -149,7 +149,7 @@ export default class extends Command {
                         customId: 'rmSelectMenu'
                     }
                 ]
-            }
+            })
         ];
 
     };

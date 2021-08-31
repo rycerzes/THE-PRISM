@@ -4,7 +4,7 @@ import { colors } from "#util/constants";
 import { RegEx } from "#util/constants";
 import { durationToMilli } from "#util/functions";
 import type { Args, PieceContext } from "@sapphire/framework";
-import type { Guild, GuildMember, Message, Role, Snowflake } from "discord.js";
+import type { ButtonInteraction, Guild, GuildMember, Message, MessageComponentInteraction, Role, Snowflake } from "discord.js";
 
 export default class extends Command {
 
@@ -53,14 +53,12 @@ export default class extends Command {
                 }
             ]});
         
-            const collector = sent.createMessageComponentCollector({ filter: (interaction) => ['muteRoleYes', 'muteRoleNo'].includes(interaction.customId) && interaction.user.id === message.author.id, time: 20*1000, max: 1 });
+            const collector = sent.createMessageComponentCollector({ filter: (interaction: MessageComponentInteraction) => interaction.isButton() && interaction.user.id === message.author.id, time: 20*1000, max: 1 });
 
             // "YES" creates a new role
             // "NO" simply ends the collector.
 
-            collector.on('collect', async interaction => {
-
-                if (!interaction.isButton()) return;
+            collector.on('collect', async (interaction: ButtonInteraction) => {
 
                 if (interaction.customId === 'muteRoleYes') {
 

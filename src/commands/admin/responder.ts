@@ -31,7 +31,7 @@ export default class extends Command {
 
         let list = await message.reply({ allowedMentions: { repliedUser: false }, embeds: await this.embeds(message.guild!), components: this.components() });
 
-        const collector = list.createMessageComponentCollector({ filter: interaction => interaction.isButton() && interaction.user.id === message.author.id, time: 300*1000 });
+        const collector = list.createMessageComponentCollector({ filter: (interaction: MessageComponentInteraction) => interaction.isButton() && interaction.user.id === message.author.id, time: 300*1000 });
 
         collector.on('collect', async interaction => {
 
@@ -148,7 +148,7 @@ export default class extends Command {
                 case 'rRemove':
 
                     sent = await interaction.channel?.send({ content: 'Select which level roles to remove', components: this.selectmenu() });
-                    int = await sent?.awaitMessageComponent({ filter: i => i.user.id === interaction.user.id, time: 30*1000 }).catch(() => undefined) as SelectMenuInteraction | ButtonInteraction | undefined;
+                    int = await sent?.awaitMessageComponent({ filter: (i: MessageComponentInteraction) => i.user.id === interaction.user.id, time: 30*1000 }).catch(() => undefined) as SelectMenuInteraction | ButtonInteraction | undefined;
                     
                     if (!int || int.isButton()) break;
 

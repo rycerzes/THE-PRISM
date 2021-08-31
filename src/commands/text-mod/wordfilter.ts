@@ -1,7 +1,7 @@
 import type { WordFilter } from "#lib/types/db";
 import { Command } from "#structures/Command";
 import type { PieceContext } from "@sapphire/framework";
-import type { Guild, Message, MessageActionRowOptions, MessageComponentInteraction, MessageEmbedOptions } from "discord.js";
+import { Guild, Message, MessageActionRow, MessageComponentInteraction, MessageEmbedOptions } from "discord.js";
 
 export default class extends Command {
 
@@ -17,9 +17,9 @@ export default class extends Command {
         this.module = this.client.modules.get('text-mod')!;
     };
 
-    getComponents(disabled: boolean = false): MessageActionRowOptions[] {
+    getComponents(disabled: boolean = false): MessageActionRow[] {
         return [
-            {
+            new MessageActionRow({
                 type: 'ACTION_ROW',
                 components: [
                     {
@@ -39,7 +39,7 @@ export default class extends Command {
                         disabled: disabled
                     }
                 ]
-            }
+            })
         ]
     };
 
@@ -55,7 +55,7 @@ export default class extends Command {
         let displayMsg = await message.reply({ allowedMentions: { repliedUser: false } , embeds: [ await this.embed(words, guild) ], components: this.getComponents() });
 
         // Collector
-        const collector = displayMsg.createMessageComponentCollector({ filter: interaction => interaction.componentType === 'BUTTON' && interaction.user.id === message.author.id, time: 300 * 1000 });
+        const collector = displayMsg.createMessageComponentCollector({ filter: (interaction: MessageComponentInteraction) => interaction.componentType === 'BUTTON' && interaction.user.id === message.author.id, time: 300 * 1000 });
 
         collector.on('collect', async interaction => {
 
