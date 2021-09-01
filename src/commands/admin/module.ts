@@ -13,15 +13,17 @@ export default class extends Command {
             preconditions: ['guild', 'admin'],
         })
 
-        this.module = this.client.modules.get('admin')!
+        this.module = this.client.modules.get('admin')!;
+        
+        this.detailedDescription = `Enable or disable modules\n\n**MODULES:**\`\`\`ml\n${[...this.client.modules.keys()].map(r => `${r.toUpperCase()}`).join('\n')}\`\`\``
     }
 
-    public async run(message: Message, args: Args) {
+    public async run(message: Message, args: Args): Promise<boolean | Message | undefined> {
 
         const module = await args.pick('module').catch(() => undefined);
 
         if (!module) {
-            return message.reply({ content: 'Invalid module.', allowedMentions: { repliedUser: false }});
+            return this.client.emit('help', message, { command: this })//message.reply({ content: 'Invalid module.', allowedMentions: { repliedUser: false }});
         } else if (module.required) {
             return message.reply({ content: 'You can\'t modify this module.', allowedMentions: { repliedUser: false }});
         } else {
@@ -43,29 +45,21 @@ export default class extends Command {
                                 fields: [
                                     {
                                         name: 'CURRENTLY',
-                                        value: `${manager.isEnabled(module.id) ? ' `ENABLED`' : '`DISABLED`'}`,
+                                        value: `${manager.isEnabled(module.id) ? '`ENABLED`' : '`DISABLED`'}`,
                                         inline: true
                                     },
                                 ],
-                                color: await this.client.util.guildColor(message.guild!)
+                                color: manager.isEnabled(module.id) ? colors.green : colors.red
                             }
                         ], components: buttons ? [
                             {
                                 type: 'ACTION_ROW',
                                 components: [
                                     {
-                                        customId: 'moduleEnable',
+                                        customId: manager.isEnabled(module.id) ? 'moduleDisable' : 'moduleEnable',
                                         type: 'BUTTON',
-                                        label: 'ENABLE',
-                                        style: 'SUCCESS',
-                                        disabled: manager.isEnabled(module.id)
-                                    },
-                                    {
-                                        customId: 'moduleDisable',
-                                        type: 'BUTTON',
-                                        label: 'DISABLE',
-                                        style: 'DANGER',
-                                        disabled: !manager.isEnabled(module.id)
+                                        label: manager.isEnabled(module.id) ? 'DISABLE' : 'ENABLE',
+                                        style: 'SECONDARY'
                                     }
                                 ]
                             }
