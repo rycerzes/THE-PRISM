@@ -113,4 +113,10 @@ export type Reaction = {
     reaction_message_id: number;
     emoji: string;
     role_id: Snowflake;
+};
+
+export type RoleHeader = {
+    role_header_id: number;
+    guild_id: Snowflake;
+    role_id: Snowflake;
 }

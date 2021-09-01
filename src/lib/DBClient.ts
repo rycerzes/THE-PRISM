@@ -3,7 +3,7 @@ import { durationToMilli } from '#util/functions';
 import type { Guild as Guild, GuildMember, Role, Snowflake, TextChannel, User, VoiceChannel } from 'discord.js';
 import pg from 'pg';
 import type { Client } from './Client';
-import type { Member, Guild as DbGuild, User as DbUser, Config, Mute, WordFilter, Call, LevelRole, Responder, ReactionMessage, Reaction } from './types/db';
+import type { Member, Guild as DbGuild, User as DbUser, Config, Mute, WordFilter, Call, LevelRole, Responder, ReactionMessage, Reaction, RoleHeader } from './types/db';
 import type { duration } from './types/util';
 
 export interface DBClient {
@@ -318,4 +318,17 @@ export class DBClient extends pg.Client {
         if (roleID) return (await this.query(`SELECT * FROM reactions WHERE role_id = ${roleID}`)).rows[0];
         return;
     };
+
+    async getRoleHeaders(guild: Guild): Promise<RoleHeader[]> {
+        return (await this.query(`SELECT * FROM role_headers WHERE guild_id = ${guild.id}`)).rows;
+    };
+
+    async addRoleHeader(guild: Guild, role: Role): Promise<RoleHeader> {
+        return (await this.query(`INSERT INTO role_headers (guild_id, role_id) VALUES (${guild.id}, ${role.id})`)).rows[0];
+    };
+
+    async deleteRoleHeader(id: number) {
+        return (await this.query(`DELETE FROM role_headers WHERE role_header_id = ${id}`));
+    };
+
 };
