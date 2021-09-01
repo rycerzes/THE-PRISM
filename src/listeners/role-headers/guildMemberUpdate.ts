@@ -27,7 +27,7 @@ export default class extends Listener {
                 roleHeader: r
             };
 
-        }))).filter(r => r.role);
+        }))).filter(r => r.role).sort((a, b) => a.role!.rawPosition - b.role!.rawPosition);
 
         // Map roles by pos
         const roleIndex = member.roles.cache.filter(r => r.id !== member.guild.roles.everyone.id).map(r => r.rawPosition);
@@ -39,6 +39,8 @@ export default class extends Listener {
             const roleHeaderPos = roleHeaders[i].role!.rawPosition;
             // Get pos of lower header, if not take 0
             const prevRoleHeaderPos = i > 0 ? roleHeaders[i-1].role!.rawPosition : 0;
+
+            console.log(roleHeaderPos, prevRoleHeaderPos)
             
             if (roleIndex.some(r => r < roleHeaderPos && r > prevRoleHeaderPos)) {
                 if (!member.roles.cache.has(roleHeaders[i].role!.id)) add.push(roleHeaders[i].role!.id)
