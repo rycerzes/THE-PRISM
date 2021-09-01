@@ -31,6 +31,6 @@ export default class extends Command {
 
         };
 
-        return await message.reply('👌');
+        return await message.react('👌');
     };
 };
