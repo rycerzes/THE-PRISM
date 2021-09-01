@@ -13,7 +13,7 @@ export default class extends Listener {
     public async run(messageReaction: MessageReaction, user: User) {
 
         // If bot already reacted.
-        if (messageReaction.me) return;
+        if (messageReaction.me || messageReaction.emoji.name !== '📌') return;
 
         const message = messageReaction.message.partial ? await messageReaction.message.fetch() : messageReaction.message;
         const guild = message.guild;
