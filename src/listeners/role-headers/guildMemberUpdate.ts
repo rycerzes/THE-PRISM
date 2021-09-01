@@ -39,8 +39,6 @@ export default class extends Listener {
             const roleHeaderPos = roleHeaders[i].role!.rawPosition;
             // Get pos of lower header, if not take 0
             const prevRoleHeaderPos = i > 0 ? roleHeaders[i-1].role!.rawPosition : 0;
-
-            console.log(roleHeaderPos, prevRoleHeaderPos)
             
             if (roleIndex.some(r => r < roleHeaderPos && r > prevRoleHeaderPos)) {
                 if (!member.roles.cache.has(roleHeaders[i].role!.id)) add.push(roleHeaders[i].role!.id)
