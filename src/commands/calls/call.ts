@@ -78,7 +78,6 @@ export default class extends Command {
         } catch (e) {
             console.log(e)
             return message.reply('An error occured')
-        }
-
+        };
     };
 };
