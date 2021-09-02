@@ -11,8 +11,6 @@ export default class extends Command {
             usage: [''],
             preconditions: ['guild', 'admin']
         })
-
-        this.module = this.client.modules.get('admin')!
     }
 
     public async run(message: Message) {

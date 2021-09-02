@@ -12,8 +12,6 @@ export default class extends Command {
             usage: ['[module]', '[module] (enable|disable)'],
             preconditions: ['guild', 'admin'],
         })
-
-        this.module = this.client.modules.get('admin')!;
         
         this.detailedDescription = `Enable or disable modules\n\n**MODULES:**\`\`\`ml\n${[...this.client.modules.keys()].map(r => `${r.toUpperCase()}`).join('\n')}\`\`\``
     }
