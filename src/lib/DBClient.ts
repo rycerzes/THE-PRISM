@@ -3,7 +3,7 @@ import { durationToMilli } from '#util/functions';
 import type { Guild as Guild, GuildMember, Role, Snowflake, TextChannel, User, VoiceChannel } from 'discord.js';
 import pg from 'pg';
 import type { Client } from './Client';
-import type { Member, Guild as DbGuild, User as DbUser, Config, Mute, WordFilter, Call, LevelRole, Responder, ReactionMessage, Reaction, RoleHeader } from './types/db';
+import type { Member, Guild as DbGuild, User as DbUser, Config, Mute, WordFilter, Call, LevelRole, Responder, ReactionMessage, Reaction, RoleHeader, JoinRole } from './types/db';
 import type { duration } from './types/util';
 
 export interface DBClient {
@@ -329,6 +329,18 @@ export class DBClient extends pg.Client {
 
     async deleteRoleHeader(id: number) {
         return (await this.query(`DELETE FROM role_headers WHERE role_header_id = ${id}`));
+    };
+
+    async getJoinRoles(guild: Guild): Promise<JoinRole[]> {
+        return (await this.query(`SELECT * FROM join_roles WHERE guild_id = ${guild.id}`)).rows;
+    };
+
+    async addJoinRole(guild: Guild, role: Role): Promise<JoinRole> {
+        return (await this.query(`INSERT INTO join_roles (guild_id, role_id) VALUES (${guild.id}, ${role.id}) RETURNING *`)).rows[0];
+    };
+
+    async deleteJoinRole(id: number) {
+        return (await this.query(`DELETE FROM join_roles WHERE join_role_id = ${id}`));
     };
 
 };

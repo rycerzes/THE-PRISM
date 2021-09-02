@@ -119,4 +119,10 @@ export type RoleHeader = {
     role_header_id: number;
     guild_id: Snowflake;
     role_id: Snowflake;
+};
+
+export type JoinRole = {
+    join_role_id: number;
+    guild_id: Snowflake;
+    role_id: Snowflake;
 }
