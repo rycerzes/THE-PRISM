@@ -435,6 +435,7 @@ export class DBClient extends pg.Client {
     };
 
     async deleteGiveaway(id: number) {
+        console.log('Deleting giveaway', id)
         return await this.query(`DELETE FROM giveaways WHERE giveaway_id = ${id}`)
     };
 };

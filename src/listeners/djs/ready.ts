@@ -13,6 +13,8 @@ export default class extends Listener {
 
     public async run() {
 
+        const guilds = await this.client.guilds.fetch();
+
         // Continue voice tracking
         const data: { user_id: Snowflake, guild_id: Snowflake }[] = (await this.db.query(`SELECT user_id, guild_id FROM members WHERE voice = true`)).rows;
 
@@ -31,8 +33,14 @@ export default class extends Listener {
 
         const giveaways = await this.db.getGiveaways();
 
+        // track giveaways
         for (const giveaway of giveaways) {
-            this.db.trackGiveaway(giveaway)
+
+            if ([...guilds.keys()].includes(giveaway.guild_id)) {
+
+                this.db.trackGiveaway(giveaway)
+
+            };
         };
         
     };
