@@ -36,20 +36,6 @@ export default class extends Command {
             urls.bottom = 'https://i.imgur.com/wvUPp3d.png'
         };
 
-        //     normal: {
-        //         top: 'https://i.imgur.com/Sv6kz8f.png',
-        //         bottom: 'https://i.imgur.com/wvUPp3d.png'
-        //     },
-        //     thanos: {
-        //         top: 'https://i.imgur.com/7kjMLYJ.png',
-        //         bottom: 'https://i.imgur.com/d5TxlJo.png'
-        //     },
-        //     laser: {
-        //         top: 'https://i.imgur.com/Ngx8zDt.png',
-        //         bottom: 'https://i.imgur.com/iyyggjV.png'
-        //     }
-        // };
-
         let top = await message.channel.send('\u200b');
 
         message.delete();
