@@ -71,7 +71,7 @@ export default class extends Command {
 
                 display = async (member: Member) => {
                     let { counting_count } = (await this.client.db.query(`SELECT counting_count FROM guilds WHERE guild_id = ${message.guild!.id}`)).rows[0] as Guild
-                    return `${await this.client.util.mention(member, message.guild!)} • \`${groupDigits(member.counting_counts!)}\` • \`${Math.round(member.counting_counts!*100/counting_count!)/100}%\``
+                    return `${await this.client.util.mention(member, message.guild!)} • \`${groupDigits(member.counting_counts!)}\` • \`${Math.round(member.counting_counts!*10000/counting_count!)/100}%\``
                 };
 
                 sort = (a: Member, b: Member) => {
