@@ -82,8 +82,9 @@ export class DBClient extends pg.Client {
                 if (i % 5 === 0) {
                     
                     // Checks
-                    if (!member.voice.deaf && member.voice.channel!.members.filter(m => !m.user.bot).size > 1) {
-                        this.client.emit('xp-add', member, 'voice')
+                    if (!member.voice.deaf && member.voice.channel!.members.filter(m => !m.user.bot).size > 0) {
+                        //console.log(`Adding xp to ${member.user.tag} in ${member.guild.name}`)
+                        this.client.emit('guildMemberAddXp', member, 'voice')
                     };
 
                 }
