@@ -20,25 +20,19 @@ export type Member = {
     rank_card_color: string | null,
     rank_card_bg_id: number,
     mc_username: string,
-    mc_username_url: string | null
+    mc_username_url: string | null;
+    shards: number;
 };
 
 export type Guild = {
     guild_id: Snowflake,
     prefix: string | null,
-    counting_channel_id: Snowflake | null,
-    wording_channel_id: Snowflake | null,
-    logs_channel_id: Snowflake | null,
-    calls_channel_id: Snowflake | null,
-    levels_chanel_id: Snowflake | null,
-    pins_channel_id: Snowflake | null,
     mute_role_id: Snowflake | null,
     mod_role_id: Snowflake | null,
     counting_count: number,
     main_color: string,
     color: ColorResolvable;
     leaderboard_display: number,
-    pins_reaction: number,
     enabled_modules: number
 };
 

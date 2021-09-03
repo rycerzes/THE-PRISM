@@ -18,13 +18,13 @@ export default class extends Listener {
         // Message
         if (type === 'message') {
             let ran = rng(3, 7);
-            ({ xp } = await this.db.updateMember(member, `SET xp = xp + ${ran}, xp_messages = xp_messages + 1, xp_last_message_timestamp = ${Date.now()}`));
+            ({ xp } = await this.db.updateMember(member, `SET xp = xp + ${ran}, xp_messages = xp_messages + 1, xp_last_message_timestamp = ${Date.now()}, shards = shards + 1`));
             oldLevel = levelCalc(xp - ran);
         };
 
         // Voice
         if (type === 'voice') {
-            ({ xp } = await this.db.updateMember(member, `SET xp = xp + 5, xp_minutes = xp_minutes + 5`));
+            ({ xp } = await this.db.updateMember(member, `SET xp = xp + 5, xp_minutes = xp_minutes + 5, shards = shards + 1`));
             oldLevel = levelCalc(xp - 5);
         };
 
