@@ -169,7 +169,7 @@ export class ClientUtil {
                     color: colors.red,
                     timestamp: Number(giveaway.end_timestamp),
                     footer: {
-                        text: 'Ended'
+                        text: `ID: ${giveaway.giveaway_id} | Ended`
                     }
                 })],
                 components: []
@@ -183,7 +183,7 @@ export class ClientUtil {
                 color: winner ? colors.green : await this.guildColor((await this.client.guilds.fetch(giveaway.guild_id))),
                 timestamp: Number(giveaway.end_timestamp),
                 footer: {
-                    text: `ID: ${giveaway.giveaway_id} | Ends`
+                    text: `ID: ${giveaway.giveaway_id} | ${winner === undefined ? 'Ends' : 'Ended'}`
                 }
             })],
             components: []

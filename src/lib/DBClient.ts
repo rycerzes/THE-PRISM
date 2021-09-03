@@ -377,7 +377,7 @@ export class DBClient extends pg.Client {
 
     async trackGiveaway(giveaway: Giveaway) {
 
-        const message = await this.client.util.resolveMessage(giveaway.message_url);
+        let message = await this.client.util.resolveMessage(giveaway.message_url);
 
         if (!message) return this.deleteGiveaway(Number(giveaway.giveaway_id));
 
@@ -385,11 +385,22 @@ export class DBClient extends pg.Client {
 
         let interval = setInterval(async () => {
 
+            message = await this.client.util.resolveMessage(giveaway.message_url);
+            if (!message) {
+                clearInterval(interval);
+                return this.deleteGiveaway(giveaway.giveaway_id)
+            }
+
             if (giveaway.end_timestamp - Date.now() > 0) {
                 await message.edit(await this.client.util.giveawayMessage(giveaway));
             } else {
                 clearInterval(interval);
                 const winner = await this.drawGiveaway(giveaway);
+                if (winner) (await this.client.users.fetch(giveaway.user_id)).send({ embeds: [{
+                    description: `🎉 [**You\'re giveaway**](${giveaway.message_url}) has ended.`,
+                    color: await this.client.util.guildColor(message.guild!),
+                    timestamp: Date.now()
+                }]});
                 await message.edit(await this.client.util.giveawayMessage(giveaway, winner));
             };
 
