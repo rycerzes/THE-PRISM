@@ -41,7 +41,7 @@ export default class extends Command {
         message.delete();
 
         try {
-            await message.channel.awaitMessages({ filter: m => !m.author.bot, max: 1, time: 600000, errors: ['time'] });
+            await message.channel.awaitMessages({ filter: m => !m.author.bot, max: 1, time: 1200*1000, errors: ['time'] });
             await top.edit(urls.top);
             return await message.channel.send({ files: [new MessageAttachment(urls.bottom, 'bottom.png')] });
         } catch (e) {
