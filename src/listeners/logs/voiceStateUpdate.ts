@@ -26,7 +26,7 @@ export default class extends Listener {
             let state: string; let color: ColorResolvable; let fields: EmbedField[];
 
             // Find leave-join-switch
-            if (oldState.channelId && newState.channelId) {
+            if (oldState.channelId && newState.channelId && oldState.channelId !== newState.channelId) {
                 state = 'SWITCHED';
                 color = await this.client.util.guildColor(member.guild);
                 fields = [
