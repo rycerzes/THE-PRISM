@@ -1,13 +1,13 @@
 import type { Client } from "#lib/Client";
-import type { Collection, ColorResolvable, Guild, GuildMember, Role, Snowflake, TextBasedChannels, User } from 'discord.js';
-import { RegEx } from '#util/constants';
-import { levelCalc, xpCalc, groupDigits } from './functions.js'
+import { Collection, ColorResolvable, Guild, GuildMember, MessageEmbed, MessageOptions, Role, Snowflake, TextBasedChannels, User } from 'discord.js';
+import { colors, RegEx } from '#util/constants';
+import { levelCalc, xpCalc, groupDigits, milliRelative } from './functions.js'
 import { canvasRGBA } from "stackblur-canvas";
 import { promises as fsp } from 'fs';
 
 import Canvas from 'canvas';
 import Color from 'color';
-import type { Member } from "#lib/types/db.js";
+import type { Giveaway, Member } from "#lib/types/db.js";
 import type { DBClient } from "#lib/DBClient.js";
 const { createCanvas, loadImage, registerFont } = Canvas;
 
@@ -134,7 +134,7 @@ export class ClientUtil {
 
         } catch {
 
-            try{
+            try {
                 mention = (await this.client.users.fetch(member.user_id!)).tag;
             } catch {
                 mention = '`Deleted User`';
@@ -155,6 +155,39 @@ export class ClientUtil {
             .replace(/{guild}/g, member.guild.name)
             .replace(/{level}/g, String(level || levelCalc(xp)))
             .replace(/{xp}/g, String(xp));
+    };
+
+    public async giveawayMessage(giveaway: Giveaway, winner?: GuildMember | null): Promise<MessageOptions> {
+
+        if (winner === null) {
+
+            return {
+                content: '🎁 **GIVEAWAY!**',
+                embeds: [ new MessageEmbed({
+                    title: giveaway.prize,
+                    description: `Nobody wins :(`,
+                    color: colors.red,
+                    timestamp: Number(giveaway.end_timestamp),
+                    footer: {
+                        text: 'Ended'
+                    }
+                })],
+                components: []
+            }
+
+        } else return {
+            content: winner ? `**🎉 ${winner} wins!! 🎉**` : `🎁 **<@${giveaway.user_id}>'S Giveaway!**`,
+            embeds: [ new MessageEmbed({
+                title: giveaway.prize,
+                description: winner ? `Congratulations to ${winner} for winning!`: `${milliRelative(giveaway.end_timestamp - Date.now())} remaining.\n\nReact with 🎁 to enter!`,
+                color: winner ? colors.green : await this.guildColor((await this.client.guilds.fetch(giveaway.guild_id))),
+                timestamp: Number(giveaway.end_timestamp),
+                footer: {
+                    text: `ID: ${giveaway.giveaway_id} | Ends`
+                }
+            })],
+            components: []
+        }
     };
 
     /**

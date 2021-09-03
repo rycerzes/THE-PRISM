@@ -95,6 +95,39 @@ export function milliToDuration(milli: number): duration {
     return duration
 };
 
+export function durationToString(duration: duration): string {
+    return `${duration.d}d, ${duration.h}h, ${duration.m}m`
+};
+
+export function milliRelative(milli: number): string {
+
+    let duration: duration = { d: 0, h: 0, m:0, s:0 };
+
+    // Nearest second
+    milli = Math.round(milli/1000)*1000
+
+    // Ramaining hours
+    let rHours = milli % (24*60*60*1000);
+    duration.d = Math.floor(milli/(24*60*60*1000));
+    // remaining minutes
+    let rMin = rHours % (60*60*1000);
+    duration.h = Math.floor(rHours/(60*60*1000));
+    // Remaining Seconds
+    let rSec = rMin % (60*1000)
+    duration.m = Math.floor(rMin/(60*1000))
+
+    duration.s = Math.round(rSec/1000);
+
+    let arr: string[] = [];
+
+    if (duration.d > 0) arr.push(`**${duration.d}** day${duration.d > 1 ? 's' : ''}`);
+    if (duration.h > 0) arr.push(`**${duration.h}** hour${duration.h > 1 ? 's' : ''}`);
+    if (duration.m > 0) arr.push(`**${duration.m}** minute${duration.m > 1 ? 's' : ''}`);
+    if (duration.s > 0) arr.push(`**${duration.s}** second${duration.s > 1 ? 's' : ''}`);
+
+    return arr.join(', ')
+};
+
 // //     UCT: function UCT(date = Date.now(), milliseconds = false) {
 // //         let arr = []
 // //         date = new Date(date)

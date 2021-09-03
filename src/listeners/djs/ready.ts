@@ -27,7 +27,13 @@ export default class extends Listener {
             } catch {
                 console.log(`Missing access for user ${user_id} in guild ${guild_id}.`)
             }
-        }
+        };
 
-    }
-}
+        const giveaways = await this.db.getGiveaways();
+
+        for (const giveaway of giveaways) {
+            this.db.trackGiveaway(giveaway)
+        };
+        
+    };
+};

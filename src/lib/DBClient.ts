@@ -1,9 +1,9 @@
 import { colors } from '#util/constants';
-import { durationToMilli } from '#util/functions';
-import type { Guild as Guild, GuildMember, Role, Snowflake, TextChannel, User, VoiceChannel } from 'discord.js';
+import { durationToMilli, rng } from '#util/functions';
+import type { Guild as Guild, GuildMember, Message, Role, Snowflake, TextChannel, User, VoiceChannel } from 'discord.js';
 import pg from 'pg';
 import type { Client } from './Client';
-import type { Member, Guild as DbGuild, User as DbUser, Config, Mute, WordFilter, Call, LevelRole, Responder, ReactionMessage, Reaction, RoleHeader, JoinRole } from './types/db';
+import type { Member, Guild as DbGuild, User as DbUser, Config, Mute, WordFilter, Call, LevelRole, Responder, ReactionMessage, Reaction, RoleHeader, JoinRole, Giveaway } from './types/db';
 import type { duration } from './types/util';
 
 export interface DBClient {
@@ -343,4 +343,86 @@ export class DBClient extends pg.Client {
         return (await this.query(`DELETE FROM join_roles WHERE join_role_id = ${id}`));
     };
 
+    async getGiveaways(): Promise<Giveaway[]> {
+        return (await this.query(`SELECT * FROM giveaways WHERE end_timestamp > ${Date.now()}`)).rows;
+    };
+
+    async getGiveaway({ url, id }: { url?: string, id?: number }): Promise<Giveaway | undefined> {
+
+        let giveaway: Giveaway | undefined;
+
+        if (url) giveaway = (await this.query(`SELECT * FROM giveaways WHERE message_url = '${url}'`)).rows[0];
+        if (id) giveaway = (await this.query(`SELECT * FROM giveaways WHERE giveaway_id = ${id}`)).rows[0];
+
+        return giveaway
+    };
+
+    async startGiveaway(user: User, message: Message, prize: string, milli: number): Promise<Giveaway | undefined> {
+
+        if (!message.guild) return undefined;
+
+        const giveaway = (await this.query(`INSERT INTO giveaways (prize, guild_id, user_id, message_url, end_timestamp) VALUES (
+            '${prize}',
+            ${message.guild!.id},
+            ${user.id},
+            '${message.url}',
+            ${Date.now() + milli}
+        ) RETURNING *`)).rows[0];
+
+        this.trackGiveaway(giveaway);
+        message.react('🎁')   
+        return giveaway;
+
+    };
+
+    async trackGiveaway(giveaway: Giveaway) {
+
+        const message = await this.client.util.resolveMessage(giveaway.message_url);
+
+        if (!message) return this.deleteGiveaway(Number(giveaway.giveaway_id));
+
+        await message.edit(await this.client.util.giveawayMessage(giveaway))
+
+        let interval = setInterval(async () => {
+
+            if (giveaway.end_timestamp - Date.now() > 0) {
+                await message.edit(await this.client.util.giveawayMessage(giveaway));
+            } else {
+                clearInterval(interval);
+                const winner = await this.drawGiveaway(giveaway);
+                await message.edit(await this.client.util.giveawayMessage(giveaway, winner));
+            };
+
+        }, 15*1000);
+
+        return;
+
+    };
+
+    async drawGiveaway(giveaway: Giveaway): Promise<GuildMember | null | undefined> {
+
+        const message = await this.client.util.resolveMessage(giveaway.message_url);
+
+        if (!message) {
+            this.deleteGiveaway(Number(giveaway.giveaway_id))
+            return
+        };
+
+        const messageReaction = message.reactions.cache.get('🎁');
+
+        if (!messageReaction) return null;
+
+        const users = [...(await messageReaction.users.fetch()).values()].filter(u => u.id !== this.client.user?.id);
+        
+        if (users.length < 1) return null;
+
+        const winner = await message.guild!.members.fetch(users[rng(0, users.length - 1)].id);
+
+        return winner;
+        
+    };
+
+    async deleteGiveaway(id: number) {
+        return await this.query(`DELETE FROM giveaways WHERE giveaway_id = ${id}`)
+    };
 };

@@ -6,7 +6,7 @@ import type { GuildModuleManager } from '#structures/GuildModuleManager';
 import type { ClientUtil } from '#util/ClientUtil';
 import type { RankingMessage } from '#structures/RankingMessage';
 import { Client as BotClient, Client} from '#lib/Client';
-import type { Call, LevelRole, ReactionMessage } from './db';
+import type { Call, Giveaway, LevelRole, ReactionMessage } from './db';
 import type { Command } from '#structures/Command';
 
 declare module 'discord.js' {
@@ -94,7 +94,8 @@ declare module '@sapphire/framework' {
         addRemoveView: string;
         levelrole: LevelRole;
         reactionMessage: ReactionMessage;
-        guildMsg: Message
+        guildMsg: Message;
+        giveaway: Giveaway;
     }
 
     interface ArgumentContext {
