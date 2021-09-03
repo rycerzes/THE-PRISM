@@ -388,7 +388,8 @@ export class DBClient extends pg.Client {
             message = await this.client.util.resolveMessage(giveaway.message_url);
             if (!message) {
                 clearInterval(interval);
-                return this.deleteGiveaway(giveaway.giveaway_id)
+                this.deleteGiveaway(giveaway.giveaway_id);
+                return;
             }
 
             if (giveaway.end_timestamp - Date.now() > 0) {
