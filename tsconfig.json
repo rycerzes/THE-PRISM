@@ -17,7 +17,8 @@
             "#util/*": ["./lib/util/*"],
             "#assets/*": ["./assets/*"],
             "#lib/*": ["./lib/*"],
-			"#root/*": ["./*"]
+			"#root/*": ["./*"],
+            "#chess/*": ["./lib/structures/chess/*"]
 		}
     },
     "include": ["src"]

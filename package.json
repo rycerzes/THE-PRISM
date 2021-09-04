@@ -12,7 +12,8 @@
     "#structures/*": "./dist/lib/structures/*.js",
     "#util/*": "./dist/lib/util/*.js",
     "#assets/*": "./dist/assets/*.js",
-    "#types/*": "./dist/lib/types/*.js"
+    "#types/*": "./dist/lib/types/*.js",
+    "#chess/*": "./dist/lib/structures/chess/*.js"
   },
   "dependencies": {
     "@sapphire/discord.js-utilities": "^3.0.0-next.15fcf513.0",
