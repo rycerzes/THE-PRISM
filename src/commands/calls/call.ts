@@ -26,7 +26,7 @@ export default class extends Command {
         if (!calls_channel_id) return message.reply({ allowedMentions: { repliedUser: false }, content: 'No parent channel has been set. Calls will be unavailable.'});
 
         let userLimit = await args.pick('integer').catch(() => 0);
-        let name = (await args.pickResult('string')).value
+        let name = await args.rest('string').catch(() => undefined);
 
         if (!name || name.length > 100) name = `${message.member?.displayName || message.author.username}'s Channel`;
 
