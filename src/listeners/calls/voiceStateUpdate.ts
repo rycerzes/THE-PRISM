@@ -15,11 +15,11 @@ export default class extends Listener {
         if (!newState.member || !oldState.member) return;
 
         // Leave Channel
-        if (oldState.channelId && !newState.channelId) {
+        if (oldState.channelId) {
 
             const call = await this.db.getCall(oldState.channelId);
 
-            if (call && oldState.channel?.members.size === 0) {
+            if (call && newState.channelId !== call.voice_channel_id && oldState.channel?.members.size === 0) {
 
                 const channel = await this.client.channels.fetch(call.text_channel_id) as TextChannel;
 
