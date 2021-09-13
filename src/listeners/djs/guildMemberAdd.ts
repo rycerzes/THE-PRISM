@@ -13,6 +13,8 @@ export default class extends Listener {
 
     public async run(member: GuildMember) {
 
+        await member.fetch();
+
         const joinRoles = await this.db.getJoinRoles(member.guild);
 
         if (joinRoles.length > 0) {

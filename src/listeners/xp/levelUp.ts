@@ -51,6 +51,8 @@ export default class extends Listener {
 
         let add: LevelRole[] = []; let rem: LevelRole[] = [];
 
+        await member.fetch()
+
         if (stack) {
 
             add = levelRoles.filter(r => r.level <= level && !member.roles.cache.has(r.role_id));
