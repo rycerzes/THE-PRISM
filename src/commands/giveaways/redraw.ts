@@ -20,7 +20,8 @@ export default class extends Command {
 
         if (!giveaway) return this.client.emit('help', message, { command: this });
 
-        if (giveaway.user_id !== message.author.id || giveaway.guild_id !== message.guild!.id || !message.member!.permissions.has('ADMINISTRATOR')) return message.reply({ content: 'You can\'t redraw someone else\'s giveaway.', allowedMentions: { repliedUser: false }});
+        // if (giveaway.user_id !== message.author.id || giveaway.guild_id !== message.guild!.id || !message.member!.permissions.has('ADMINISTRATOR'))
+        if (giveaway.guild_id !== message.guild!.id || (giveaway.user_id !== message.author.id && !message.member!.permissions.has('ADMINISTRATOR'))) return message.reply({ content: 'You can\'t redraw someone else\'s giveaway.', allowedMentions: { repliedUser: false }});
 
         const msg = await this.client.util.resolveMessage(giveaway.message_url);
 
