@@ -12,7 +12,7 @@ export default class extends Listener {
 
     public async run(message: Message) {
 
-        if (message.partial) await message.fetch()
+        await message.fetch()
 
         if (message.author.bot) return;
         
