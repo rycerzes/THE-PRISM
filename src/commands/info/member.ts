@@ -9,7 +9,7 @@ export default class extends Command {
             name: 'member',
             description: 'View a member\'s info.',
             usage: ['(member)'],
-            aliases: ['profile'],
+            aliases: ['memberinfo'],
             preconditions: ['guild']
         });
 

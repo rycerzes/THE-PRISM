@@ -45,7 +45,7 @@ export default class extends Command {
                     url: user.displayAvatarURL({ size: 128 })
                 }
             }
-        ]})
-
+        ]});
+        
     };
 };
