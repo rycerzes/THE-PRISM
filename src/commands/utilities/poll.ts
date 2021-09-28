@@ -44,6 +44,8 @@ export default class extends Command {
             }
         ]});
 
+        message.delete();
+
         for (const i in options) {
             await sent.react(emojis[i]);
         };
