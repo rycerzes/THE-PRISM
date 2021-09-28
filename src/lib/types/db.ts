@@ -22,6 +22,7 @@ export type Member = {
     mc_username: string,
     mc_username_url: string | null;
     shards: number;
+    total_shards:  number;
 };
 
 export type Guild = {
