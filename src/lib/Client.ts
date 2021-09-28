@@ -70,12 +70,22 @@ export class Client extends SapphireClient {
 
     public async newModuleManager(guild: Guild): Promise<GuildModuleManager> {
 
-        return await this.guildModuleManagers.set(guild.id, new GuildModuleManager(guild, this)).get(guild.id)!.init();
+        const manager = new GuildModuleManager(guild, this);
+
+        await manager.init();
+
+        this.guildModuleManagers.set(guild.id, manager);
+
+        return manager;
+
+        //return await this.guildModuleManagers.set(guild.id, new GuildModuleManager(guild, this)).get(guild.id)!.init();
 
     };
 
     public async getModuleManager(guild: Guild): Promise<GuildModuleManager> {
-        return this.guildModuleManagers.get(guild.id) || await this.newModuleManager(guild);
+        let manager = this.guildModuleManagers.get(guild.id);
+        if (!manager) manager =  await this.newModuleManager(guild);
+        return manager;
     }
 
     public async checkModule(module: string | number | BaseModule, guild: Guild): Promise<boolean> {

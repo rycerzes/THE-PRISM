@@ -17,28 +17,16 @@ export default class extends Listener {
         // If bot already reacted.
         if (messageReaction.me || messageReaction.emoji.name !== '📌') return;
 
-        console.log(1)
-
         const message = messageReaction.message.partial ? await messageReaction.message.fetch() : messageReaction.message;
         const guild = message.guild;
 
-        console.log(2)
-
         if (!guild || !await this.client.checkModule('pins', guild)) return;
-
-        console.log(3)
 
         if (message.author.id === user.id) return messageReaction.users.remove(user.id);
 
-        console.log(4)
-
         const { pins_channel_id, pins_reaction_count } = await this.db.fetchConfig(guild);
 
-        console.log(pins_channel_id, pins_reaction_count, messageReaction.count)
-
         if (!pins_channel_id || messageReaction.count < pins_reaction_count) return;
-
-        console.log(5)
 
         const channel = await guild.channels.fetch(pins_channel_id);
 

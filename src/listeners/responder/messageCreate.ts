@@ -12,8 +12,6 @@ export default class extends Listener {
 
     public async run(message: Message) {
 
-        await message.fetch()
-
         if (message.author.bot) return;
         
         const guild = message.guild;

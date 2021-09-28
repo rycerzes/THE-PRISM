@@ -17,7 +17,7 @@ export class GuildModuleManager {
         this.guild = guild;
         this.client = client;
 
-        this.enabled = new Map().set(this.guild.id, this.client.modules.get('base'));
+        this.enabled = new Map().set('base', this.client.modules.get('base'));
 
     };
 
@@ -125,7 +125,6 @@ export class GuildModuleManager {
 
     public isEnabled(resolveable: ModuleResolvable): boolean {
         const module = this.resolveModule(resolveable);
-
         return !!this.enabled.get(module!.name)
     };
 
