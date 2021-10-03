@@ -1,7 +1,7 @@
 import { Listener } from "#structures/Listener";
 import { blankFieldInline } from "#util/constants";
 import type { PieceContext } from "@sapphire/framework";
-import type { Message, MessageEmbedOptions, TextChannel } from "discord.js";
+import { Message, MessageAttachment, MessageEmbedOptions, TextChannel } from "discord.js";
 
 export default class extends Listener {
     constructor(context: PieceContext) {
@@ -14,6 +14,8 @@ export default class extends Listener {
     public async run(message: Message, channel: TextChannel) {
 
         if (!message.guild) return;
+
+        let files: MessageAttachment[] = [];
 
         let embed: MessageEmbedOptions = {
             description: message.content !== '' ? `\u200b\n${message.content}\n\u200b` : undefined,
@@ -41,13 +43,20 @@ export default class extends Listener {
         };
 
         if (message.attachments.first()) {
+
+            const attachment = message.attachments.first()!;
+
             try{
-                if(message.attachments.first()!.name?.split('.').pop() !== ('png' || 'jpg')) throw '';
-                embed.image!.url = message.attachments.first()!.url;
+
+                if (!(attachment.name?.endsWith('.png') || attachment.name?.endsWith('jpg'))) throw '';
+                
+                files.push(new MessageAttachment(message.attachments.first()!.url, message.attachments.first()!.name ?? 'a.png'))
+                embed.image!.url = `attachment://${attachment.name ?? 'a.png'}`;
+
             } catch {
                 embed.fields!.unshift({
                     name: 'ATTACHMENT',
-                    value: `[${message.attachments.first()!.name}](${message.attachments.first()!.url})`,
+                    value: `[${attachment.name ?? 'attachment'}](${attachment.url})`,
                     inline: true
                 })
             }
@@ -59,7 +68,7 @@ export default class extends Listener {
             }
         };
 
-        channel.send({embeds: [ embed ]});
+        channel.send({embeds: [ embed ], files: files });
         message.react('📌')
         return message.channel.send(`***${message.member}'s message has been pinned in ${channel}.***`)
     };
