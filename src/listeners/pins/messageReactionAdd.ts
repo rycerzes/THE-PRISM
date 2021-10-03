@@ -27,6 +27,7 @@ export default class extends Listener {
         const { pins_channel_id, pins_reaction_count } = await this.db.fetchConfig(guild);
 
         if (!pins_channel_id || messageReaction.count < pins_reaction_count) return;
+        if ([...(await messageReaction.users.fetch()).keys()].includes(this.client.user!.id)) return;
 
         const channel = await guild.channels.fetch(pins_channel_id);
 
