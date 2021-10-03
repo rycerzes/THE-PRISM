@@ -22,7 +22,7 @@ export default class extends Listener {
 
         if (!guild || !await this.client.checkModule('pins', guild)) return;
 
-        if (message.author.id === user.id) return messageReaction.users.remove(user.id);
+        if (message.author.id === user.id && user.id !== this.client.user!.id) return messageReaction.users.remove(user.id);
 
         const { pins_channel_id, pins_reaction_count } = await this.db.fetchConfig(guild);
 
