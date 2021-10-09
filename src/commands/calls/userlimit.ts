@@ -7,7 +7,7 @@ export default class extends Command {
         super(context, {
             name: 'userlimit',
             description: 'Change the limit to a temporary call.',
-            detailedDescription: 'Change the userlimit to a temporary call.\nLimit must be between \`0-99\` (\`0\` is unlimited).'
+            detailedDescription: 'Change the userlimit to a temporary call.\nLimit must be between \`0-99\` (\`0\` is unlimited).',
             usage: ['[limit]'],
             preconditions: ['guild']
         });
