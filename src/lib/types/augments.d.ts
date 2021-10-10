@@ -101,7 +101,6 @@ declare module '@sapphire/framework' {
     interface ArgumentContext {
         map: Map<any, any>;
         rankingMessage: RankingMessage;
-        
         resolve({}: any): any;
     }
 }

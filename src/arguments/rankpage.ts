@@ -14,7 +14,7 @@ export default class extends Argument<number> {
         // Try resolve
         if (isNaN(num)) {
 
-            let element = resolve({parameter, array: rankingMessage.array});
+            let element = await resolve({parameter, array: rankingMessage.array});
 
             if (element) {
 
