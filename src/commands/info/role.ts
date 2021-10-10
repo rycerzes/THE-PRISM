@@ -33,7 +33,7 @@ export default class extends Command {
 
             title: 'ROLE INFORMATION',
             color: role.color as ColorResolvable,
-            description: `${role}\n\n**MEMBERS**`,
+            description: `${role}\n\n**MEMBERS (${role.members.size})**`,
             fields: [
                 //blankField,
                 {
