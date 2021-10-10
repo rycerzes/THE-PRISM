@@ -91,7 +91,7 @@ export class RankingMessage {
 
         this.message = await this.channel.send({ embeds: [ await this.embed(page || this.page)], components: this.buttons ? this.components() : [] });
 
-        const collector = this.message.createMessageComponentCollector({ filter: (interaction: MessageComponentInteraction) => interaction.user.id === this.author.id && interaction.isButton(), time: 60*1000 });
+        const collector = this.message.createMessageComponentCollector({ filter: (interaction: MessageComponentInteraction) => interaction.user.id === this.author.id && interaction.isButton(), time: 120*1000 });
 
         collector.on('collect', async (interaction: ButtonInteraction) => {
 
