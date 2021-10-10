@@ -11,9 +11,13 @@ export interface RankingMessage {
     array: unknown[];
     page: number;
     perPage: number;
+
     title: string | undefined;
     description: string;
+    fields: { name: string, value: string; inline?: boolean }[];
     color: ColorResolvable | undefined;
+    footerDesc: boolean;
+
     buttons: Boolean | undefined;
 
     display(element: any): string | Promise<string>;
@@ -28,9 +32,13 @@ export class RankingMessage {
         author: User,
         page?: number,
         perPage?: number,
+
         title?: string,
         description?: string,
+        fields?: { name: string, value: string, inline?: boolean }[]
         color?: ColorResolvable,
+        footerDesc?: boolean;
+
         buttons?: Boolean,
         array: unknown[],
 
@@ -45,9 +53,13 @@ export class RankingMessage {
             author,
             array,
             page = 1,
+
             title,
             description = '',
+            fields = [],
             color,
+            footerDesc = false,
+
             buttons,
 
             display,
@@ -65,8 +77,10 @@ export class RankingMessage {
         this.page = page;
         this.perPage = perPage;
         this.title = title;
-        this.description = description
+        this.description = description;
         this.color = color;
+        this.fields = fields;
+        this.footerDesc = footerDesc;
         this.buttons = buttons;
     };
 
@@ -120,9 +134,10 @@ export class RankingMessage {
 
         return {
             title: this.title,
-            description: `${this.description}\n${arr.join('\n')}`,
+            description: this.footerDesc ? `${this.description}\n${arr.join('\n')}\n\nPage: ${page} of ${this.maxPages}` : `${this.description}\n${arr.join('\n')}`,
             color: this.color || await this.client.util.guildColor(this.channel.guild),
-            footer: {
+            fields: this.fields,
+            footer: this.footerDesc ? {} : {
                 text: `Page: ${page} of ${this.maxPages}`
             }
         };
