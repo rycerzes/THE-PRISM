@@ -25,7 +25,7 @@ export default class extends Command {
             channel: message.channel as GuildTextBasedChannelTypes,
             author: message.author,
             array: [...(await message.guild!.members.fetch()).values()],
-            perPage: 15,
+            perPage: 10,
             buttons: true,
 
             title: `${message.guild!.name.toUpperCase()} JOIN RANKINGS`,
