@@ -31,7 +31,7 @@ export default class extends Command {
             title: `${message.guild!.name.toUpperCase()} JOIN RANKINGS`,
 
             display: (member: GuildMember) => {
-                return `<t:${Math.floor(member.joinedTimestamp!/1000)}> • ${member}`
+                return `${member} • <t:${Math.floor(member.joinedTimestamp!/1000)}>`
             },
             sort: (a: GuildMember, b: GuildMember) => {
                 return a.joinedTimestamp! - b.joinedTimestamp!
