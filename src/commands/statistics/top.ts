@@ -18,7 +18,7 @@ export default class extends Command {
 
     public module = this.client.modules.get('stats')!;
 
-    public async run(message: Message, args: Args, context: CommandContext) {
+    public async messageRun(message: Message, args: Args, context: CommandContext) {
 
         const category = await args.pick('lbcategory').catch(() => 'MESSAGES');
 
@@ -94,7 +94,7 @@ export default class extends Command {
 
             case 'LEVELS':
 
-                return this.client.stores.get('commands').get('levels')?.run(message, args, context);
+                return this.client.stores.get('commands').get('levels')?.messageRun(message, args, context);
 
         };
 

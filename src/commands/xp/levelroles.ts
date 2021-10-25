@@ -20,7 +20,7 @@ export default class extends Command {
 
     public levelRoles: LevelRole[] = [];
 
-    public async run(message: Message) {
+    public async messageRun(message: Message) {
 
         await this.fetchLevelRoles(message.guild!);
         await message.guild!.roles.fetch();

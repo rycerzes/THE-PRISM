@@ -11,7 +11,7 @@ export default class extends Command {
         });
     };
 
-    public async run(message: Message) {
+    public async messageRun(message: Message) {
 
         return message.reply({ allowedMentions: { repliedUser: false }, embeds: [
             {

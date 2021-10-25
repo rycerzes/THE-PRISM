@@ -25,7 +25,7 @@ export default class extends Command {
 
     public responders: Responder[] = []
 
-    public async run(message: Message) {
+    public async messageRun(message: Message) {
 
         await this.updateResponders(message.guild!);
 

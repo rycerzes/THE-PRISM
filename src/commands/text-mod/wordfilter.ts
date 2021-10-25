@@ -43,7 +43,7 @@ export default class extends Command {
         ]
     };
 
-    public async run(message: Message) {
+    public async messageRun(message: Message) {
 
         // Get Guild
         const guild = message.guild!

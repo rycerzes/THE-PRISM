@@ -17,7 +17,7 @@ export default class extends Command {
 
     };
 
-    public async run(message: Message, args: Args): Promise<boolean | Message | undefined> {
+    public async messageRun(message: Message, args: Args): Promise<boolean | Message | undefined> {
 
         const str = await args.rest('string').catch(() => undefined);
         let options = str?.split(';');

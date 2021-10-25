@@ -16,7 +16,7 @@ export default class extends Command {
         this.module = this.client.modules.get('info')!
     };
 
-    public async run(message: Message) {
+    public async messageRun(message: Message) {
 
         const guild = message.guild!;
 

@@ -18,7 +18,7 @@ export default class extends Command {
 
     };
 
-    public async run(message: Message, args: Args): Promise<Message | boolean> {
+    public async messageRun(message: Message, args: Args): Promise<Message | boolean> {
 
         const nn = (await args.pickResult('integer')).value;
 

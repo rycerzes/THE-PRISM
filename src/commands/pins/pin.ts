@@ -15,7 +15,7 @@ export default class extends Command {
 
     };
 
-    public async run(message: Message, args: Args): Promise<any> {
+    public async messageRun(message: Message, args: Args): Promise<any> {
 
         const msg = (await args.pickResult('guildMsg')).value;
 

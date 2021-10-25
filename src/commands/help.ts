@@ -11,7 +11,7 @@ export default class extends Command {
         });
     };
 
-    public async run(message: Message, args: Args) {
+    public async messageRun(message: Message, args: Args) {
 
         if (args.finished) return this.client.emit('help', message);
 

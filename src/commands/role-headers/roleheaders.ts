@@ -21,7 +21,7 @@ export default class extends Command {
 
     private roleHeaders: RoleHeader[] = [];
 
-    public async run(message: Message) {
+    public async messageRun(message: Message) {
 
         const guild = message.guild!;
 

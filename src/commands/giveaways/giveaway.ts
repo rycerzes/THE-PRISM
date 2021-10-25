@@ -19,7 +19,7 @@ export default class extends Command {
         this.module = this.client.modules.get('giveaways')!;
     };
 
-    public async run(message: Message, args: Args): Promise<any> {
+    public async messageRun(message: Message, args: Args): Promise<any> {
 
         const { duration, rest: prize } = this.parseStr(await args.rest('string').catch(() => ''));
 

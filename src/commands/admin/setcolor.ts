@@ -15,7 +15,7 @@ export default class extends Command {
         this.module = this.client.modules.get('admin')!
     };
 
-    public async run(message: Message, args: Args) {
+    public async messageRun(message: Message, args: Args) {
 
         const color = await args.pick('color').catch(() => undefined);
 

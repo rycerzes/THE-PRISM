@@ -16,7 +16,7 @@ export default class extends Command {
         this.detailedDescription = `Enable or disable modules\n\n**MODULES:**\`\`\`ml\n${[...this.client.modules.keys()].map(r => `${r.toUpperCase()}`).join('\n')}\`\`\``
     }
 
-    public async run(message: Message, args: Args): Promise<boolean | Message | undefined> {
+    public async messageRun(message: Message, args: Args): Promise<boolean | Message | undefined> {
 
         const module = await args.pick('module').catch(() => undefined);
 

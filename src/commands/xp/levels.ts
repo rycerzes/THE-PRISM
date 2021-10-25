@@ -18,7 +18,7 @@ export default class extends Command {
 
     public module = this.client.modules.get('xp')!;
 
-    public async run(message: Message, args: Args) {
+    public async messageRun(message: Message, args: Args) {
         
         let lb = new RankingMessage(this.client, {
             channel: message.channel as TextChannel, title: `${message.guild!.name} Leaderboard`, author: message.author,

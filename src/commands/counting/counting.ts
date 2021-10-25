@@ -15,7 +15,7 @@ export default class extends Command {
 
     public module = this.client.modules.get('counting')!
 
-    public async run(message: Message, args: Args) {
+    public async messageRun(message: Message, args: Args) {
         
         const member: GuildMember = await args.pick('member').catch(() => message.member!);
 

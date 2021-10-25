@@ -15,7 +15,7 @@ export default class extends Command {
 
     };
 
-    public async run(message: Message) {
+    public async messageRun(message: Message) {
 
         return message.reply(`🪙 ${['Heads!', 'Tails!'][rng(0,1)]}`);
 

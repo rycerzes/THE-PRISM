@@ -16,7 +16,7 @@ export default class extends Command {
 
     public module = this.client.modules.get('utilities')!;
 
-    public async run(message: Message) {
+    public async messageRun(message: Message) {
         const sent = await message.reply('Pinging...');
         const ping = sent.createdTimestamp - message.createdTimestamp;
         return sent.edit(`Pong! \`${ping} ms\``);

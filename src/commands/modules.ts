@@ -13,7 +13,7 @@ export default class extends Command {
         })
     }
 
-    public async run(message: Message) {
+    public async messageRun(message: Message) {
 
         let manager: GuildModuleManager = this.client.guildModuleManagers.get(message.guild!.id) ?? await this.client.newModuleManager(message.guild!);
 

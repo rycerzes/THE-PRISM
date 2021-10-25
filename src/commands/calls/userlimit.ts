@@ -15,7 +15,7 @@ export default class extends Command {
         this.module = this.client.modules.get('calls')!;
     };
 
-    public async run(message: Message, args: Args): Promise<any> {
+    public async messageRun(message: Message, args: Args): Promise<any> {
 
         const call = await this.db.getCall(message.channel.id);
 

@@ -20,7 +20,7 @@ export default class extends Command {
     private reactions: Reaction[] = [];
     private rm: ReactionMessage | undefined
 
-    public async run(message: Message, args: Args) {
+    public async messageRun(message: Message, args: Args) {
 
         const guild = message.guild!
     

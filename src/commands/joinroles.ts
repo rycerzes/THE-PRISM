@@ -15,7 +15,7 @@ export default class extends Command {
 
     private joinRoles: JoinRole[] = [];
 
-    public async run(message: Message) {
+    public async messageRun(message: Message) {
 
         const guild = message.guild!;
 
