@@ -32,6 +32,7 @@ export default class extends Command {
             buttons: true,
 
             title: 'ROLE INFORMATION',
+            thumbnailURL: role.iconURL(),
             color: role.color as ColorResolvable,
             description: `${role}\n\n**MEMBERS (${role.members.size})**`,
             fields: [

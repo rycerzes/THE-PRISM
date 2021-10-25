@@ -16,6 +16,7 @@ export interface RankingMessage {
     description: string;
     fields: { name: string, value: string; inline?: boolean }[];
     color: ColorResolvable | undefined;
+    thumbnailURL: string | undefined;
     footerDesc: boolean;
 
     buttons: Boolean | undefined;
@@ -37,6 +38,7 @@ export class RankingMessage {
         description?: string,
         fields?: { name: string, value: string, inline?: boolean }[]
         color?: ColorResolvable,
+        thumbnailURL?: string | null,
         footerDesc?: boolean;
 
         buttons?: Boolean,
@@ -58,6 +60,7 @@ export class RankingMessage {
             description = '',
             fields = [],
             color,
+            thumbnailURL,
             footerDesc = false,
 
             buttons,
@@ -80,6 +83,7 @@ export class RankingMessage {
         this.description = description;
         this.color = color;
         this.fields = fields;
+        this.thumbnailURL = thumbnailURL ?? undefined,
         this.footerDesc = footerDesc;
         this.buttons = buttons;
     };
@@ -139,6 +143,9 @@ export class RankingMessage {
             fields: this.fields,
             footer: this.footerDesc ? {} : {
                 text: `Page: ${page} of ${this.maxPages}`
+            },
+            thumbnail: {
+                url: this.thumbnailURL
             }
         };
     };
