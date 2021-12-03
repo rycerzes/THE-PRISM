@@ -31,7 +31,7 @@ export default class extends Command {
         const embed = async () => {
             return {
                 title: 'MODULES',
-                description: `\`\`\`ml\n${[...this.client.modules.values()].map(m => `${m.name.toUpperCase()}: ${whitespace(max-m.name.length + 6)}${manager.enabled.get(m.name) != null ? '─ enabled': ' disabled'}`).join('\n')}\`\`\``,
+                description: `\`\`\`ml\n${[...this.client.modules.values()].filter(m => !m.hidden).map(m => `${m.name.toUpperCase()}: ${whitespace(max-m.name.length + 6)}${manager.enabled.get(m.name) != null ? '─ enabled': ' disabled'}`).join('\n')}\`\`\``,
                 color: await this.client.util.guildColor(message.guild!)
             }
         }

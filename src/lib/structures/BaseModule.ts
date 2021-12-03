@@ -6,6 +6,7 @@ export interface BaseModule {
     client: Client;
     commands: Map<string, Command>;
     required: boolean;
+    hidden?: boolean;
 };
 
 export abstract class BaseModule {

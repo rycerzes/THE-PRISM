@@ -13,7 +13,7 @@ export default class extends Command {
             preconditions: ['guild', 'admin'],
         })
         
-        this.detailedDescription = `Enable or disable modules\n\n**MODULES:**\`\`\`ml\n${[...this.client.modules.keys()].map(r => `${r.toUpperCase()}`).join('\n')}\`\`\``
+        this.detailedDescription = `Enable or disable modules\n\n**MODULES:**\`\`\`ml\n${[...this.client.modules.values()].filter(m => !m.hidden).map(r => `${r.name.toUpperCase()}`).join('\n')}\`\`\``
     }
 
     public async messageRun(message: Message, args: Args): Promise<boolean | Message | undefined> {
@@ -21,8 +21,8 @@ export default class extends Command {
         const module = await args.pick('module').catch(() => undefined);
 
         if (!module) {
-            return this.client.emit('help', message, { command: this })//message.reply({ content: 'Invalid module.', allowedMentions: { repliedUser: false }});
-        } else if (module.required) {
+            return this.client.emit('help', message, { command: this })
+        } else if (module.required || (module.hidden && message.author.id !== this.client.ownerID)) {
             return message.reply({ content: 'You can\'t modify this module.', allowedMentions: { repliedUser: false }});
         } else {
 
