@@ -102,7 +102,7 @@ export default class extends Command {
             const milli = durationToMilli(duration);
 
             if (milli && milli > 60*60*1000) {
-                message.author.send({ embeds: [
+                member.user.send({ embeds: [
                     {
                         title: 'ALERT',
                         description: `You have been muted in ${member.guild.name}`,
