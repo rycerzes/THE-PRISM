@@ -15,7 +15,8 @@ export default class extends Argument<string> {
             ['MUTED', 'MUTE'],
             ['AFK'],
             ['COUNTING', 'COUNTS'],
-            ['LEVELS', 'LVL', 'XP', 'RANKS']
+            ['LEVELS', 'LVL', 'XP', 'RANKS'],
+            ['SHARDS', 'BALANCE', 'BAL']
         ];
 
         const option = options.find(aliases => aliases.includes(parameter.toUpperCase()));

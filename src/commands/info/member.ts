@@ -33,7 +33,7 @@ export default class extends Command {
                     },
                     {
                         name: 'Boosting',
-                        value: member.premiumSinceTimestamp ? `<t:${Math.floor(member.premiumSinceTimestamp/1000)}:R>` : '` N/A `',
+                        value: member.premiumSinceTimestamp ? `<t:${Math.floor(member.premiumSinceTimestamp/1000)}:R>` : '` FALSE `',
                         inline: true
                     }
                 ],
@@ -42,7 +42,7 @@ export default class extends Command {
                 },
                 color: member.displayHexColor,
                 footer: {
-                    text: `ID: ${member_id}`
+                    text: `PRISM ID: ${member_id}`
                 }
             }
         ]});

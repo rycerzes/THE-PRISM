@@ -25,6 +25,8 @@ export const RegEx = {
     int: /^\d+$/gmi
 };
 
+export const shardEmoji = '<:shard:934895858305077319>'
+
 export const blankField = {
     name: '\u200b',
     value: '\u200b'

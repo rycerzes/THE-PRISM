@@ -1,6 +1,7 @@
 import type { Guild, Member } from "#lib/types/db";
 import { Command } from "#structures/Command";
 import { RankingMessage } from "#structures/RankingMessage";
+import { shardEmoji } from "#util/constants";
 import { groupDigits } from "#util/functions";
 import type { Args, CommandContext, PieceContext } from "@sapphire/framework";
 import type { Message, TextChannel } from "discord.js";
@@ -89,6 +90,18 @@ export default class extends Command {
                 sort = (a: Member, b: Member) => {
                     return b.afk_count! - a.afk_count!
                 };
+
+                break;
+
+            case 'SHARDS':
+
+                display = async (member: Member) => {
+                    return `${await this.client.util.mention(member, message.guild!)} • ${shardEmoji} \`${groupDigits(member.shards!)}\``
+                };
+
+                sort = (a: Member, b: Member) => {
+                    return b.shards! - a.shards!;
+                }
 
                 break;
 
