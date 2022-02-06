@@ -30,8 +30,6 @@ export default class extends Command {
             
         const word = w[Math.floor(Math.random() * w.length)];
 
-        console.log(word);
-
         let guesses: string[][] = [
             [], [], [], [], [], []
         ];
