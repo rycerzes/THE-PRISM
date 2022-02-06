@@ -67,7 +67,7 @@ export default class extends Listener {
             return await message.reply({ allowedMentions: { repliedUser: false }, embeds: [
                 {
                     title: `COMMAND: ${command.name.toUpperCase()}`,
-                    description: command.detailedDescription || command.description,
+                    description: `${command.detailedDescription}` || `${command.description}`,
                     fields: fields,
                     color: message.guild ? await this.client.util.guildColor(message.guild) : colors.default
                 }
