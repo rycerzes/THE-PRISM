@@ -58,6 +58,7 @@ export default class extends Command {
 
             if (!words.includes(guess)) {
                 guessMessage?.delete();
+                sent.delete();
                 continue;
             };
 
