@@ -20,15 +20,22 @@ export default class extends Listener {
 
         for (const { user_id, guild_id } of data) {
             
-            try {
-                const member = await (await this.client.guilds.fetch(guild_id)).members.fetch(user_id);
+            new Promise(async (resolve) => {
+                
+                try {
+                    const member = await (await this.client.guilds.fetch(guild_id)).members.fetch(user_id);
 
-                if (member) {
-                    this.db.trackVoice(member);
+                    if (member) {
+                        this.db.trackVoice(member);
+                    }
+                } catch {
+                    console.log(`Missing access for user ${user_id} in guild ${guild_id}.`);
                 }
-            } catch {
-                console.log(`Missing access for user ${user_id} in guild ${guild_id}.`)
-            }
+
+                resolve(null);
+
+            });
+
         };
 
         const giveaways = await this.db.getGiveaways();
