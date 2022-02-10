@@ -6,6 +6,8 @@ import Canvas from 'canvas';
 import { colors } from "#util/constants";
 const { createCanvas, registerFont } = Canvas;
 
+type Guess = [string, 0 | 1 | 2]
+
 export default class extends Command {
 
     constructor(context: PieceContext) {
@@ -29,7 +31,7 @@ export default class extends Command {
             
         const word = w[Math.floor(Math.random() * w.length)];
 
-        let guesses: string[][] = [
+        let guesses: Guess[][] = [
             [], [], [], [], [], []
         ];
 
@@ -42,9 +44,6 @@ export default class extends Command {
         while (!end) {
 
             sent = await message.channel.send(await this.getMessageOptions(message, guesses, word));
-
-            // guessMessage = (await message.channel.awaitMessages({ max: 1, time: 600 * 1000, filter: (msg) => msg.author.id === message.author.id && /^\w{5}$/i.test(msg.content) })).first();
-            // guess = guessMessage?.content.toUpperCase();
 
             const promise = await Promise.race([
                 message.channel.awaitMessages({ max: 1, time: 600 * 1000, filter: (msg) => msg.author.id === message.author.id && /^\w{5}$/i.test(msg.content) }),
@@ -68,7 +67,7 @@ export default class extends Command {
                 continue;
             };
 
-            guesses[numOfGuesses++] = guess.split('');
+            guesses[numOfGuesses++] = this.guess(guess, word);
 
             if (guess === word) end = true
             if (numOfGuesses >= 6) end = true;
@@ -81,10 +80,52 @@ export default class extends Command {
 
     }
 
-    async getMessageOptions(message: Message, guesses: string[][], word: string, win?: boolean) {
+    guess(guess: string, word: string) {
+
+        let letters: Guess[] = [];
+
+        let rLetters = guess;
+
+        // Calculate correct positions
+        word.split('').forEach((c, i) => {
+
+            if (c === guess[i]) {
+
+                letters[i] = [guess[i], 2];
+                word = word.substring(0, i) + ' ' + word.substring(i + 1);
+                rLetters = rLetters.substring(0, i) + ' ' + rLetters.substring(i + 1);
+
+            }
+
+        })
+
+        // Calculate remaining pos
+        rLetters.split('').forEach((c, i) => {
+
+            if (c === ' ') return;
+
+            if (word.includes(c)) {
+
+                letters[i] = [c, 1];
+                word = word.replace(c, ' ');
+
+            }
+
+            // Rest not included
+            else {
+                letters[i] = [c, 0];
+            }
+
+        });
+
+        return letters;
+
+    }
+
+    async getMessageOptions(message: Message, guesses: Guess[][], word: string, win?: boolean) {
 
         return {
-            files: [new MessageAttachment(await this.drawCanvas(guesses, word), 'canvas.png')],
+            files: [new MessageAttachment(await this.drawCanvas(guesses), 'canvas.png')],
             embeds: [
                 {
                     title: 'WORDLE',
@@ -99,7 +140,7 @@ export default class extends Command {
                     color: win === true ? colors.green : win === false ? colors.red : await this.client.util.guildColor(message.guild!)
                 }
             ],
-            components: [
+            components: win === undefined ? [
                 new MessageActionRow({
                     type: 'ACTION_ROW',
                     components: [
@@ -107,55 +148,55 @@ export default class extends Command {
                             type: 'BUTTON',
                             label: 'GIVE UP',
                             style: 'SECONDARY',
-                            customId: 'end',
-                            disabled: win !== undefined
+                            customId: 'end'
                         }
                     ]
                 })
-            ]
+            ] : []
         }
 
     }
 
-    async drawCanvas(guesses: string[][], word: string): Promise<Buffer> {
+    async drawCanvas(guesses: Guess[][]): Promise<Buffer> {
 
-        const canvas = createCanvas(686, 874);
+        const canvas = createCanvas(686 + 150, 874);
         const ctx = canvas.getContext('2d');
 
         registerFont('./src/assets/fonts/bahnschrift-main.ttf', {family: 'bahnschrift'})
 
-        ctx.strokeStyle = '#FFFFFF'
         ctx.lineWidth = 3;
         ctx.textAlign = 'center';
-        ctx.font = '64px "bahnschrift"'
+        ctx.font = '64px "bahnschrift"';
+        ctx.strokeStyle = '#ABABAB'
+
+        const letterList: Map<string, 0 | 1 | 2> = new Map().set('A', undefined).set('B', undefined).set('C', undefined).set('D', undefined).set('E', undefined).set('F', undefined).set('G', undefined).set('H', undefined).set('I', undefined).set('J', undefined).set('K', undefined).set('L', undefined).set('M', undefined).set('N', undefined).set('O', undefined).set('P', undefined).set('Q', undefined).set('R', undefined).set('S', undefined).set('T', undefined).set('U', undefined).set('V', undefined).set('W', undefined).set('X', undefined).set('Y', undefined).set('Z', undefined);
 
         // For each row
         for (let j = 3; j < canvas.height; j += 148) {
 
             const row = (j-3)/148;
 
-            let compareWord = word;
-
             // For each cell
-            for (let i = 3; i < canvas.width; i += 138) {
+            for (let i = 3; i < 686; i += 138) {
 
                 const cell = (i-3)/138;
                 const letter = guesses[row][cell];
 
                 if (letter) {
 
-                    // Background colour
-                    if (compareWord.includes(letter)) {
+                    const d = letterList.get(letter[0]);
+                    if (d === undefined || d < letter[1]) letterList.set(letter[0], letter[1])
 
-                        ctx.fillStyle = word.charAt(cell) === letter ? '#49c453' : '#cca83d';
-                        ctx.fillRect(i, j, 128, 128);
+                    ctx.fillStyle = ['#222224', '#CCA83D', '#49C453'][letter[1]]
+                    ctx.fillRect(i, j, 128, 128);
 
-                        compareWord = compareWord.replace(letter, '');
-                    }
+                    ctx.fillStyle = '#FFFFFF'
+                    ctx.fillText(letter[0], i + 64, j + 64 + 20)
 
-                    ctx.fillStyle = '#FFF'
-                    ctx.fillText(letter, i + 64, j + 64 + 20)
+                } else {
 
+                    ctx.fillStyle = '#2F3136';
+                    ctx.fillRect(i, j, 128, 128)
                 }
 
                 // Finally, stroke
@@ -164,6 +205,28 @@ export default class extends Command {
             }
 
         }
+
+        ctx.lineWidth = 2;
+        ctx.textAlign = 'center';
+        ctx.font = '32px "bahnschrift"';
+
+        // Letter list
+        [...letterList.entries()].forEach(([c, n], i) => {
+
+            const row = i % 13;
+            const column = Math.floor(i / 13);
+
+            // Background
+            ctx.fillStyle = n === undefined ? '#2F3136' : ['#222224', '#CCA83D', '#49C453'][n];
+            ctx.fillRect(700 + column*67, 3 + row*67, 60, 60);
+
+            ctx.fillStyle = '#FFFFFF'
+            ctx.fillText(c, 700 + column*67 + 30, 3 + row*67 + 40)
+
+            //ctx.strokeRect(700 + column*67, 3 + row*67, 60, 60);
+
+
+        })
 
         return canvas.toBuffer();
 
