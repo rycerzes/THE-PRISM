@@ -23,6 +23,9 @@ export type Member = {
     mc_username_url: string | null;
     shards: number;
     total_shards:  number;
+    wordle_wins: number;
+    wordle_streak: number;
+    wordle_fails: number;
 };
 
 export type Guild = {

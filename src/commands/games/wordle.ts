@@ -5,7 +5,7 @@ import Canvas from 'canvas';
 import { colors } from "#util/constants";
 const { createCanvas, registerFont } = Canvas;
 
-type Guess = [string, 0 | 1 | 2]
+type Guess = [string, 0 | 1 | 2];
 
 export default class extends Command {
 
@@ -15,6 +15,8 @@ export default class extends Command {
             usage: [''],
             description: 'Play a game of wordle'
         })
+
+        this.module = this.client.modules.get('games')!;
     }
 
     async messageRun(message: Message) {
@@ -76,7 +78,11 @@ export default class extends Command {
 
         }
 
-        sent = await message.channel.send(await this.getMessageOptions(message, guesses, word, guess === word));
+        const win = guess === word;
+
+        sent = await message.channel.send(await this.getMessageOptions(message, guesses, word, win));
+
+        this.db.wordleEnd(message.member!, win);
 
     }
 

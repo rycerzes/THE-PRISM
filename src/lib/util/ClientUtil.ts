@@ -1,5 +1,5 @@
 import type { Client } from "#lib/Client";
-import { Collection, ColorResolvable, Guild, GuildMember, MessageEmbed, MessageOptions, Role, Snowflake, TextBasedChannel, User } from 'discord.js';
+import { Collection, ColorResolvable, Guild, GuildMember, MessageEmbed, MessageOptions, Role, Snowflake, User } from 'discord.js';
 import { colors, RegEx } from '#util/constants';
 import { levelCalc, xpCalc, groupDigits, milliRelative } from './functions.js'
 import { canvasRGBA } from "stackblur-canvas";
@@ -9,6 +9,7 @@ import Canvas from 'canvas';
 import Color from 'color';
 import type { Giveaway, Member } from "#lib/types/db.js";
 import type { DBClient } from "#lib/DBClient.js";
+import type { TextBasedChannelTypes } from "@sapphire/discord.js-utilities";
 const { createCanvas, loadImage, registerFont } = Canvas;
 
 export interface ClientUtil {
@@ -119,7 +120,7 @@ export class ClientUtil {
     public async resolveMessage(url: string) {
         try {
             let arr = url.match(/\d[\d\/]+/)![0].split('/');
-            return await (await this.client.channels.fetch(arr[1] as Snowflake) as TextBasedChannel)?.messages.fetch(arr[2] as Snowflake)
+            return await (await this.client.channels.fetch(arr[1] as Snowflake) as TextBasedChannelTypes)?.messages.fetch(arr[2] as Snowflake)
         } catch {
             return undefined
         }

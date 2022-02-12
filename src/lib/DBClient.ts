@@ -439,4 +439,12 @@ export class DBClient extends pg.Client {
         console.log('Deleting giveaway', id)
         return await this.query(`DELETE FROM giveaways WHERE giveaway_id = ${id}`)
     };
+
+    async wordleEnd(member: GuildMember, win: boolean) {
+
+        return win ? 
+            this.query(`UPDATE members SET wordle_wins = wordle_wins + 1, wordle_streak = wordle_streak + 1 WHERE user_id = ${member.user.id} AND guild_id = ${member.guild.id}`) :
+            this.query(`UPDATE members SET wordle_fails = wordle_fails + 1, wordle_streak = 0 WHERE user_id = ${member.user.id} AND guild_id = ${member.guild.id}`);
+
+    }
 };
