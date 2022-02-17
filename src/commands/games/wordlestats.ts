@@ -46,7 +46,11 @@ export default class extends Command {
                         inline: true,
                     },
                     blankFieldInline,
-                    blankFieldInline
+                    {
+                        name: 'WIN RATE',
+                        value: `\` ${Math.round(100 * wordle_wins / (wordle_fails + wordle_wins))}% \``,
+                        inline: true
+                    }
                 ],
                 color: await this.client.util.guildColor(message.guild!),
                 thumbnail: {
