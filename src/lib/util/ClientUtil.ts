@@ -223,7 +223,7 @@ export class ClientUtil {
 
         let rank = members.sort((a, b) => b.xp - a.xp).findIndex(u => u.user_id === member.id)+1;
 
-        const avatar = await loadImage(member.user.displayAvatarURL({size: 128, format: 'png'}));
+        const avatar = await loadImage(member.displayAvatarURL({size: 128, format: 'png'}));
         let statusColor;
         switch(member.presence?.status) {
             case 'online':

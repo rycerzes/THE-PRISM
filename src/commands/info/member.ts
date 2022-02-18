@@ -38,7 +38,7 @@ export default class extends Command {
                     }
                 ],
                 thumbnail: {
-                    url: member.user.displayAvatarURL({ size: 128 })
+                    url: member.displayAvatarURL({ size: 128 })
                 },
                 color: member.displayHexColor,
                 footer: {

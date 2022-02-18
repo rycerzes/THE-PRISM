@@ -33,7 +33,7 @@ export default class extends Listener {
             ],
             author: {
                 name: message.author.tag,
-                icon_url: message.author.displayAvatarURL()
+                icon_url: message.member!.displayAvatarURL()
             },
             image: {
                 url: undefined

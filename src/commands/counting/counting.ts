@@ -39,7 +39,7 @@ export default class extends Command {
                     }
                 ],
                 thumbnail: {
-                    url: member.user.displayAvatarURL()
+                    url: member.displayAvatarURL()
                 },
                 color: await this.client.util.guildColor(message.guild!)
             }
