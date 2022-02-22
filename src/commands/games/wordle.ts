@@ -13,6 +13,7 @@ export default class extends Command {
         super(context, {
             name: 'wordle',
             usage: [''],
+            aliases: ['crane'],
             description: 'Play a game of wordle'
         })
 
